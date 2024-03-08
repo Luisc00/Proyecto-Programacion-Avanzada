@@ -2,11 +2,20 @@ package co.edu.uniquindio.proyecto.servicios.interfaces;
 
 public interface NegocioServicio {
 
-    //CRUD
-     void crearNegocio();
-     //fILTRAR
-    //lISTAR PROPIETARIOS
+    void crearNegocio();
 
+    void actualizarNegocio();
+
+    void eliminarNegocio(String idNegocio);
+
+    void buscarNegocios();
+
+    void filtrarPorEstado();
+
+    void listarNegociosPropietario();
+
+    void cambiarEstado();
+
+    void registrarRevision();
 
 }
-
