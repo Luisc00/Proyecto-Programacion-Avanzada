@@ -17,4 +17,5 @@ public class Cliente extends Cuenta{
     private String codigo;
     private String nickname;
     private String ciudad;
+    private EstadoRegistro estado;
 }
