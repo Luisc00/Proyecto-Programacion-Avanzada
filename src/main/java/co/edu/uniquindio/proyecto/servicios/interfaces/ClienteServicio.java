@@ -1,11 +1,11 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
-import co.edu.uniquindio.proyecto.dto.ActualizarClienteDTO;
-import co.edu.uniquindio.proyecto.dto.CambioPasswordDTO;
-import co.edu.uniquindio.proyecto.dto.RegistroClienteDTO;
-import co.edu.uniquindio.proyecto.dto.SesionDTO;
+import co.edu.uniquindio.proyecto.dto.*;
+import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 
-public interface ClienteServicio extends CuentaServicio{
+import java.util.List;
+
+public interface ClienteServicio extends CuentaServicio {
 
 
     String registrarseCliente(RegistroClienteDTO registroClienteDTO) throws Exception;
@@ -23,4 +23,8 @@ public interface ClienteServicio extends CuentaServicio{
      void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception;
 
 
+    List<ItemClienteDTO> listarCliente();
+
+    List<ItemClienteDTO>listarCliente(int pagina);
 }
+
