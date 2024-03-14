@@ -22,6 +22,9 @@ public class ClienteServicioImpl implements ClienteServicio{
 
     @Override
     public String registrarseCliente(RegistroClienteDTO registroClienteDTO) throws Exception {
+        if( existeEmail(registroClienteDTO.email()) ){
+            throw new Exception("El correo ya se encuentra registrado");
+        }
         //Se crea el objeto Cliente
         Cliente cliente = new Cliente();
         //Se le asignan sus campos
@@ -38,8 +41,18 @@ public class ClienteServicioImpl implements ClienteServicio{
         return clienteGuardado.getCodigo();
     }
 
+    private boolean existeEmail(String email) {
+        return clienteRepo.existsByEmail(email);
+
+    }
+
     @Override
     public void editarPerfilCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
+
+    }
+
+    @Override
+    public void iniciarSersion(SesionDTO sesionDTO) throws Exception {
 
     }
 
