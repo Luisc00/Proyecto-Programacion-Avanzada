@@ -89,7 +89,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
     @Override
     public void eliminarCuenta(String idCuenta) throws Exception {
-    
+
 
     }
 
