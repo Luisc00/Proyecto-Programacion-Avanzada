@@ -10,7 +10,7 @@ public interface ClienteServicio extends CuentaServicio {
 
     String registrarseCliente(RegistroClienteDTO registroClienteDTO) throws Exception;
 
-    void editarPerfilCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception;
+    void actualizarCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception;
 
     DetalleClienteDTO obtenerDetalleCliente(String idCliente) throws Exception;
 

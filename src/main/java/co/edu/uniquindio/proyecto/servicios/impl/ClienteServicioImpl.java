@@ -55,7 +55,7 @@ public class ClienteServicioImpl implements ClienteServicio {
     }
 
     @Override
-    public void editarPerfilCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
+    public void actualizarCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
         //Buscamos el cliente que se quiere actualizar
         Optional<Cliente> optionalCliente = clienteRepo.findById(actualizarClienteDTO.id());
         //Si no se encontró el cliente, lanzamos una excepción
