@@ -12,8 +12,10 @@ public interface ClienteServicio extends CuentaServicio {
 
     void editarPerfilCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception;
 
-    void iniciarSersion(SesionDTO sesionDTO) throws Exception;
+    DetalleClienteDTO obtenerDetalleCliente(String idCliente) throws Exception;
 
+
+    void iniciarSesion(SesionDTO sesionDTO) throws Exception;
 
     void eliminarCuenta(String idCuenta) throws Exception;
 
@@ -26,5 +28,6 @@ public interface ClienteServicio extends CuentaServicio {
     List<ItemClienteDTO> listarCliente();
 
     List<ItemClienteDTO>listarCliente(int pagina);
+
 }
 
