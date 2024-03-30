@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.test;
 import co.edu.uniquindio.proyecto.dto.ActualizarClienteDTO;
 import co.edu.uniquindio.proyecto.dto.DetalleClienteDTO;
 import co.edu.uniquindio.proyecto.dto.RegistroClienteDTO;
+import co.edu.uniquindio.proyecto.dto.SesionDTO;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
@@ -57,15 +58,22 @@ public class ClienteServicioTest {
         DetalleClienteDTO detalleClienteDTO = clienteServicio.obtenerDetalleCliente("1091");
         Assertions.assertEquals("nueva foto", detalleClienteDTO.fotoPerfil());
     }
+
     @Test
-    public void eliminarCuentaTest() throws Exception{
+    public void eliminarCuentaTest() throws Exception {
         //Se elimina el cliente con el id "Cliente1"
         clienteServicio.eliminarCuenta("1091");
         //Al intentar obtener el cliente con el id "Cliente1" se debe lanzar una excepción
-        Assertions.assertThrows(Exception.class, () -> clienteServicio.obtenerDetalleCliente("1091") );
+        Assertions.assertThrows(Exception.class, () -> clienteServicio.obtenerDetalleCliente("1091"));
     }
 
-
-
-
+    @Test
+    public void inicioSesionTest() throws Exception {
+        SesionDTO sesionDTO = new SesionDTO("oscarWhite@gmail",
+                "071234");
+        // Ejecutamos el inicio de sesión
+        boolean resultado = clienteServicio.iniciarSesion(sesionDTO);
+        // Verificamos que el inicio de sesión sea exitoso
+        Assertions.assertTrue(resultado);
+    }
 }

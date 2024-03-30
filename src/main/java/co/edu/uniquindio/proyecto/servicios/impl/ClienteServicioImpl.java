@@ -130,13 +130,11 @@ public class ClienteServicioImpl implements ClienteServicio {
         if (existeCuentaEliminada(cliente.getCodigo())) {
             throw new Exception("La cuenta ya ha sido eliminada");
         }
-
         // Verificar si la contraseña coincide
         if (!cliente.getPassword().equals(sesionDTO.password())) {
             throw new Exception("La contraseña es incorrecta");
         }
         return true;
-
     }
 
 
