@@ -1,14 +1,13 @@
 package co.edu.uniquindio.proyecto.test;
 
-import co.edu.uniquindio.proyecto.dto.ActualizarClienteDTO;
-import co.edu.uniquindio.proyecto.dto.DetalleClienteDTO;
-import co.edu.uniquindio.proyecto.dto.RegistroClienteDTO;
-import co.edu.uniquindio.proyecto.dto.SesionDTO;
+import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.servicios.impl.ClienteServicioImpl;
+import co.edu.uniquindio.proyecto.servicios.impl.EmailServicioImpl;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
+import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,8 @@ public class ClienteServicioTest {
     private ClienteRepo clienteRepo;
     @Autowired
     private ClienteServicio clienteServicio;
+    @Autowired
+    private EmailServicio emailServicio;
 
     @Test
     public void registrarClienteTest() throws Exception {
@@ -74,8 +75,17 @@ public class ClienteServicioTest {
         // Ejecutamos el inicio de sesión
         boolean resultado = clienteServicio.iniciarSesion(sesionDTO);
         // Verificamos que el inicio de sesión sea exitoso
+        emailServicio.enviarCorreo(new EmailDTO("Funcion iniciar sesion", "Inicio exitoso", "j.kamilo3020@gmail.com "));
         Assertions.assertTrue(resultado);
     }
+    @Test
+    public void enviarCorreoTest() throws Exception {
+
+        EmailDTO emailDTO = new EmailDTO("Prueba de correo", "Este es un correo de prueba", "j.kamilo3020@gmail.com");
+        // Enviamos el correo
+        emailServicio.enviarCorreo(emailDTO);
+}
+    
     @Test
     public void cambiarContrasena()throws Exception{
 
