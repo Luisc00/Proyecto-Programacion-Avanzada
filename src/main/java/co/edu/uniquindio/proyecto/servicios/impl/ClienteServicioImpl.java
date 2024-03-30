@@ -163,10 +163,40 @@ public class ClienteServicioImpl implements ClienteServicio {
 
     }
 
+    /**
+     * Cambiar contraseña
+     * @param cambioPasswordDTO
+     * @throws Exception
+     */
+
     @Override
     public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
+        // Buscamos el cliente que se quiere actualizar
+        Optional<Cliente> optionalCliente = clienteRepo.findById(cambioPasswordDTO.id());
 
+        // Si no se encontró el cliente, lanzamos una excepción
+        if(optionalCliente.isEmpty()){
+            throw new Exception("No se encontró el cliente para cambiar su contraseña");
+        }
+        if(existeCuentaEliminada(cambioPasswordDTO.id())){
+            throw new Exception("La cuenta ya esta eliminada");
+        }
+        // Obtenemos el cliente que se quiere actualizar
+        Cliente cliente = optionalCliente.get();
+
+        // Verificamos la validez del token (aquí asumimos que existe un método 'verificarToken' en alguna clase utilitaria)
+//        if (!Util.verificarToken(cambioPasswordDTO.getToken(), cliente)) {
+  //          throw new Exception("El token proporcionado no es válido");
+    //    }
+
+
+        // Aquí puedes validar el token si es necesario
+        // Asignamos la nueva contraseña al cliente
+        cliente.setPassword(cambioPasswordDTO.passwordNueva());
+        // Guardamos el cliente actualizado en la base de datos
+        clienteRepo.save(cliente);
     }
+
     @Override
     public List<ItemClienteDTO> listarCliente() {
         //Obtenemos todos los clientes de la base de datos

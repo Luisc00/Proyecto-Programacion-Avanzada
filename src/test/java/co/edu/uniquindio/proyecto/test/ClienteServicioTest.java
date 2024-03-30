@@ -76,4 +76,8 @@ public class ClienteServicioTest {
         // Verificamos que el inicio de sesión sea exitoso
         Assertions.assertTrue(resultado);
     }
+    @Test
+    public void cambiarContrasena()throws Exception{
+
+    }
 }
