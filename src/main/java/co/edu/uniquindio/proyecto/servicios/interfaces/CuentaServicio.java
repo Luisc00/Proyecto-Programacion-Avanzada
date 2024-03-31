@@ -7,6 +7,5 @@ public interface CuentaServicio {
 
     boolean iniciarSesion(SesionDTO sesionDTO)throws Exception;
     void eliminarCuenta(String idCuenta)throws Exception;
-    void enviarCodigoVerificacion(String email)throws Exception;
     void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO)throws Exception;
 }

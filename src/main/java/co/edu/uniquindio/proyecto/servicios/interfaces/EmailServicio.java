@@ -4,4 +4,8 @@ import co.edu.uniquindio.proyecto.dto.EmailDTO;
 
 public interface EmailServicio {
     void enviarCorreo(EmailDTO emailDTO) throws Exception;
+
+    String enviarTokenRecuperacion(String destinatario) throws Exception;
+
+
 }

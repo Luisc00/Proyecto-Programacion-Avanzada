@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ClienteServicioTest {
@@ -57,15 +57,15 @@ public class ClienteServicioTest {
         );
         clienteServicio.actualizarCliente(actualizarClienteDTO);
         DetalleClienteDTO detalleClienteDTO = clienteServicio.obtenerDetalleCliente("1091");
-        Assertions.assertEquals("nueva foto", detalleClienteDTO.fotoPerfil());
+        assertEquals("nueva foto", detalleClienteDTO.fotoPerfil());
     }
 
     @Test
     public void eliminarCuentaTest() throws Exception {
         //Se elimina el cliente con el id "Cliente1"
-        clienteServicio.eliminarCuenta("1091");
+        clienteServicio.eliminarCuenta("cliente1");
         //Al intentar obtener el cliente con el id "Cliente1" se debe lanzar una excepción
-        Assertions.assertThrows(Exception.class, () -> clienteServicio.obtenerDetalleCliente("1091"));
+        assertThrows(Exception.class, () -> clienteServicio.obtenerDetalleCliente("cliente1"));
     }
 
     @Test
@@ -80,14 +80,22 @@ public class ClienteServicioTest {
     }
     @Test
     public void enviarCorreoTest() throws Exception {
-
         EmailDTO emailDTO = new EmailDTO("Prueba de correo", "Este es un correo de prueba", "j.kamilo3020@gmail.com");
         // Enviamos el correo
         emailServicio.enviarCorreo(emailDTO);
 }
-    
     @Test
-    public void cambiarContrasena()throws Exception{
+    public void cambiarContrasena() throws Exception {
+        String idCliente = "Cliente1";
+        String nuevaPassword = "nuevaPassword";
+        CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO(nuevaPassword, idCliente);
+
+        clienteServicio.cambiarContrasena(cambioPasswordDTO);
+
+        Cliente cliente = clienteRepo.findById(idCliente).orElse(null);
+        assertNotNull(cliente);
+        assertEquals(nuevaPassword, cliente.getPassword());
+
 
     }
 }

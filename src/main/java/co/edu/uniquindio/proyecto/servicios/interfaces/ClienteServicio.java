@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface ClienteServicio extends CuentaServicio {
 
-
     String registrarseCliente(RegistroClienteDTO registroClienteDTO) throws Exception;
 
     void eliminarCuenta(String idCuenta) throws Exception;
@@ -16,8 +15,6 @@ public interface ClienteServicio extends CuentaServicio {
      DetalleClienteDTO obtenerDetalleCliente(String idCliente) throws Exception;
 
     boolean iniciarSesion(SesionDTO sesionDTO) throws Exception;
-
-    void enviarCodigoVerificacion(String email) throws Exception;
 
      void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception;
 

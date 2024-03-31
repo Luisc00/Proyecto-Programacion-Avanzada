@@ -5,6 +5,7 @@ import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
+import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +18,13 @@ import java.util.Optional;
 public class ClienteServicioImpl implements ClienteServicio {
     private final ClienteRepo clienteRepo;
 
-    public ClienteServicioImpl(ClienteRepo clienteRepo) {
+    private EmailServicioImpl emailServicio;
+
+
+
+    public ClienteServicioImpl(ClienteRepo clienteRepo,EmailServicioImpl emailServicio) {
         this.clienteRepo = clienteRepo;
+        this.emailServicio=emailServicio;
     }
 
     /**
@@ -59,37 +65,39 @@ public class ClienteServicioImpl implements ClienteServicio {
 
     /**
      * Actualizar Clientes
+     *
      * @param actualizarClienteDTO
      * @throws Exception
      */
     @Override
     public void actualizarCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
         //Buscamos el cliente que se quiere actualizar
-        Optional<Cliente> optionalCliente = clienteRepo.findById( actualizarClienteDTO.id() );
+        Optional<Cliente> optionalCliente = clienteRepo.findById(actualizarClienteDTO.id());
         //Si no se encontró el cliente, lanzamos una excepción
-        if(optionalCliente.isEmpty()){
+        if (optionalCliente.isEmpty()) {
             throw new Exception("No se encontró el cliente a actualizar");
         }
         if (existeEmail(actualizarClienteDTO.email())) {
             throw new Exception("El correo ya se encuentra registrado");
         }
-        if(existeCuentaEliminada(actualizarClienteDTO.id())) {
+        if (existeCuentaEliminada(actualizarClienteDTO.id())) {
             throw new Exception("La cuenta ya ha sido eliminada");
         }
         //Obtenemos el cliente que se quiere actualizar y le asignamos los nuevos valores (el
-       // nickname no se puede cambiar)
+        // nickname no se puede cambiar)
         Cliente cliente = optionalCliente.get();
-        cliente.setNombre( actualizarClienteDTO.nombre() );
-        cliente.setFotoPerfil( actualizarClienteDTO.fotoPerfil() );
-        cliente.setCiudad( actualizarClienteDTO.ciudadResidencia() );
-        cliente.setEmail( actualizarClienteDTO.email() );
-       //Como el objeto cliente ya tiene un id, el save() no crea un nuevo registro sino que
-       // actualiza el que ya existe
+        cliente.setNombre(actualizarClienteDTO.nombre());
+        cliente.setFotoPerfil(actualizarClienteDTO.fotoPerfil());
+        cliente.setCiudad(actualizarClienteDTO.ciudadResidencia());
+        cliente.setEmail(actualizarClienteDTO.email());
+        //Como el objeto cliente ya tiene un id, el save() no crea un nuevo registro sino que
+        // actualiza el que ya existe
         clienteRepo.save(cliente);
     }
 
     /**
      * Obtener detalle cliente
+     *
      * @param idCuenta
      * @return
      * @throws Exception
@@ -102,7 +110,7 @@ public class ClienteServicioImpl implements ClienteServicio {
         if (optionalCliente.isEmpty()) {
             throw new Exception("No se encontró el cliente a con el id " + idCuenta);
         }
-        if(existeCuentaEliminada(idCuenta)) {
+        if (existeCuentaEliminada(idCuenta)) {
             throw new Exception("La cuenta ya ha sido eliminada");
         }
 
@@ -113,16 +121,22 @@ public class ClienteServicioImpl implements ClienteServicio {
                 cliente.getFotoPerfil(), cliente.getNickname(), cliente.getEmail(), cliente.getCiudad());
     }
 
-
+    /**
+     * InicioSesion
+     *
+     * @param sesionDTO
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean iniciarSesion(SesionDTO sesionDTO) throws Exception {
-            // Buscar cliente por email
+        // Buscar cliente por email
         Optional<Cliente> optionalCliente = clienteRepo.findByEmail(sesionDTO.email());
 
         // Verificar si el cliente existe
         if (optionalCliente.isEmpty()) {
             throw new Exception("No se encontró el cliente con el email " + sesionDTO.email());
-            }
+        }
         // Obtener el cliente
         Cliente cliente = optionalCliente.get();
 
@@ -138,15 +152,20 @@ public class ClienteServicioImpl implements ClienteServicio {
     }
 
 
-
+    /**
+     * eliminar cuenta
+     *
+     * @param idCuenta
+     * @throws Exception
+     */
     @Override
     public void eliminarCuenta(String idCuenta) throws Exception {
-        Optional<Cliente> optionalCliente = clienteRepo.findById( idCuenta );
+        Optional<Cliente> optionalCliente = clienteRepo.findById(idCuenta);
         //Si no se encontró el cliente, lanzamos una excepción
-        if(optionalCliente.isEmpty()){
-            throw new Exception("No se encontró el cliente a eliminar");
+        if (optionalCliente.isEmpty()) {
+            throw  new Exception("No se encontró el cliente a eliminar");
         }
-        if(existeCuentaEliminada(idCuenta)){
+        if (existeCuentaEliminada(idCuenta)) {
             throw new Exception("La cuenta ya esta eliminada");
         }
         //Obtenemos el cliente que se quiere eliminar y le asignamos el estado inactivo
@@ -157,45 +176,39 @@ public class ClienteServicioImpl implements ClienteServicio {
         clienteRepo.save(cliente);
     }
 
-
-    @Override
-    public void enviarCodigoVerificacion(String email) throws Exception {
-
-    }
-
     /**
      * Cambiar contraseña
+     *
      * @param cambioPasswordDTO
      * @throws Exception
      */
 
     @Override
     public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
-        // Buscamos el cliente que se quiere actualizar
         Optional<Cliente> optionalCliente = clienteRepo.findById(cambioPasswordDTO.id());
 
-        // Si no se encontró el cliente, lanzamos una excepción
-        if(optionalCliente.isEmpty()){
-            throw new Exception("No se encontró el cliente para cambiar su contraseña");
+        if (optionalCliente.isEmpty()) {
+            throw new Exception("Cliente no existente");
         }
-        if(existeCuentaEliminada(cambioPasswordDTO.id())){
-            throw new Exception("La cuenta ya esta eliminada");
-        }
-        // Obtenemos el cliente que se quiere actualizar
         Cliente cliente = optionalCliente.get();
 
-        // Verificamos la validez del token (aquí asumimos que existe un método 'verificarToken' en alguna clase utilitaria)
-//        if (!Util.verificarToken(cambioPasswordDTO.getToken(), cliente)) {
-  //          throw new Exception("El token proporcionado no es válido");
-    //    }
+        if (existeCuentaEliminada(cliente.getCodigo())) {
+            throw new Exception("La cuenta ya está eliminada");
+        }
 
+        String nuevoToken = emailServicio.enviarTokenRecuperacion(cliente.getEmail());
 
-        // Aquí puedes validar el token si es necesario
-        // Asignamos la nueva contraseña al cliente
+        if (!existeToken(nuevoToken)) {
+            throw new Exception("Token no válido, vuelve a generarlo");
+        }
+
+        cliente.setToken(nuevoToken);
         cliente.setPassword(cambioPasswordDTO.passwordNueva());
-        // Guardamos el cliente actualizado en la base de datos
+
         clienteRepo.save(cliente);
     }
+
+
 
     @Override
     public List<ItemClienteDTO> listarCliente() {
@@ -221,6 +234,7 @@ public class ClienteServicioImpl implements ClienteServicio {
     private boolean existeEmail(String email) {
         return clienteRepo.findByEmail(email).isPresent();
     }
+
     private boolean existeId(String codigo) {
         return clienteRepo.findById(codigo).isPresent();
     }
@@ -228,6 +242,7 @@ public class ClienteServicioImpl implements ClienteServicio {
     private boolean existeNickname(String nickname) {
         return clienteRepo.findByNickname(nickname).isPresent();
     }
+
     private boolean existeCuentaEliminada(String codigo) throws Exception {
         Optional<Cliente> optionalCliente = clienteRepo.findById(codigo);
         // Si no se encontró el cliente, lanzamos una excepción
@@ -241,6 +256,9 @@ public class ClienteServicioImpl implements ClienteServicio {
         } else {
             return false; // La cuenta no ha sido eliminada
         }
-
     }
+    private boolean existeToken(String token) {
+        return emailServicio.tokens.contains(token);
+    }
+
 }

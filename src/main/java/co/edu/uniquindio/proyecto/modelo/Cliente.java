@@ -21,4 +21,5 @@ public class Cliente extends Cuenta implements Serializable{
     private String nickname;
     private String ciudad;
     private EstadoRegistro estado;
+    private String token;
 }
