@@ -19,9 +19,7 @@ public interface ClienteServicio extends CuentaServicio {
      void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception;
 
 
-    List<ItemClienteDTO> listarCliente();
-
-    List<ItemClienteDTO>listarCliente(int pagina);
+    List<ItemClienteDTO>listarCliente();
 
 }
 

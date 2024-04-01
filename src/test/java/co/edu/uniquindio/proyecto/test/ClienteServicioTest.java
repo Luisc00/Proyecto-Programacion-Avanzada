@@ -91,11 +91,19 @@ public class ClienteServicioTest {
         CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO(nuevaPassword, idCliente);
 
         clienteServicio.cambiarContrasena(cambioPasswordDTO);
-
         Cliente cliente = clienteRepo.findById(idCliente).orElse(null);
         assertNotNull(cliente);
         assertEquals(nuevaPassword, cliente.getPassword());
+    }
 
+    @Test
+    public void listarClienteTest() {
+        // como ya se han agregado clientes
+        List<ItemClienteDTO> clientes = clienteServicio.listarCliente();
 
+        // Verificación
+        assertNotNull(clientes); // Aseguramos que la lista no sea nula
+        assertFalse(clientes.isEmpty()); // Aseguramos que la lista no esté vacía
     }
 }
+

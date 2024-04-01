@@ -209,7 +209,6 @@ public class ClienteServicioImpl implements ClienteServicio {
     }
 
 
-
     @Override
     public List<ItemClienteDTO> listarCliente() {
         //Obtenemos todos los clientes de la base de datos
@@ -222,11 +221,6 @@ public class ClienteServicioImpl implements ClienteServicio {
                     cliente.getFotoPerfil(), cliente.getNickname(), cliente.getCiudad()));
         }
         return items;
-    }
-
-    @Override
-    public List<ItemClienteDTO> listarCliente(int pagina) {
-        return null;
     }
 
     //Validaciones

@@ -34,8 +34,6 @@ public class Negocio implements Serializable{
 
     private List<HistorialRevision> historialRevisiones;
 
-
-
     private String codigoCliente;
 
     private TipoNegocio tipoNegocio;
