@@ -5,7 +5,7 @@ import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
-import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +54,12 @@ public class ClienteServicioImpl implements ClienteServicio {
         cliente.setCiudad(registroClienteDTO.ciudadResidencia());
         cliente.setFotoPerfil(registroClienteDTO.fotoPerfil());
         cliente.setEmail(registroClienteDTO.email());
-        cliente.setPassword(registroClienteDTO.password());
+
+        // Encriptar la contraseña antes de guardarla
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String passwordEncriptada = passwordEncoder.encode(registroClienteDTO.password());
+        cliente.setPassword(passwordEncriptada);
+
         cliente.setEstado(EstadoRegistro.ACTIVO);
         //Se guarda en la base de datos y obtenemos el objeto registrado
         Cliente clienteGuardado = clienteRepo.save(cliente);
@@ -129,7 +134,7 @@ public class ClienteServicioImpl implements ClienteServicio {
      * @throws Exception
      */
     @Override
-    public boolean iniciarSesion(SesionDTO sesionDTO) throws Exception {
+    public boolean iniciarSesion(LoginDTO sesionDTO) throws Exception {
         // Buscar cliente por email
         Optional<Cliente> optionalCliente = clienteRepo.findByEmail(sesionDTO.email());
 

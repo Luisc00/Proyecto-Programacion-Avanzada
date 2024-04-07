@@ -2,10 +2,7 @@ package co.edu.uniquindio.proyecto.test;
 
 import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
-import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
-import co.edu.uniquindio.proyecto.servicios.impl.ClienteServicioImpl;
-import co.edu.uniquindio.proyecto.servicios.impl.EmailServicioImpl;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import org.junit.jupiter.api.Assertions;
@@ -70,7 +67,7 @@ public class ClienteServicioTest {
 
     @Test
     public void inicioSesionTest() throws Exception {
-        SesionDTO sesionDTO = new SesionDTO("oscarWhite@gmail",
+        LoginDTO sesionDTO = new LoginDTO("oscarWhite@gmail",
                 "071234");
         // Ejecutamos el inicio de sesión
         boolean resultado = clienteServicio.iniciarSesion(sesionDTO);
