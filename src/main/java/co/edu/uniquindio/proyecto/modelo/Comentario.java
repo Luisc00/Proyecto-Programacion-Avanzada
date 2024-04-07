@@ -13,6 +13,11 @@ import java.time.LocalTime;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 public class Comentario {
+
+    @Id
+    @EqualsAndHashCode.Include
+    private String codigo;
+
     private LocalTime fecha;
 
     private int calificacion;
@@ -21,9 +26,6 @@ public class Comentario {
 
     private String codigoNegocio;
 
-    @Id
-    @EqualsAndHashCode.Include
-    private String codigo;
 
     private String mensaje;
 

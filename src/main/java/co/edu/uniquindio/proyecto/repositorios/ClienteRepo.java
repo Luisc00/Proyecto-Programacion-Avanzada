@@ -10,7 +10,9 @@ public interface ClienteRepo extends MongoRepository<Cliente, String> {
 
     Optional<Cliente> findByEmail(String email);
 
-    Optional<Cliente> findByNickname(String email);
+    Optional<Cliente> findByNickname(String nickName);
+
+    Boolean existsClienteByNickname(String nickName);
 
 
 }

@@ -12,10 +12,9 @@ public interface ClienteServicio extends CuentaServicio {
 
     void actualizarCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception;
 
-     DetalleClienteDTO obtenerDetalleCliente(String idCliente) throws Exception;
+    DetalleClienteDTO obtenerDetalleCliente(String idCliente) throws Exception;
 
-     void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception;
-
+    void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception;
 
     List<ItemClienteDTO>listarCliente();
 
