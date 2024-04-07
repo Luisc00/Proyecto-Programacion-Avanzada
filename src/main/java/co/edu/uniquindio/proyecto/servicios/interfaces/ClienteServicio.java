@@ -14,8 +14,6 @@ public interface ClienteServicio extends CuentaServicio {
 
      DetalleClienteDTO obtenerDetalleCliente(String idCliente) throws Exception;
 
-    boolean iniciarSesion(LoginDTO sesionDTO) throws Exception;
-
      void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception;
 
 

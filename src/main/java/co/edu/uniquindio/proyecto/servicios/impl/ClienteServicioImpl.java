@@ -133,28 +133,7 @@ public class ClienteServicioImpl implements ClienteServicio {
      * @return
      * @throws Exception
      */
-    @Override
-    public boolean iniciarSesion(LoginDTO sesionDTO) throws Exception {
-        // Buscar cliente por email
-        Optional<Cliente> optionalCliente = clienteRepo.findByEmail(sesionDTO.email());
 
-        // Verificar si el cliente existe
-        if (optionalCliente.isEmpty()) {
-            throw new Exception("No se encontró el cliente con el email " + sesionDTO.email());
-        }
-        // Obtener el cliente
-        Cliente cliente = optionalCliente.get();
-
-        // Verificar si la cuenta está eliminada
-        if (existeCuentaEliminada(cliente.getCodigo())) {
-            throw new Exception("La cuenta ya ha sido eliminada");
-        }
-        // Verificar si la contraseña coincide
-        if (!cliente.getPassword().equals(sesionDTO.password())) {
-            throw new Exception("La contraseña es incorrecta");
-        }
-        return true;
-    }
 
 
     /**

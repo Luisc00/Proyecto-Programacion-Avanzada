@@ -65,16 +65,7 @@ public class ClienteServicioTest {
         assertThrows(Exception.class, () -> clienteServicio.obtenerDetalleCliente("cliente1"));
     }
 
-    @Test
-    public void inicioSesionTest() throws Exception {
-        LoginDTO sesionDTO = new LoginDTO("oscarWhite@gmail",
-                "071234");
-        // Ejecutamos el inicio de sesión
-        boolean resultado = clienteServicio.iniciarSesion(sesionDTO);
-        // Verificamos que el inicio de sesión sea exitoso
-        emailServicio.enviarCorreo(new EmailDTO("Funcion iniciar sesion", "Inicio exitoso", "j.kamilo3020@gmail.com "));
-        Assertions.assertTrue(resultado);
-    }
+
     @Test
     public void enviarCorreoTest() throws Exception {
         EmailDTO emailDTO = new EmailDTO("Prueba de correo", "Este es un correo de prueba", "j.kamilo3020@gmail.com");
