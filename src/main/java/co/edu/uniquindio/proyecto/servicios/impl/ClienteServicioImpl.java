@@ -18,7 +18,7 @@ import java.util.Optional;
 public class ClienteServicioImpl implements ClienteServicio {
     private final ClienteRepo clienteRepo;
 
-    private EmailServicioImpl emailServicio;
+    private final EmailServicioImpl emailServicio;
 
 
 

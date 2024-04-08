@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 @Document("comentarios")
 @Getter
@@ -18,7 +19,7 @@ public class Comentario {
     @EqualsAndHashCode.Include
     private String codigo;
 
-    private LocalTime fecha;
+    private LocalDate fecha;
 
     private int calificacion;
 

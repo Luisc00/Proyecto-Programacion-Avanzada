@@ -1,15 +1,22 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
 
+import co.edu.uniquindio.proyecto.dto.ActualizarNegocioDTO;
+import co.edu.uniquindio.proyecto.dto.CambiarEstadoNegocioDTO;
+import co.edu.uniquindio.proyecto.dto.CrearNegocioDTO;
+import co.edu.uniquindio.proyecto.dto.ItemNegocioDTO;
+import co.edu.uniquindio.proyecto.modelo.EstadoNegocio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.NegocioServicio;
+
+import java.util.List;
 
 public class NegocioServicioImpl implements NegocioServicio {
     @Override
-    public void crearNegocio() {
-
+    public String crearNegocio(CrearNegocioDTO crearNegocioDTO) {
+        return null;
     }
 
     @Override
-    public void actualizarNegocio() {
+    public void actualizarNegocio(ActualizarNegocioDTO actualizarNegocioDTO) {
 
     }
 
@@ -19,22 +26,22 @@ public class NegocioServicioImpl implements NegocioServicio {
     }
 
     @Override
-    public void buscarNegocios() {
+    public void buscarNegocios(String id) {
 
     }
 
     @Override
-    public void filtrarPorEstado() {
-
+    public List<ItemNegocioDTO> filtrarPorEstado(EstadoNegocio estado) {
+        return null;
     }
 
     @Override
-    public void listarNegociosPropietario() {
-
+    public List<ItemNegocioDTO> listarNegociosPropietario(String idPropietario) {
+        return null;
     }
 
     @Override
-    public void cambiarEstado() {
+    public void cambiarEstado(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) {
 
     }
 
