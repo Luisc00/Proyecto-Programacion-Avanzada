@@ -136,31 +136,16 @@ public class ClienteServicioImpl implements ClienteServicio {
         clienteRepo.save(cliente);
     }
 
-    /**
-     * Cambiar contraseña
-     *
-     * @param cambioPasswordDTO
-     * @throws Exception
-     */
-
     @Override
     public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
+        // Verificar si el usuario existe y es válido
         Cliente cliente = obtenerCliente(cambioPasswordDTO.id());
-
-        if (existeCuentaEliminada(cliente.getCodigo())) {
-            throw new Exception("La cuenta está eliminada");
+        if(!existeId(cambioPasswordDTO.id())){
+            throw new Exception("No existe el usuario");
         }
+        cliente.getPassword();
+        System.out.println(cliente.getPassword());
 
-        String nuevoToken = emailServicio.enviarTokenRecuperacion(cliente.getEmail());
-
-        if (!existeToken(nuevoToken)) {
-            throw new Exception("Token no válido, vuelve a generarlo");
-        }
-
-        cliente.setToken(nuevoToken);
-        cliente.setPassword(cambioPasswordDTO.passwordNueva());
-
-        clienteRepo.save(cliente);
     }
 
 

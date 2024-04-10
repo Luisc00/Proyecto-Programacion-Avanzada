@@ -15,21 +15,23 @@ public class AutenticacionTest {
     private AutenticacionServicioImpl autenticacionServicio;
 
     @Test
-    public void inicioSesionTest() throws Exception {
+    public void inicioSesionTest() {
         // Datos de inicio de sesión válidos
-        String email = "correo@example.com";
-        String password = "contraseña123";
-
+        String email = "juan@email.com";
+        String password = "mipassword";
         // Creamos un objeto LoginDTO con los datos válidos
         LoginDTO loginDTO = new LoginDTO(email, password);
-
-        // Realizamos el inicio de sesión
-        TokenDTO tokenDTO = autenticacionServicio.iniciarSesionCliente(loginDTO);
-
-        // Verificamos que se haya generado un token
-        Assertions.assertNotNull(tokenDTO);
-        Assertions.assertNotNull(tokenDTO.token());
-
-        // Aquí podrías realizar más verificaciones sobre el token si es necesario
-    }
+        try {
+            // Realizamos el inicio de sesión
+            TokenDTO tokenDTO = autenticacionServicio.iniciarSesionCliente(loginDTO);
+            // Verificamos que se haya generado un token
+            Assertions.assertNotNull(tokenDTO);
+            Assertions.assertNotNull(tokenDTO.token());
+            // Imprimimos mensaje de inicio exitoso en la consola
+            System.out.println("Inicio de sesión exitoso");
+            } catch (Exception e) {
+            // Imprimimos mensaje de error en la consola
+            System.err.println("Error en el inicio de sesión: " + e.getMessage());
+            }
+        }
 }

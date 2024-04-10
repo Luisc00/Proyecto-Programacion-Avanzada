@@ -34,4 +34,10 @@ public class AutenticacionServicioImpl implements AutenticacionServicio {
         map.put("nombre", cliente.getNombre());
         map.put("id", cliente.getCodigo());
         return new TokenDTO( jwtUtils.generarToken(cliente.getEmail(), map) );
-    }}
+    }
+
+    @Override
+    public TokenDTO iniciarSesionModerador(LoginDTO loginDTO) throws Exception {
+        return null;
+    }
+}

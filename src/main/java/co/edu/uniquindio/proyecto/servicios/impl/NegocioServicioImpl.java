@@ -26,11 +26,6 @@ public class NegocioServicioImpl implements NegocioServicio {
     }
 
     @Override
-    public void buscarNegocios(String id) {
-
-    }
-
-    @Override
     public List<ItemNegocioDTO> filtrarPorEstado(EstadoNegocio estado) {
         return null;
     }

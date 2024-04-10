@@ -1,4 +1,5 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
+import co.edu.uniquindio.proyecto.dto.DetalleClienteDTO;
 import co.edu.uniquindio.proyecto.dto.EmailDTO;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import jakarta.mail.internet.MimeMessage;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 public class EmailServicioImpl implements EmailServicio {
 
-    public ArrayList<String> tokens=new ArrayList<>();
+    public ArrayList<String> tokens = new ArrayList<>();
 
     private final JavaMailSender javaMailSender;
 
@@ -37,53 +38,9 @@ public class EmailServicioImpl implements EmailServicio {
         javaMailSender.send(mensaje);
     }
 
-    /**
-     * Envio de correo con token para restablecer contraseña
-     *
-     * @param destinatario
-     * @throws Exception
-     */
     @Override
     public String enviarTokenRecuperacion(String destinatario) throws Exception {
-
-        String nuevoToken = generarToken();
-
-
-        EmailDTO emailDTO = new EmailDTO(destinatario);
-        MimeMessage mensaje = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mensaje);
-        helper.setSubject(emailDTO.asunto());
-        String cuerpo = generarCuerpoConCodigo(nuevoToken);
-        helper.setText(cuerpo, true);
-        helper.setTo(emailDTO.destinatario());
-        helper.setFrom("no_reply@dominio.com");
-        javaMailSender.send(mensaje);
-
-        tokens.add(nuevoToken);
-
-        return nuevoToken;
+        return null;
     }
 
-    private String generarToken() {
-        return UUID.randomUUID().toString();
-    }
-    private String generarCuerpoConCodigo(String cuerpo) {
-
-        String codigo = generarCodigo();
-
-        return cuerpo.replace("{codigo}", codigo);
-    }
-    private String generarCodigo() {
-
-        String caracteres = "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuv";
-
-        int longitud = 7;
-
-        StringBuilder codigo = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < longitud; i++) {
-            codigo.append(caracteres.charAt(random.nextInt(caracteres.length())));
-        }
-        return codigo.toString();
-    }
 }
