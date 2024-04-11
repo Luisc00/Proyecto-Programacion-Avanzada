@@ -32,4 +32,17 @@ public class JWTUtils {
         byte[] secretKeyBytes = claveSecreta.getBytes();
         return Keys.hmacShaKeyFor(secretKeyBytes);
     }
+    public boolean tokenExpirado(String token) {
+        try {
+            Jws<Claims> jwsClaims = parseJwt(token);
+            Date expiration = jwsClaims.getBody().getExpiration();
+            return expiration.before(new Date());
+        } catch (ExpiredJwtException ex) {
+            // El token ha expirado
+            return true;
+        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException ex) {
+            // El token no es válido o hay otro error
+            return true;
+        }
+    }
 }

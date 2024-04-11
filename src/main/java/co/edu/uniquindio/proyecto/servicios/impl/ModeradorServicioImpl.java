@@ -13,6 +13,7 @@ import org.springframework.boot.Banner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,19 +54,25 @@ public class ModeradorServicioImpl implements ModeradorServicio {
 
     @Override
     public void eliminarCuenta(String idCuenta) throws Exception {
-
-        Moderador moderador =obtenerModerador(idCuenta);
-
-        if (existeCuentaEliminada(idCuenta)) {
-            throw new Exception("La cuenta ya esta eliminada");
+        // Verificar si el moderador existe
+        if (!existeId(idCuenta)) {
+            throw new Exception("El moderador con ID " + idCuenta + " no existe");
         }
-        if(!existeId(idCuenta)) {
-            throw new Exception("el moderador no existe");
+
+        Moderador moderador = obtenerModerador(idCuenta);
+
+        // Verificar si el moderador ya está inactivo
+        if (moderador.getEstadoRegistro() == EstadoRegistro.INACTIVO) {
+            throw new Exception("La cuenta ya está eliminada");
         }
+
+        // Cambiar el estado del moderador a inactivo
         moderador.setEstadoRegistro(EstadoRegistro.INACTIVO);
 
+        // Guardar el moderador actualizado en el repositorio
         moderadorRepo.save(moderador);
     }
+
     @Override
     public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
 
@@ -115,12 +122,20 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         if (moderador.getEstadoRegistro() == EstadoRegistro.INACTIVO) {
             return true; // La cuenta ha sido eliminada
         } else {
-            return false; // La cuenta no ha sido eliminada
+            throw new Exception("La cuenta ya ha sido eliminada"); // La cuenta no ha sido eliminada
         }
     }
 
     @Override
     public List<ItemModeradorDTO> listarModeradores() {
-        return null;
+        List<Moderador> moderadores = moderadorRepo.findAll();
+        List<ItemModeradorDTO> listaModeradores = new ArrayList<>();
+        for (Moderador moderador : moderadores) {
+            ItemModeradorDTO itemModeradorDTO = new ItemModeradorDTO(moderador.getCodigo(),moderador.getNombre(),moderador.getEmail());
+            listaModeradores.add(itemModeradorDTO);
+        }
+
+        return listaModeradores;
     }
+
 }

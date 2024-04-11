@@ -5,13 +5,13 @@ import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
+import co.edu.uniquindio.proyecto.utils.JWTUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 
 @Service
 @Transactional
@@ -20,11 +20,21 @@ public class ClienteServicioImpl implements ClienteServicio {
 
     private final EmailServicioImpl emailServicio;
 
+    private final Map<String, String> tokensRecuperacion = new HashMap<>();
+
+    private final JWTUtils jwtUtils;
+
+    @Override
+    public Map<String, String> getTokensRecuperacion() {
+        return tokensRecuperacion;
+    }
 
 
-    public ClienteServicioImpl(ClienteRepo clienteRepo,EmailServicioImpl emailServicio) {
+    public ClienteServicioImpl(ClienteRepo clienteRepo,EmailServicioImpl emailServicio,JWTUtils jwtUtils) {
         this.clienteRepo = clienteRepo;
         this.emailServicio=emailServicio;
+        this.jwtUtils = jwtUtils;
+
     }
 
     /**
@@ -129,25 +139,54 @@ public class ClienteServicioImpl implements ClienteServicio {
         if (existeCuentaEliminada(idCuenta)) {
             throw new Exception("La cuenta ya esta eliminada");
         }
-
+        if(existeId(idCuenta)){
+            throw new Exception("La cuenta no existe");
+        }
         cliente.setEstado(EstadoRegistro.INACTIVO);
-        //Como el objeto cliente ya tiene un id, el save() no crea un nuevo registro sino que
-        //actualiza el que ya existe
         clienteRepo.save(cliente);
     }
 
     @Override
     public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
-        // Verificar si el usuario existe y es válido
-        Cliente cliente = obtenerCliente(cambioPasswordDTO.id());
-        if(!existeId(cambioPasswordDTO.id())){
-            throw new Exception("No existe el usuario");
-        }
-        cliente.getPassword();
-        System.out.println(cliente.getPassword());
 
     }
 
+    @Override
+    public String enviarTokenRecuperacion(CambioPasswordDTO cambioPasswordDTO) throws Exception {
+        if (existeTokenActivoParaCliente(cambioPasswordDTO.email())) {
+            throw new Exception("Ya se ha generado un token de recuperación para este cliente");
+        }
+
+        // Generar el nuevo token de recuperación
+        String token = emailServicio.enviarTokenRecuperacion(cambioPasswordDTO.email());
+
+        // Almacenar el token generado junto con el ID del cliente
+        tokensRecuperacion.put(token, cambioPasswordDTO.email());
+
+        // Retornar el token generado
+        return token;
+    }
+
+    @Override
+    public void cambiarContrasenaConToken(String token, CambioPasswordDTO cambioPasswordDTO) throws Exception {
+        // Verificar si el token existe en la lista
+        if (!tokensRecuperacion.containsKey(token)) {
+            throw new Exception("El token no es válido");
+        }
+
+        // Obtener el ID del cliente asociado al token
+        String idCliente = tokensRecuperacion.get(token);
+
+        // Actualizar la contraseña del cliente en la base de datos
+        Cliente cliente = obtenerCliente(idCliente);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String passwordEncriptada = passwordEncoder.encode(cambioPasswordDTO.passwordNueva());
+        cliente.setPassword(passwordEncriptada);
+        clienteRepo.save(cliente);
+
+        // Remover el token de la lista después de usarlo
+        tokensRecuperacion.remove(token);
+    }
 
     @Override
     public List<ItemClienteDTO> listarCliente() {
@@ -184,7 +223,6 @@ public class ClienteServicioImpl implements ClienteServicio {
         }
         return optionalCliente.get();
     }
-
     private boolean existeCuentaEliminada(String codigo) throws Exception {
         Optional<Cliente> optionalCliente = clienteRepo.findById(codigo);
         // Si no se encontró el cliente, lanzamos una excepción
@@ -199,8 +237,26 @@ public class ClienteServicioImpl implements ClienteServicio {
             return false; // La cuenta no ha sido eliminada
         }
     }
-    private boolean existeToken(String token) {
-        return emailServicio.tokens.contains(token);
+    private boolean existeTokenActivoParaCliente(String email) {
+        // Iterar sobre el mapa de tokens de recuperación
+        for (Map.Entry<String, String> entry : tokensRecuperacion.entrySet()) {
+            String token = entry.getKey();
+            String clienteId = entry.getValue();
+
+            // Si el correo electrónico del cliente coincide con el proporcionado
+            if (clienteRepo.findById(clienteId).orElse(null).getEmail().equals(email)) {
+                // Verificar si el token está activo o ha expirado
+                if (jwtUtils.tokenExpirado(token)) {
+                    // Si el token ha expirado, lo eliminamos del mapa
+                    tokensRecuperacion.remove(token);
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false; // No se encontró un token activo para el cliente
     }
+
 
 }

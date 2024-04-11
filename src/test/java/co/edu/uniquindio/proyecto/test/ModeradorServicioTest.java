@@ -29,22 +29,43 @@ public class ModeradorServicioTest {
     @Test
     public void inicializarModeradorTest() throws Exception {
         Moderador moderador1 = new Moderador();
-        moderador1.setCodigo("1");
-        moderador1.setNombre("Moderador1");
+        moderador1.setCodigo("3");
+        moderador1.setNombre("Moderador3");
         moderador1.setEstadoRegistro(EstadoRegistro.ACTIVO);
-        moderador1.setEmail("NOTIENE@GMAIL.COM");
-        moderador1.setPassword("1");
+        moderador1.setEmail("moderador3@gmailcom");
+        moderador1.setPassword("3");
 
         moderadorServicio.inicializarModerador(moderador1);
 
-        Optional<Moderador> moderadorGuardadoOptional = moderadorRepo.findByCodigo("1");
+        Optional<Moderador> moderadorGuardadoOptional = moderadorRepo.findByCodigo(moderador1.getCodigo());
         assertTrue(moderadorGuardadoOptional.isPresent(), "No se encontró el moderador guardado");
 
         Moderador moderadorGuardado = moderadorGuardadoOptional.get();
         assertEquals("Moderador1", moderadorGuardado.getNombre());
         assertEquals(EstadoRegistro.ACTIVO, moderadorGuardado.getEstadoRegistro());
         assertEquals("NOTIENE@GMAIL.COM", moderadorGuardado.getEmail());
-        assertEquals("1", moderadorGuardado.getPassword());
+        assertEquals("1", moderadorGuardado.getPassword());}
+
+    @Test
+    public void eliminarCuentaTest() throws Exception {
+        //Al intentar obtener el moderador va a la lanzar una excepcion ya que no existe.
+        assertThrows(Exception.class, () -> moderadorServicio.eliminarCuenta("1"));
+        }
+
+    @Test
+    public void actualizarModeradores()throws Exception{
+        ActualizarModeradorDTO actualizarModeradorDTO=new ActualizarModeradorDTO("1","luis","luismorales");
+        assertThrows(Exception.class,()-> moderadorServicio.actualizarModerador(actualizarModeradorDTO));
+
+    }
+    @Test
+    public void listarModeradores()throws Exception{
+        List<ItemModeradorDTO> moderadores = moderadorServicio.listarModeradores();
+
+        assertNotNull(moderadores);
+        assertFalse(moderadores.isEmpty());
+    }
+
 }
-}
+
 
