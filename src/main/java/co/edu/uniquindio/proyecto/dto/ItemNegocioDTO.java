@@ -1,13 +1,16 @@
 package co.edu.uniquindio.proyecto.dto;
 
+import co.edu.uniquindio.proyecto.modelo.Ubicacion;
+
+import java.util.List;
+
 public record ItemNegocioDTO(
         String id,
         String nombre,
         String descripcion,
-        String direccion,
-        String telefono,
-        String email,
-        String foto,
-        String propietario
+        Ubicacion Ubicacion,
+        List<String> telefonos,
+        List<String> imagenes,
+        String codigoPropietario
 ) {
 }
