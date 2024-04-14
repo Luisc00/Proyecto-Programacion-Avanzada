@@ -36,4 +36,8 @@ public class ImagenesServicioImpl implements ImagenesServicio {
         fos.close();
         return file;
     }
+
+    public Map subirImagen(String s) {
+        return null;
+    }
 }

@@ -33,7 +33,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         negocio.setDescripcion(crearNegocioDTO.descripcion());
         negocio.setTipoNegocio(crearNegocioDTO.tipoNegocio());
         negocio.setUbicacion(crearNegocioDTO.ubicacion());
-        negocio.setEstadoRegistro(EstadoNegocio.PENDIENTE);
+        negocio.setEstadoNegocio(EstadoNegocio.PENDIENTE);
         negocio.setCodigoCliente(crearNegocioDTO.codigoCliente());
         negocio.setTelefonos(crearNegocioDTO.telefonos());
         negocio.setHorarios(crearNegocioDTO.horarios());
@@ -176,7 +176,7 @@ public class NegocioServicioImpl implements NegocioServicio {
     public void cambiarEstado(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) {
         if(negocioRepo.existsNegocioByCodigo(cambiarEstadoNegocioDTO.id())){
             Negocio negocio = negocioRepo.findByCodigo(cambiarEstadoNegocioDTO.id()).get();
-            negocio.setEstadoRegistro(cambiarEstadoNegocioDTO.estado());
+            negocio.setEstadoNegocio(cambiarEstadoNegocioDTO.estado());
             negocioRepo.save(negocio);
         }
     }

@@ -1,16 +1,12 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
 
-import co.edu.uniquindio.proyecto.dto.ActualizarModeradorDTO;
-import co.edu.uniquindio.proyecto.dto.CambioPasswordDTO;
-import co.edu.uniquindio.proyecto.dto.ItemModeradorDTO;
-import co.edu.uniquindio.proyecto.dto.TokenDTO;
-import co.edu.uniquindio.proyecto.modelo.Cliente;
-import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
-import co.edu.uniquindio.proyecto.modelo.Moderador;
+import co.edu.uniquindio.proyecto.dto.*;
+import co.edu.uniquindio.proyecto.modelo.*;
+import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.repositorios.ModeradorRepo;
+import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ModeradorServicio;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
+import co.edu.uniquindio.proyecto.utils.JWTUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +20,20 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     //El moderador se debe inicializar desde el programa
 
     private final ModeradorRepo moderadorRepo;
+    private final NegocioRepo negocioRepo;
+    private final ClienteRepo clienteRepo;
+    private final EmailServicioImpl emailServicioImpl;
+    private final ClienteServicioImpl usuarioServicioImpl;
+    private final JWTUtils jwtUtils;
 
 
-    public ModeradorServicioImpl(ModeradorRepo moderadorRepo) {
+    public ModeradorServicioImpl(ModeradorRepo moderadorRepo, NegocioRepo negocioRepo, ClienteRepo clienteRepo, EmailServicioImpl emailServicioImpl, ClienteServicioImpl usuarioServicioImpl, JWTUtils jwtUtils) {
         this.moderadorRepo = moderadorRepo;
+        this.negocioRepo = negocioRepo;
+        this.clienteRepo = clienteRepo;
+        this.emailServicioImpl = emailServicioImpl;
+        this.usuarioServicioImpl = usuarioServicioImpl;
+        this.jwtUtils = jwtUtils;
     }
 
     // Método de inicialización para crear un moderador
@@ -141,6 +147,59 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         }
 
         return listaModeradores;
+    }
+
+    @Override
+    public boolean aprobarNegocio(String codigoNegocio) throws Exception{
+        Optional<Negocio> negocioOptional = negocioRepo.findById(codigoNegocio);
+
+        if (negocioOptional.isEmpty()){
+            throw new Exception("El lugar no pudo ser encontrado");
+        }
+
+        Negocio negocio = negocioOptional.get();
+        Optional<Cliente> usuarioOptional = clienteRepo.findById(negocio.getCodigoCliente());
+        Cliente cliente = usuarioOptional.get();
+
+        if (negocio.getEstadoNegocio() != EstadoNegocio.PENDIENTE){
+            throw new Exception("Este lugar se encuentra activo o rechazado");
+        }
+        negocio.setEstadoNegocio(EstadoNegocio.APROBADO);
+
+        try {
+            negocioRepo.save(negocio);
+            emailServicioImpl.enviarCorreo(new EmailDTO("Lugar Aprobado",
+                    "Tu lugar ha sido aprovado en Unilical, felicitaciones!", cliente.getEmail()));
+        }catch (Exception e){
+            throw new Exception("Hubo un error con la base de datos");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean rechazarNegocio(String codigoNegocio, String mensaje) throws Exception{
+        Optional<Negocio> negocioOptional = negocioRepo.findById(codigoNegocio);
+
+        if (negocioOptional.isEmpty()){
+            throw new Exception("El lugar no pudo ser encontrado");
+        }
+
+        Negocio negocio = negocioOptional.get();
+        Optional<Cliente> clienteOptional = clienteRepo.findById(negocio.getCodigoCliente());
+        Cliente cliente = clienteOptional.get();
+        if (negocio.getEstadoNegocio() != EstadoNegocio.PENDIENTE){
+            throw new Exception("Este lugar se encuentra activo o inactivo");
+        }
+        negocio.setEstadoNegocio(EstadoNegocio.RECHAZADO);
+
+        try {
+            negocioRepo.save(negocio);
+            emailServicioImpl.enviarCorreo(new EmailDTO("Lugar rechazado",
+                    "El lugar ha sido rechazado ya que no cumple nuestros terminos y condiciones", cliente.getEmail()));
+        }catch (Exception e){
+            throw new Exception("Hubo un error con la base de datos");
+        }
+        return true;
     }
 
 }

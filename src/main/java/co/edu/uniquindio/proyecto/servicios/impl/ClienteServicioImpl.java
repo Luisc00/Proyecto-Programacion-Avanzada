@@ -2,7 +2,9 @@ package co.edu.uniquindio.proyecto.servicios.impl;
 
 import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
+import co.edu.uniquindio.proyecto.modelo.Imagen;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
+import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.utils.JWTUtils;
@@ -21,14 +23,21 @@ public class ClienteServicioImpl implements ClienteServicio {
     private final ClienteRepo clienteRepo;
     private final JWTUtils jwtUtils;
 
-    private final EmailServicioImpl emailServicio;
+    private final EmailServicioImpl emailServicioImpl;
 
-    public ClienteServicioImpl(ClienteRepo clienteRepo, JWTUtils jwtUtils, EmailServicioImpl emailServicio) {
+    private final NegocioRepo negocioRepo;
+
+    private final ImagenesServicioImpl imagenesServicioImpl;
+
+
+    public ClienteServicioImpl(ClienteRepo clienteRepo, JWTUtils jwtUtils, EmailServicioImpl emailServicio, NegocioRepo negocioRepo, ImagenesServicioImpl imagenesServicioImpl) {
         this.clienteRepo = clienteRepo;
         this.jwtUtils = jwtUtils;
-        this.emailServicio=emailServicio;
+        this.emailServicioImpl=emailServicio;
+        this.negocioRepo = negocioRepo;
 
 
+        this.imagenesServicioImpl = imagenesServicioImpl;
     }
 
     /**
@@ -64,7 +73,7 @@ public class ClienteServicioImpl implements ClienteServicio {
         String passwordEncriptada = passwordEncoder.encode(registroClienteDTO.password());
         cliente.setPassword(passwordEncriptada);
 
-        cliente.setEstado(EstadoRegistro.ACTIVO);
+        cliente.setRegistro(EstadoRegistro.ACTIVO);
         //Se guarda en la base de datos y obtenemos el objeto registrado
         Cliente clienteGuardado = clienteRepo.save(cliente);
         //Retornamos el id (código) del cliente registrado
@@ -136,7 +145,7 @@ public class ClienteServicioImpl implements ClienteServicio {
         if(existeId(idCuenta)){
             throw new Exception("La cuenta no existe");
         }
-        cliente.setEstado(EstadoRegistro.INACTIVO);
+        cliente.setRegistro(EstadoRegistro.INACTIVO);
         clienteRepo.save(cliente);
     }
 
@@ -157,7 +166,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         EmailDTO email = new EmailDTO("restablecer contraseña",
                 "Toque su link o copie su token: " + token, cambioPasswordDTO.email());
-        emailServicio.enviarCorreo(email);
+        emailServicioImpl.enviarCorreo(email);
 
         return token;
     }
@@ -205,6 +214,7 @@ public class ClienteServicioImpl implements ClienteServicio {
         return items;
     }
 
+
     //Validaciones
 
     private boolean existeEmail(String email) {
@@ -234,10 +244,60 @@ public class ClienteServicioImpl implements ClienteServicio {
         }
         Cliente cliente = optionalCliente.get();
 
-        if (cliente.getEstado() == EstadoRegistro.INACTIVO) {
+        if (cliente.getRegistro() == EstadoRegistro.INACTIVO) {
             return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean editarPerfil(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
+        Optional<Cliente> clienteOptional = clienteRepo.findById(actualizarClienteDTO.id());
+
+        if (clienteOptional.isEmpty()){
+            throw  new Exception("No existe ningun cliente");
+        }
+
+        Cliente cliente = clienteOptional.get();
+
+        if (cliente.getRegistro() == EstadoRegistro.INACTIVO) {
+            throw new Exception("El usuario está inactivo");
+        }
+        imagenesServicioImpl.eliminarImagen(cliente.getFotoPerfil());
+        Map imagenInfo = imagenesServicioImpl.subirImagen(actualizarClienteDTO.fotoPerfil());
+        Imagen imagen = new Imagen((String) imagenInfo.get("secure_url"), (String) imagenInfo.get("public_id"));
+
+        cliente.setNombre(actualizarClienteDTO.nombre());
+        cliente.setNickname(actualizarClienteDTO.nickname());
+        cliente.setCiudad(actualizarClienteDTO.ciudadResidencia());
+        cliente.setFotoPerfil(String.valueOf(imagen));
+
+        try{
+            clienteRepo.save(cliente);
+        }catch (Exception e){
+            throw new Exception("Error del servidor");
+        }
+        emailServicioImpl.enviarCorreo(new EmailDTO("Cuenata actualizada", "Tu cuenta ha sido actualizada exitosamente", cliente.getEmail()));
+
+        return true;
+    }
+
+    @Override
+    public TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception {
+        Optional<Cliente> clienteOptional = clienteRepo.findByEmail(loginDTO.email());
+        if (clienteOptional.isEmpty()) {
+            throw new Exception("El correo no se encuentra registrado");
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        Cliente cliente = clienteOptional.get();
+        if( !passwordEncoder.matches(loginDTO.password(), cliente.getPassword()) ) {
+            throw new Exception("La contraseña es incorrecta");
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("rol", "CLIENTE");
+        map.put("nombre", cliente.getNombre());
+        map.put("id", cliente.getCodigo());
+        return new TokenDTO( jwtUtils.generarToken(cliente.getEmail(), map) );
     }
 }

@@ -27,7 +27,6 @@ public class Comentario {
 
     private String codigoNegocio;
 
-
     private String mensaje;
 
     private String respuesta;
