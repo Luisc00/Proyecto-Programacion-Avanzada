@@ -60,26 +60,25 @@ public class ClienteServicioTest {
     @Test
     public void eliminarCuentaTest() throws Exception {
 
-        //Pase el test ya que la primera ya esta desabilitada y la otra no existe.
         assertThrows(Exception.class, () -> clienteServicio.eliminarCuenta("1091"));
         assertThrows(Exception.class, () -> clienteServicio.eliminarCuenta("1092"));
     }
-    @Test
-    void enviarTokenRecuperacionTest() {
-        // Arrange
-        CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("luisc.moralesc@uqvirtual.edu.co", "nuevaContraseña","1091");
 
-        // Act & Assert
-        assertThrows(Exception.class, () -> clienteServicio.enviarTokenRecuperacion(cambioPasswordDTO),
-                "ya se ha generado un token de recuperación para este cliente");
+    CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("luisc.moralesc@uqvirtual.edu.co",
+            "nueva", "1091");
+    @Test
+    public void solicitarCambioContrasenaTest() throws Exception {
+        TokenDTO token = clienteServicio.solicitarCambioContraseña(cambioPasswordDTO);
+
+        assertNotNull(token);
+        assertNotNull(token.token());
+        assertFalse(token.token().isEmpty());
     }
     @Test
-    void cambiarContrasenaConTokenTest() {
-        String token="eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJsdWlzYy5tb3JhbGVzY0B1cXZpcnR1YWwuZWR1LmNvIiwiaWF0IjoxNzEyODcwNzI1LCJleHAiOjE3MTI4NzQzMjV9.JxI21YU0U9SN8lpwMdBXidsDwaoaIZYWc5NbmmZIIXbbA1t-u3Ig039F6KPOwPZi";
-        CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("luisc.moralesc@uqvirtual.edu.co", "nuevaContraseña","1091");
-
-        assertDoesNotThrow(() -> clienteServicio.cambiarContrasenaConToken(token, cambioPasswordDTO),
-                "No se esperaba ninguna excepción al cambiar la contraseña con un token válido");
+    public void cambiarContrasenaTest() throws Exception {
+        TokenDTO token = new TokenDTO("eyJhbGciOiJIUzM4NCJ9.eyJJZCI6IjEwOTEiLCJSb2wiOiJDTElFTlRFIiwiZW1haWwiOiJsdWlzYy5tb3JhbGVzY0B1cXZpcnR1YWwuZWR1LmNvIiwic3ViIjoibHVpc2MubW9yYWxlc2NAdXF2aXJ0dWFsLmVkdS5jbyIsImlhdCI6MTcxMzA1NzIyOSwiZXhwIjoxNzEzMDYwODI5fQ.qb6hYG5bNru94WyoD-LVvEQjb0FvWfNUfwFA9Q2orLbuiPKWeJxpqKPuThmI2JSL");
+        ;
+        assertThrows(Exception.class, () -> clienteServicio.cambiarContrasena(cambioPasswordDTO, token));
     }
 
     @Test

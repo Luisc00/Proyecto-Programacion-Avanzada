@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface ClienteServicio extends CuentaServicio {
-    Map<String, String> getTokensRecuperacion();
 
     String registrarseCliente(RegistroClienteDTO registroClienteDTO) throws Exception;
 
@@ -15,10 +14,6 @@ public interface ClienteServicio extends CuentaServicio {
     void actualizarCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception;
 
     DetalleClienteDTO obtenerDetalleCliente(String idCliente) throws Exception;
-
-    String enviarTokenRecuperacion(CambioPasswordDTO cambioPasswordDTO) throws Exception;
-
-    void cambiarContrasenaConToken(String token, CambioPasswordDTO cambioPasswordDTO) throws Exception;
 
     List<ItemClienteDTO>listarCliente();
 

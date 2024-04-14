@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.servicios.impl;
 import co.edu.uniquindio.proyecto.dto.ActualizarModeradorDTO;
 import co.edu.uniquindio.proyecto.dto.CambioPasswordDTO;
 import co.edu.uniquindio.proyecto.dto.ItemModeradorDTO;
+import co.edu.uniquindio.proyecto.dto.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.modelo.Moderador;
@@ -74,7 +75,12 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     }
 
     @Override
-    public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
+    public TokenDTO solicitarCambioContraseña(CambioPasswordDTO cambioPasswordDTO) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO,TokenDTO tokenDTO) throws Exception {
 
     }
 
@@ -125,7 +131,6 @@ public class ModeradorServicioImpl implements ModeradorServicio {
             throw new Exception("La cuenta ya ha sido eliminada"); // La cuenta no ha sido eliminada
         }
     }
-
     @Override
     public List<ItemModeradorDTO> listarModeradores() {
         List<Moderador> moderadores = moderadorRepo.findAll();
