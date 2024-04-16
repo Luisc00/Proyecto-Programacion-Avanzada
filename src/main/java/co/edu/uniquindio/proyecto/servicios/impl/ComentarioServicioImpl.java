@@ -61,7 +61,7 @@ public class ComentarioServicioImpl implements ComentarioServicio {
 
     @Override
     public List<ItemComentarioDTO> listarComentariosNegocio(String codigoNegocio) throws Exception {
-
+            return null;
     }
 
     private String obtenerNombreUsuario(String codigoCliente){
@@ -78,7 +78,7 @@ public class ComentarioServicioImpl implements ComentarioServicio {
     @Override
     public int calcularPromedioCalificaciones(String codigoNegocio) throws Exception
     {
-
+     return 0;
     }
 
     @Override
