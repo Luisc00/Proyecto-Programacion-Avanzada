@@ -19,6 +19,5 @@ public interface ClienteServicio extends CuentaServicio {
 
     boolean editarPerfil(ActualizarClienteDTO actualizarClienteDTO) throws Exception;
 
-    TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception;
 }
 

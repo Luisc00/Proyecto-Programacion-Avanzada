@@ -48,6 +48,7 @@ public class ClienteServicioTest {
         ActualizarClienteDTO actualizarClienteDTO = new ActualizarClienteDTO(
                 "1091",
                 "Oscar",
+                "oscar123",
                 "nueva foto",
                 "Oscar@email.com",
                 "Armenia"

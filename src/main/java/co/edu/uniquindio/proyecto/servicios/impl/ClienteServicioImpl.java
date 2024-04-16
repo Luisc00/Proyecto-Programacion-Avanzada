@@ -282,22 +282,4 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         return true;
     }
-
-    @Override
-    public TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception {
-        Optional<Cliente> clienteOptional = clienteRepo.findByEmail(loginDTO.email());
-        if (clienteOptional.isEmpty()) {
-            throw new Exception("El correo no se encuentra registrado");
-        }
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        Cliente cliente = clienteOptional.get();
-        if( !passwordEncoder.matches(loginDTO.password(), cliente.getPassword()) ) {
-            throw new Exception("La contraseña es incorrecta");
-        }
-        Map<String, Object> map = new HashMap<>();
-        map.put("rol", "CLIENTE");
-        map.put("nombre", cliente.getNombre());
-        map.put("id", cliente.getCodigo());
-        return new TokenDTO( jwtUtils.generarToken(cliente.getEmail(), map) );
-    }
 }
