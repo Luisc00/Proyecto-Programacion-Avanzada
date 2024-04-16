@@ -17,13 +17,13 @@ public interface NegocioRepo extends MongoRepository<Negocio, String> {
     Boolean existsNegocioByNombre(String nombre);
     Boolean existsNegocioByCodigo(String codigo);
     List<Negocio> findByCodigoCliente(String codigoCliente);
-    List<Negocio> findByEstadoRegistro(EstadoNegocio estadoRegistro);
+    List<Negocio> findByEstadoNegocio(EstadoNegocio estadoRegistro);
     List<Negocio> findByTipoNegocio(TipoNegocio tipoNegocio);
     List<Negocio> findByNombreContaining(String nombre);
     List<Negocio> findByUbicacion(Ubicacion ubicacion);
     List<Negocio> findByNombreContainingAndTipoNegocio(String nombre, TipoNegocio tipoNegocio);
-    List<Negocio> findByNombreContainingAndEstadoRegistro(String nombre, EstadoNegocio estadoRegistro);
-    List<Negocio> findByNombreContainingAndTipoNegocioAndEstadoRegistro(String nombre, TipoNegocio tipoNegocio, EstadoNegocio estadoRegistro);
+    List<Negocio> findByNombreContainingAndEstadoNegocio(String nombre, EstadoNegocio estadoRegistro);
+    List<Negocio> findByNombreContainingAndTipoNegocioAndEstadoNegocio(String nombre, TipoNegocio tipoNegocio, EstadoNegocio estadoRegistro);
     List<Negocio> findByNombreContainingAndUbicacion(String nombre, Ubicacion ubicacion);
     List<Negocio> findByNombreContainingAndTipoNegocioAndUbicacion(String nombre, TipoNegocio tipoNegocio, Ubicacion ubicacion);
 

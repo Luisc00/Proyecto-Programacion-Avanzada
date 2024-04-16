@@ -4,7 +4,6 @@ import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.modelo.Imagen;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
-import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.utils.JWTUtils;
@@ -25,16 +24,14 @@ public class ClienteServicioImpl implements ClienteServicio {
 
     private final EmailServicioImpl emailServicioImpl;
 
-    private final NegocioRepo negocioRepo;
-
     private final ImagenesServicioImpl imagenesServicioImpl;
 
 
-    public ClienteServicioImpl(ClienteRepo clienteRepo, JWTUtils jwtUtils, EmailServicioImpl emailServicio, NegocioRepo negocioRepo, ImagenesServicioImpl imagenesServicioImpl) {
+    public ClienteServicioImpl(ClienteRepo clienteRepo, JWTUtils jwtUtils, EmailServicioImpl emailServicio, ImagenesServicioImpl imagenesServicioImpl) {
         this.clienteRepo = clienteRepo;
         this.jwtUtils = jwtUtils;
         this.emailServicioImpl=emailServicio;
-        this.negocioRepo = negocioRepo;
+
 
 
         this.imagenesServicioImpl = imagenesServicioImpl;

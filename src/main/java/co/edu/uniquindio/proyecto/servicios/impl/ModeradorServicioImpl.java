@@ -17,8 +17,6 @@ import java.util.Optional;
 @Service
 public class ModeradorServicioImpl implements ModeradorServicio {
 
-    //El moderador se debe inicializar desde el programa
-
     private final ModeradorRepo moderadorRepo;
     private final NegocioRepo negocioRepo;
     private final ClienteRepo clienteRepo;

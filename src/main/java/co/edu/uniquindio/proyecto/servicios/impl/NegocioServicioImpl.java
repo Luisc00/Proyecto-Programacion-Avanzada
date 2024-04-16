@@ -70,7 +70,7 @@ public class NegocioServicioImpl implements NegocioServicio {
 
     @Override
     public List<ItemNegocioDTO> filtrarPorEstado(EstadoNegocio estado) {
-        List<Negocio> negocios = negocioRepo.findByEstadoRegistro(estado);
+        List<Negocio> negocios = negocioRepo.findByEstadoNegocio(estado);
         List<ItemNegocioDTO> items;
 
         items = negocios.stream().
