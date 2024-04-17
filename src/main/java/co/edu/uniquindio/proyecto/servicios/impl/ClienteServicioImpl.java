@@ -12,6 +12,7 @@ import io.jsonwebtoken.Jws;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -261,14 +262,14 @@ public class ClienteServicioImpl implements ClienteServicio {
         if (cliente.getRegistro() == EstadoRegistro.INACTIVO) {
             throw new Exception("El usuario está inactivo");
         }
-        imagenesServicioImpl.eliminarImagen(cliente.getFotoPerfil());
-        Map imagenInfo = imagenesServicioImpl.subirImagen(actualizarClienteDTO.fotoPerfil());
+        imagenesServicioImpl.eliminarImagen(cliente.getFotoPerfil().getId());
+        Map imagenInfo = imagenesServicioImpl.subirImagen((MultipartFile) actualizarClienteDTO.fotoPerfil());
         Imagen imagen = new Imagen((String) imagenInfo.get("secure_url"), (String) imagenInfo.get("public_id"));
 
         cliente.setNombre(actualizarClienteDTO.nombre());
         cliente.setNickname(actualizarClienteDTO.nickname());
         cliente.setCiudad(actualizarClienteDTO.ciudadResidencia());
-        cliente.setFotoPerfil(String.valueOf(imagen));
+        cliente.setFotoPerfil(imagen);
 
         try{
             clienteRepo.save(cliente);

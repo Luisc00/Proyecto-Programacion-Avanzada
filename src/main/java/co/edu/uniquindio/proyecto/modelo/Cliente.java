@@ -14,7 +14,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper=false, onlyExplicitlyIncluded = true)
 
 public class Cliente extends Cuenta implements Serializable{
-    private String fotoPerfil;
+    private Imagen fotoPerfil;
     @Id
     @EqualsAndHashCode.Include
     private String codigo;
