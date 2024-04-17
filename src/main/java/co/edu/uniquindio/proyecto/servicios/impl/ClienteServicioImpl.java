@@ -137,7 +137,7 @@ public class ClienteServicioImpl implements ClienteServicio {
         if (existeCuentaEliminada(idCuenta)) {
             throw new Exception("La cuenta ya esta eliminada");
         }
-        if(existeId(idCuenta)){
+        if(!existeId(idCuenta)){
             throw new Exception("La cuenta no existe");
         }
         cliente.setRegistro(EstadoRegistro.INACTIVO);

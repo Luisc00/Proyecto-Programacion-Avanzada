@@ -1,5 +1,5 @@
 db = connect( 'mongodb://root:example@localhost:27017/proyecto?authSource=admin' );
-
+//Estos datos no nos sirven para la pruebas ya que no cifran la contraseña
 db.Clientes.insertMany([
     {
         _id: 'Cliente1',
@@ -58,8 +58,45 @@ db.Clientes.insertMany([
     }
 
 ])
+//MODERADORES
+db.moderadores.insertMany([{
+        _id: 'M1',
+        nombre: 'Moderador1',
+        password: 'Password',
+        email: 'moderador1@GMAIL.COM',
+        estadoRegistro: 'INACTIVO',
+        _class: 'co.edu.uniquindio.proyecto.modelo.Moderador'
+},{
+    _id: '2',
+    nombre: 'Moderador2',
+    password: 'Password',
+    email: 'Moderador2@GMAIL.COM',
+    estadoRegistro: 'ACTIVO',
+    _class: 'co.edu.uniquindio.proyecto.modelo.Moderador'
+},{
+    _id: '3',
+    nombre: 'Moderador3',
+    password: 'Password',
+    email: 'Moderador3@GMAIL.COM',
+    estadoRegistro: 'ACTIVO',
+    _class: 'co.edu.uniquindio.proyecto.modelo.Moderador'
+},{
+    _id: '4',
+    nombre: 'Moderador4',
+    password: 'Password',
+    email: 'moderador4@GMAIL.COM',
+    estadoRegistro: 'ACTIVO',
+    _class: 'co.edu.uniquindio.proyecto.modelo.Moderador'
+},{
+    _id: '5',
+    nombre: 'Moderador5',
+    password: 'Password',
+    email: 'moderador5@GMAIL.COM',
+    estadoRegistro: 'ACTIVO',
+    _class: 'co.edu.uniquindio.proyecto.modelo.Moderador'
+}])
 
-//Negocios
+//NEGOCIOS
 db.Negocios.insertMany([{
     _id: 'Negocio1',
     ubicacion: {

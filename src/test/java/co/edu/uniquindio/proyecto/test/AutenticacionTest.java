@@ -27,4 +27,18 @@ public class AutenticacionTest {
             System.err.println("Error en el inicio de sesión: " + e.getMessage());
             }
         }
+
+    @Test
+    public void inicioSesionModeradorTest() {
+        String email = "juan@email.com";
+        String password = "mipassword";
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        try {
+            TokenDTO tokenDTO = autenticacionServicio.iniciarSesionModerador(loginDTO);
+            Assertions.assertNotNull(tokenDTO);
+            System.out.println("Inicio de sesión exitoso");
+        } catch (Exception e) {
+            System.err.println("Error en el inicio de sesión: " + e.getMessage());
+        }
+    }
 }

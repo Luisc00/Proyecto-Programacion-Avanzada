@@ -6,6 +6,9 @@ import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.modelo.Moderador;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.repositorios.ModeradorRepo;
+import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
+import co.edu.uniquindio.proyecto.servicios.impl.AutenticacionServicioImpl;
+import co.edu.uniquindio.proyecto.servicios.interfaces.AutenticacionServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ModeradorServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import org.junit.jupiter.api.Assertions;
@@ -25,14 +28,19 @@ public class ModeradorServicioTest {
     @Autowired
     private ModeradorServicio moderadorServicio;
     @Autowired
+    private AutenticacionServicio autenticacionServicio;
+    @Autowired
     private EmailServicio emailServicio;
+    @Autowired
+    private NegocioRepo negocioRepo;
+
     @Test
     public void inicializarModeradorTest() throws Exception {
         Moderador moderador1 = new Moderador();
-        moderador1.setCodigo("3");
-        moderador1.setNombre("Moderador3");
+        moderador1.setCodigo("1");
+        moderador1.setNombre("Moderador1");
         moderador1.setEstadoRegistro(EstadoRegistro.ACTIVO);
-        moderador1.setEmail("moderador3@gmailcom");
+        moderador1.setEmail("luisc.moralesc@uqvirtual.edu.co");
         moderador1.setPassword("3");
 
         moderadorServicio.inicializarModerador(moderador1);
@@ -48,7 +56,7 @@ public class ModeradorServicioTest {
 
     @Test
     public void eliminarCuentaTest() throws Exception {
-        //Al intentar obtener el moderador va a la lanzar una excepcion ya que no existe.
+
         assertThrows(Exception.class, () -> moderadorServicio.eliminarCuenta("1"));
         }
 
@@ -80,6 +88,11 @@ public class ModeradorServicioTest {
 
         assertNotNull(moderadores);
         assertFalse(moderadores.isEmpty());
+    }
+    @Test
+    public void aprobarNegocio() throws Exception {
+        LoginDTO loginDTO=new LoginDTO("luisc.morales@uqvirtual.edu.co","3");
+        assertThrows(Exception.class, () -> moderadorServicio.aprobarNegocio("Negocio1",loginDTO));
     }
 
 }

@@ -19,7 +19,6 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-
 public class EmailServicioImpl implements EmailServicio {
 
     @Autowired

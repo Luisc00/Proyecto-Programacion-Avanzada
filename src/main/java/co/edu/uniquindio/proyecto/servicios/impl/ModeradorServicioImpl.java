@@ -24,20 +24,20 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     private final NegocioRepo negocioRepo;
     private final ClienteRepo clienteRepo;
     private final EmailServicioImpl emailServicioImpl;
-    private final ClienteServicioImpl usuarioServicioImpl;
+    private final AutenticacionServicioImpl autenticacionServicio;
     private final JWTUtils jwtUtils;
 
 
-    public ModeradorServicioImpl(ModeradorRepo moderadorRepo, NegocioRepo negocioRepo, ClienteRepo clienteRepo, EmailServicioImpl emailServicioImpl, ClienteServicioImpl usuarioServicioImpl, JWTUtils jwtUtils) {
+    public ModeradorServicioImpl(ModeradorRepo moderadorRepo, NegocioRepo negocioRepo,
+                                 ClienteRepo clienteRepo, EmailServicioImpl emailServicioImpl, AutenticacionServicioImpl autenticacionServicio, JWTUtils jwtUtils) {
         this.moderadorRepo = moderadorRepo;
         this.negocioRepo = negocioRepo;
         this.clienteRepo = clienteRepo;
         this.emailServicioImpl = emailServicioImpl;
-        this.usuarioServicioImpl = usuarioServicioImpl;
+        this.autenticacionServicio=autenticacionServicio;
         this.jwtUtils = jwtUtils;
     }
 
-    // Método de inicialización para crear un moderador
     public void inicializarModerador(Moderador moderador) throws Exception {
 
         if(existeId(moderador.getCodigo())){
@@ -56,7 +56,7 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         String passwordEncriptada = passwordEncoder.encode(moderador.getPassword());
         moderador.setPassword(passwordEncriptada);
 
-        // Guardar el moderador en la base de datos
+
         moderadorRepo.save(moderador);
     }
 
@@ -69,15 +69,15 @@ public class ModeradorServicioImpl implements ModeradorServicio {
 
         Moderador moderador = obtenerModerador(idCuenta);
 
-        // Verificar si el moderador ya está inactivo
+
         if (moderador.getEstadoRegistro() == EstadoRegistro.INACTIVO) {
             throw new Exception("La cuenta ya está eliminada");
         }
 
-        // Cambiar el estado del moderador a inactivo
+
         moderador.setEstadoRegistro(EstadoRegistro.INACTIVO);
 
-        // Guardar el moderador actualizado en el repositorio
+
         moderadorRepo.save(moderador);
     }
 
@@ -91,13 +91,10 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         if (existeCuentaEliminada(actualizarModeradorDTO.codigo())) {
             throw new Exception("La cuenta ya ha sido eliminada");
         }
-        //Obtenemos el cliente que se quiere actualizar y le asignamos los nuevos valores (el
-        // nickname no se puede cambiar)
+
         moderador.setNombre(actualizarModeradorDTO.nombre());
         moderador.setEmail(actualizarModeradorDTO.email());
 
-        //Como el objeto cliente ya tiene un id, el save() no crea un nuevo registro sino que
-        // actualiza el que ya existe
         moderadorRepo.save(moderador);
     }
 
@@ -117,16 +114,16 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     }
     private boolean existeCuentaEliminada(String codigo) throws Exception {
         Optional<Moderador> optionalModerador = moderadorRepo.findById(codigo);
-        // Si no se encontró el cliente, lanzamos una excepción
+
         if (optionalModerador.isEmpty()) {
             throw new Exception("No se encontró el cliente con el id " + codigo);
         }
         Moderador moderador= optionalModerador.get();
-        // Verificamos si el estado del cliente es INACTIVO
+
         if (moderador.getEstadoRegistro() == EstadoRegistro.INACTIVO) {
-            return true; // La cuenta ha sido eliminada
+            return true;
         } else {
-            throw new Exception("La cuenta ya ha sido eliminada"); // La cuenta no ha sido eliminada
+            throw new Exception("La cuenta ya ha sido eliminada");
         }
     }
     @Override
@@ -142,9 +139,14 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     }
 
     @Override
-    public boolean aprobarNegocio(String codigoNegocio) throws Exception{
+    public boolean aprobarNegocio(String codigoNegocio, LoginDTO loginDTO) throws Exception{
         Optional<Negocio> negocioOptional = negocioRepo.findById(codigoNegocio);
 
+        // Verificar la autenticación del moderador
+        TokenDTO tokenDTO =autenticacionServicio.iniciarSesionModerador(loginDTO);
+        if(tokenDTO.token().isEmpty()){
+
+        }
         if (negocioOptional.isEmpty()){
             throw new Exception("El lugar no pudo ser encontrado");
         }

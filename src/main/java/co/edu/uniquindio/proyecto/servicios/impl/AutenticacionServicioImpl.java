@@ -57,4 +57,5 @@ public class AutenticacionServicioImpl implements AutenticacionServicio {
         map.put("id", moderador.getCodigo());
         return new TokenDTO( jwtUtils.generarToken(moderador.getEmail(), map) );
     }
+
 }

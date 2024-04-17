@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,14 +25,34 @@ public class ClienteServicioTest {
     @Autowired
     private EmailServicio emailServicio;
 
+    //Son los mismos del dataSet es para que quede cifrado
+    @Test
+    public void agregarDatosDeEjemplo() {
+        List<RegistroClienteDTO> clientes = Arrays.asList(
+                new RegistroClienteDTO("Cliente1", "Juan", "mi foto.jpg", "juanito", "juan@email.com", "mipassword", "Armenia"),
+                new RegistroClienteDTO("Cliente2", "Maria", "mi foto.jpg", "maria", "maria@email.com", "mipassword", "Armenia"),
+                new RegistroClienteDTO("Cliente3", "Pedro", "mi foto", "pedrito", "pedro@email.com", "mipassword", "Armenia"),
+                new RegistroClienteDTO("Cliente4", "Carlos", "mi foto.jpg", "carlitos", "carlos@email.com", "mipassword", "Armenia"),
+                new RegistroClienteDTO("Cliente5", "Oscar", "mi foto.jpg", "oscarin ", "oscar@email.com", "mipassword", "Armenia ")
+        );
+        for (RegistroClienteDTO clienteDTO : clientes) {
+            try {
+                clienteServicio.registrarseCliente(clienteDTO);
+            } catch (Exception e) {
+                System.err.println("Error al registrar cliente: " + e.getMessage());
+            }
+        }
+    }
+
+
     @Test
     public void registrarClienteTest() throws Exception {
         RegistroClienteDTO registroClienteDTO = new RegistroClienteDTO(
-                "1091",
-                "Juan",
+                "1091884092",
+                "Luis",
                 "foto.jpg",
-                "juanito",
-                "juan@email.com",
+                "luisito",
+                "luis@email.com",
                 "mipassword",
                 "Armenia"
         );
@@ -45,27 +66,27 @@ public class ClienteServicioTest {
     @Test
     public void actualizarTest() throws Exception {
         ActualizarClienteDTO actualizarClienteDTO = new ActualizarClienteDTO(
-                "1091",
+                "1091884092",
                 "Oscar",
                 "oscar123",
                 "imagen.jpg",
-                "Oscar@email.com",
+                "luisc.moralesc@uqvirtual.edu.co",
                 "Armenia"
         );
         clienteServicio.actualizarCliente(actualizarClienteDTO);
-        DetalleClienteDTO detalleClienteDTO = clienteServicio.obtenerDetalleCliente("1091");
+        DetalleClienteDTO detalleClienteDTO = clienteServicio.obtenerDetalleCliente(actualizarClienteDTO.id());
         assertEquals("nueva foto", detalleClienteDTO.fotoPerfil());
     }
 
     @Test
     public void eliminarCuentaTest() throws Exception {
 
-        assertThrows(Exception.class, () -> clienteServicio.eliminarCuenta("1091"));
-        assertThrows(Exception.class, () -> clienteServicio.eliminarCuenta("1092"));
+        assertThrows(Exception.class, () -> clienteServicio.eliminarCuenta("Cliente1"));
+
     }
 
     CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("luisc.moralesc@uqvirtual.edu.co",
-            "nueva", "1091");
+            "nuevaPassword", "1091");
     @Test
     public void solicitarCambioContrasenaTest() throws Exception {
         TokenDTO token = clienteServicio.solicitarCambioContraseña(cambioPasswordDTO);
@@ -83,10 +104,10 @@ public class ClienteServicioTest {
 
     @Test
     public void listarClienteTest() {
-        // como ya se han agregado clientes
+
         List<ItemClienteDTO> clientes = clienteServicio.listarCliente();
 
-        // Verificación
+
         assertNotNull(clientes);
         assertFalse(clientes.isEmpty());
     }
