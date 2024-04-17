@@ -32,9 +32,6 @@ public class ClienteServicioImpl implements ClienteServicio {
         this.clienteRepo = clienteRepo;
         this.jwtUtils = jwtUtils;
         this.emailServicioImpl=emailServicio;
-
-
-
         this.imagenesServicioImpl = imagenesServicioImpl;
     }
 
@@ -212,6 +209,11 @@ public class ClienteServicioImpl implements ClienteServicio {
         return items;
     }
 
+    @Override
+    public boolean editarPerfil(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
+        return false;
+    }
+
 
     //Validaciones
 
@@ -249,6 +251,12 @@ public class ClienteServicioImpl implements ClienteServicio {
         }
     }
 
+    /**
+     *
+     * @param actualizarClienteDTO
+     * @return
+     * @throws Exception
+
     @Override
     public boolean editarPerfil(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
         Optional<Cliente> clienteOptional = clienteRepo.findById(actualizarClienteDTO.id());
@@ -280,4 +288,5 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         return true;
     }
+     */
 }

@@ -12,7 +12,7 @@ public record RegistroClienteDTO (
         @Id
         String codigo,
         @NotBlank @Length(max = 100) String nombre,
-        @NotBlank Imagen fotoPerfil,
+        @NotBlank String fotoPerfil,
         @NotBlank String nickname,
         @NotBlank @Email String email,
         @NotBlank @Length(min = 5) String password,

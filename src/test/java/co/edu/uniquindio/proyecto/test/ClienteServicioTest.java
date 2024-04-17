@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.test;
 
 import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
+import co.edu.uniquindio.proyecto.modelo.Imagen;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
@@ -25,12 +26,10 @@ public class ClienteServicioTest {
 
     @Test
     public void registrarClienteTest() throws Exception {
-        // Creamos un objeto DTO para el cliente
-        //Se crea un objeto de tipo RegistroClienteDTO
         RegistroClienteDTO registroClienteDTO = new RegistroClienteDTO(
                 "1091",
                 "Juan",
-                "mi foto",
+                "foto.jpg",
                 "juanito",
                 "juan@email.com",
                 "mipassword",
@@ -49,7 +48,7 @@ public class ClienteServicioTest {
                 "1091",
                 "Oscar",
                 "oscar123",
-                "nueva foto",
+                "imagen.jpg",
                 "Oscar@email.com",
                 "Armenia"
         );

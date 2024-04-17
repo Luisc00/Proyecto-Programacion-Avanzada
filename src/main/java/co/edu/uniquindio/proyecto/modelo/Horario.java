@@ -18,4 +18,5 @@ public class Horario {
     private LocalTime horaInicio;
 
     private String dia;
+
 }

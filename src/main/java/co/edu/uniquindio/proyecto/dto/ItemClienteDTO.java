@@ -7,7 +7,7 @@ public record ItemClienteDTO (
 
     String nombre,
 
-    Imagen fotoPerfil,
+    String fotoPerfil,
 
     String nickname,
 

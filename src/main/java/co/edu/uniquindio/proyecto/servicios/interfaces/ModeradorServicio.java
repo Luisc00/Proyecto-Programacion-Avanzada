@@ -1,7 +1,9 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
 import co.edu.uniquindio.proyecto.dto.ActualizarModeradorDTO;
+import co.edu.uniquindio.proyecto.dto.CambioPasswordDTO;
 import co.edu.uniquindio.proyecto.dto.ItemModeradorDTO;
+import co.edu.uniquindio.proyecto.dto.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.modelo.Moderador;
 
@@ -16,4 +18,5 @@ public interface ModeradorServicio extends CuentaServicio{
     boolean aprobarNegocio(String codigoNegocio) throws Exception;
 
     boolean rechazarNegocio(String codigoNegocio, String mensaje) throws Exception;
+
 }

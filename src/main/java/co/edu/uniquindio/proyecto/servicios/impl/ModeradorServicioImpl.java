@@ -7,10 +7,13 @@ import co.edu.uniquindio.proyecto.repositorios.ModeradorRepo;
 import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ModeradorServicio;
 import co.edu.uniquindio.proyecto.utils.JWTUtils;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,15 +81,6 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         moderadorRepo.save(moderador);
     }
 
-    @Override
-    public TokenDTO solicitarCambioContraseña(CambioPasswordDTO cambioPasswordDTO) throws Exception {
-        return null;
-    }
-
-    @Override
-    public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO,TokenDTO tokenDTO) throws Exception {
-
-    }
 
     @Override
     public void actualizarModerador(ActualizarModeradorDTO actualizarModeradorDTO) throws Exception {
@@ -199,5 +193,54 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         }
         return true;
     }
+    @Override
+    public TokenDTO solicitarCambioContraseña(CambioPasswordDTO cambioPasswordDTO) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
 
+        if(!existeId(cambioPasswordDTO.id())){
+            throw new Exception("el moderador no existe");
+        }
+        if(existeCuentaEliminada(cambioPasswordDTO.id())){
+            throw new Exception("el moderador ya ha sido eliminado");
+        }
+        map.put("Rol","MODERADOR");
+        map.put("Id",cambioPasswordDTO.id());
+        map.put("email",cambioPasswordDTO.email());
+        TokenDTO token = new TokenDTO(jwtUtils.generarToken(cambioPasswordDTO.email(), map));
+
+        EmailDTO email = new EmailDTO("restablecer contraseña",
+                "Toque su link o copie su token: " + token, cambioPasswordDTO.email());
+        emailServicioImpl.enviarCorreo(email);
+
+        return token;
+    }
+
+    @Override
+    public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO, TokenDTO tokenDTO) throws Exception {
+        Optional<Moderador> moderadorOptional = moderadorRepo.findById(cambioPasswordDTO.id());
+        Moderador moderador = moderadorOptional.get();
+
+        if (!existeId(cambioPasswordDTO.id())) {
+            throw new Exception("el cliente no existe");
+        }
+        if (existeCuentaEliminada(cambioPasswordDTO.id())) {
+            throw new Exception("el cliente ha sido eliminado");
+        }
+        if (!existeEmail(cambioPasswordDTO.email())) {
+            throw new Exception("el email no existe");
+        }
+
+        String token = tokenDTO.token();
+        Jws<Claims> jwtClaims = jwtUtils.parseJwt(token);
+
+        String emailFromToken = (String) jwtClaims.getBody().get("email");
+        String idFromToken = (String) jwtClaims.getBody().get("Id");
+
+        if (emailFromToken.equals(moderador.getEmail()) && idFromToken.equals(cambioPasswordDTO.id())) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String passwordEncriptada = passwordEncoder.encode(cambioPasswordDTO.passwordNueva());
+            moderador.setPassword(passwordEncriptada);
+            moderadorRepo.save(moderador);
+        }
+    }
 }

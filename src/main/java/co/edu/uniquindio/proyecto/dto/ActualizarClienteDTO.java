@@ -1,14 +1,15 @@
 package co.edu.uniquindio.proyecto.dto;
 
 import co.edu.uniquindio.proyecto.modelo.Imagen;
+import jakarta.validation.constraints.NotBlank;
 
 public record ActualizarClienteDTO (
-        String id,
-        String nombre,
-        String nickname,
-        Imagen fotoPerfil,
-        String email,
-        String ciudadResidencia
+        @NotBlank String id,
+        @NotBlank String nombre,
+        @NotBlank String nickname,
+        @NotBlank String fotoPerfil,
+        @NotBlank String email,
+        @NotBlank String ciudadResidencia
 ) {
 
 

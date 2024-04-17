@@ -58,6 +58,22 @@ public class ModeradorServicioTest {
         assertThrows(Exception.class,()-> moderadorServicio.actualizarModerador(actualizarModeradorDTO));
 
     }
+    CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("luisc.moralesc@uqvirtual.edu.co",
+            "nueva", "1091");
+    @Test
+    public void solicitarCambioContrasenaTest() throws Exception {
+        TokenDTO token = moderadorServicio.solicitarCambioContraseña(cambioPasswordDTO);
+
+        assertNotNull(token);
+        assertNotNull(token.token());
+        assertFalse(token.token().isEmpty());
+    }
+    @Test
+    public void cambiarContrasenaTest() throws Exception {
+        TokenDTO token = new TokenDTO("eyJhbGciOiJIUzM4NCJ9.eyJJZCI6IjEwOTEiLCJSb2wiOiJDTElFTlRFIiwiZW1haWwiOiJsdWlzYy5tb3JhbGVzY0B1cXZpcnR1YWwuZWR1LmNvIiwic3ViIjoibHVpc2MubW9yYWxlc2NAdXF2aXJ0dWFsLmVkdS5jbyIsImlhdCI6MTcxMzA1NzIyOSwiZXhwIjoxNzEzMDYwODI5fQ.qb6hYG5bNru94WyoD-LVvEQjb0FvWfNUfwFA9Q2orLbuiPKWeJxpqKPuThmI2JSL");
+        ;
+        assertThrows(Exception.class, () -> moderadorServicio.cambiarContrasena(cambioPasswordDTO, token));
+    }
     @Test
     public void listarModeradores()throws Exception{
         List<ItemModeradorDTO> moderadores = moderadorServicio.listarModeradores();

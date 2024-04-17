@@ -8,9 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 public class Imagen {
-
     private String link;
     private String id;
-
 
 }

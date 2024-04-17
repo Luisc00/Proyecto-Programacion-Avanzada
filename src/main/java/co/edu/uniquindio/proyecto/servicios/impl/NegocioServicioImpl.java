@@ -2,21 +2,25 @@ package co.edu.uniquindio.proyecto.servicios.impl;
 
 import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.excepciones.ResourceNotFoundException;
-import co.edu.uniquindio.proyecto.modelo.EstadoNegocio;
-import co.edu.uniquindio.proyecto.modelo.Negocio;
-import co.edu.uniquindio.proyecto.modelo.TipoNegocio;
-import co.edu.uniquindio.proyecto.modelo.Ubicacion;
+import co.edu.uniquindio.proyecto.modelo.*;
+import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.NegocioServicio;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class NegocioServicioImpl implements NegocioServicio {
 
     NegocioRepo negocioRepo;
 
-    public NegocioServicioImpl(NegocioRepo negocioRepo) {
+    ClienteRepo clienteRepo;
+
+    public NegocioServicioImpl(NegocioRepo negocioRepo,ClienteRepo clienteRepo) {
         this.negocioRepo = negocioRepo;
+        this.clienteRepo = clienteRepo;
     }
 
     @Override
@@ -25,9 +29,17 @@ public class NegocioServicioImpl implements NegocioServicio {
                 negocioRepo.existsNegocioByCodigo(crearNegocioDTO.codigo())) {
             throw new Exception("El negocio ya existe") ;
         }
-        //Se crea el negocio
+        Optional<Cliente> cliente=clienteRepo.findById(crearNegocioDTO.codigoCliente());
+
+        if(cliente.isEmpty()){
+            throw new Exception("El cliente no existe");
+        }
+        Cliente cliente1=cliente.get();
+        if(cliente1.getRegistro()==EstadoRegistro.INACTIVO){
+            throw new Exception("El cliente ya ha sido eliminado");
+        }
+
         Negocio negocio = new Negocio();
-        //Se le asignan sus campos
         negocio.setNombre(crearNegocioDTO.nombre());
         negocio.setCodigo(crearNegocioDTO.codigo());
         negocio.setDescripcion(crearNegocioDTO.descripcion());
@@ -46,7 +58,7 @@ public class NegocioServicioImpl implements NegocioServicio {
     public void actualizarNegocio(ActualizarNegocioDTO actualizarNegocioDTO) throws ResourceNotFoundException {
         if(!negocioRepo.existsNegocioByCodigo(actualizarNegocioDTO.codigo())) {
             throw new ResourceNotFoundException("El negocio no existe");
-        }else{
+        }
             Negocio negocio = negocioRepo.findByCodigo(actualizarNegocioDTO.codigo()).get();
             negocio.setNombre(actualizarNegocioDTO.nombre());
             negocio.setDescripcion(actualizarNegocioDTO.descripcion());
@@ -56,7 +68,7 @@ public class NegocioServicioImpl implements NegocioServicio {
             negocio.setHorarios(actualizarNegocioDTO.horarios());
             negocio.setImagenes(actualizarNegocioDTO.imagenes());
             negocioRepo.save(negocio);
-        }
+
     }
 
     @Override

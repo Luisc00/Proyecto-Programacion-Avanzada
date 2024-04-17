@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-@Document("comentarios")
+@Document("Comentarios")
 @Getter
 @Setter
 @NoArgsConstructor
