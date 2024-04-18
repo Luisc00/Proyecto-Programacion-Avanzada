@@ -79,20 +79,14 @@ public class ClienteServicioImpl implements ClienteServicio {
     public void actualizarCliente(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
 
         Cliente cliente = obtenerCliente(actualizarClienteDTO.id());
-        if (existeEmail(actualizarClienteDTO.email())) {
-            throw new Exception("El correo ya se encuentra registrado");
-        }
         if (existeCuentaEliminada(actualizarClienteDTO.id())) {
             throw new Exception("La cuenta ya ha sido eliminada");
         }
-        //Obtenemos el cliente que se quiere actualizar y le asignamos los nuevos valores (el
-        // nickname no se puede cambiar)
+
         cliente.setNombre(actualizarClienteDTO.nombre());
         cliente.setFotoPerfil(actualizarClienteDTO.fotoPerfil());
         cliente.setCiudad(actualizarClienteDTO.ciudadResidencia());
-        cliente.setEmail(actualizarClienteDTO.email());
-        //Como el objeto cliente ya tiene un id, el save() no crea un nuevo registro sino que
-        // actualiza el que ya existe
+
         clienteRepo.save(cliente);
     }
 

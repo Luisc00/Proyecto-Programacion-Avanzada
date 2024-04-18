@@ -10,7 +10,7 @@ public record ItemComentarioDTO(
         @NotBlank String mensaje,
         int calificacion,
         @NotBlank LocalDate fecha,
-        @NotBlankString respuesta,
+        @NotBlank String respuesta,
         @NotBlank String codigoCliente,
         @NotBlank @Id String codigoNegocio
 ) {

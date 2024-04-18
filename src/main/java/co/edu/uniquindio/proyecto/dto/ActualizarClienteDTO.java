@@ -8,9 +8,7 @@ import org.springframework.data.annotation.Id;
 public record ActualizarClienteDTO (
         @NotBlank @Id String id,
         @NotBlank String nombre,
-        @NotBlank String nickname,
         @NotBlank String fotoPerfil,
-        @NotBlank @Email String email,
         @NotBlank String ciudadResidencia
 ) {
 

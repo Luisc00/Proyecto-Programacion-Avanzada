@@ -6,6 +6,6 @@ import jakarta.validation.constraints.Email;
 public record ItemModeradorDTO(
         @NotBlank @Id String codigo,
         @NotBlank String nombre,
-        String  @NotBlank @Email email
+        @NotBlank   String  email
 ) {
 }
