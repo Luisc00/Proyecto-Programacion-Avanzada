@@ -93,6 +93,11 @@ public class ModeradorServicioTest {
     public void aprobarNegocio() throws Exception {
         assertThrows(Exception.class, () -> moderadorServicio.aprobarNegocio("Negocio1"));
     }
+    @Test
+    public void recharNegocio() throws Exception {
+        RechazarNegocioDTO rechazarNegocioDTO = new RechazarNegocioDTO("Negocio1", "el negocio no sirve");
+        assertThrows(Exception.class, () -> moderadorServicio.rechazarNegocio(rechazarNegocioDTO));
+    }
 
 }
 
