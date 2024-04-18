@@ -9,8 +9,10 @@ import co.edu.uniquindio.proyecto.servicios.interfaces.ModeradorServicio;
 import co.edu.uniquindio.proyecto.utils.JWTUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class ModeradorServicioImpl implements ModeradorServicio {
 
     private final ModeradorRepo moderadorRepo;
@@ -27,16 +31,6 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     private final AutenticacionServicioImpl autenticacionServicio;
     private final JWTUtils jwtUtils;
 
-
-    public ModeradorServicioImpl(ModeradorRepo moderadorRepo, NegocioRepo negocioRepo,
-                                 ClienteRepo clienteRepo, EmailServicioImpl emailServicioImpl, AutenticacionServicioImpl autenticacionServicio, JWTUtils jwtUtils) {
-        this.moderadorRepo = moderadorRepo;
-        this.negocioRepo = negocioRepo;
-        this.clienteRepo = clienteRepo;
-        this.emailServicioImpl = emailServicioImpl;
-        this.autenticacionServicio=autenticacionServicio;
-        this.jwtUtils = jwtUtils;
-    }
 
     public void inicializarModerador(Moderador moderador) throws Exception {
 
@@ -139,14 +133,8 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     }
 
     @Override
-    public boolean aprobarNegocio(String codigoNegocio, LoginDTO loginDTO) throws Exception{
+    public void aprobarNegocio(String codigoNegocio) throws Exception{
         Optional<Negocio> negocioOptional = negocioRepo.findById(codigoNegocio);
-
-        // Verificar la autenticación del moderador
-        TokenDTO tokenDTO =autenticacionServicio.iniciarSesionModerador(loginDTO);
-        if(tokenDTO.token().isEmpty()){
-
-        }
         if (negocioOptional.isEmpty()){
             throw new Exception("El lugar no pudo ser encontrado");
         }
@@ -167,12 +155,11 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         }catch (Exception e){
             throw new Exception("Hubo un error con la base de datos");
         }
-        return true;
     }
 
     @Override
-    public boolean rechazarNegocio(String codigoNegocio, String mensaje) throws Exception{
-        Optional<Negocio> negocioOptional = negocioRepo.findById(codigoNegocio);
+    public boolean rechazarNegocio(RechazarNegocioDTO rechazarNegocioDTO) throws Exception{
+        Optional<Negocio> negocioOptional = negocioRepo.findById(rechazarNegocioDTO.codigoNegocio());
 
         if (negocioOptional.isEmpty()){
             throw new Exception("El lugar no pudo ser encontrado");

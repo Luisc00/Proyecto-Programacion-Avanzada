@@ -37,7 +37,4 @@ public class ImagenesServicioImpl implements ImagenesServicio {
         return file;
     }
 
-    public Map subirImagen(String s) {
-        return null;
-    }
 }

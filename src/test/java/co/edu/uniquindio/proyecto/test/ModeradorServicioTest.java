@@ -91,8 +91,7 @@ public class ModeradorServicioTest {
     }
     @Test
     public void aprobarNegocio() throws Exception {
-        LoginDTO loginDTO=new LoginDTO("luisc.morales@uqvirtual.edu.co","3");
-        assertThrows(Exception.class, () -> moderadorServicio.aprobarNegocio("Negocio1",loginDTO));
+        assertThrows(Exception.class, () -> moderadorServicio.aprobarNegocio("Negocio1"));
     }
 
 }

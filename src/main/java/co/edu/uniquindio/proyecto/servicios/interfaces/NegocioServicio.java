@@ -16,6 +16,8 @@ public interface NegocioServicio {
 
     void eliminarNegocio(String idNegocio) throws ResourceNotFoundException;
 
+    ItemNegocioDTO obtenerNegocioPorCodigo(String idNegocio) throws ResourceNotFoundException;
+    ItemNegocioDTO obtenerNegocioPorNombre(String nombre) throws ResourceNotFoundException;
     List<ItemNegocioDTO> filtrarPorEstado(EstadoNegocio estado);
     List<ItemNegocioDTO> filtrarPorUbicacion(Ubicacion ubicacion);
     List<ItemNegocioDTO> filtrarPorTipoNegocio(TipoNegocio tipoNegocio);
@@ -28,8 +30,6 @@ public interface NegocioServicio {
     List<ItemNegocioDTO> listarNegociosPropietario(String idPropietario);
 
     void cambiarEstado(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO);
-
-    void registrarRevision();
 
 
 

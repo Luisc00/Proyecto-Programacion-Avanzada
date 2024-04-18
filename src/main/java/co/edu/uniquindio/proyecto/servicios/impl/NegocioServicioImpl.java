@@ -6,22 +6,22 @@ import co.edu.uniquindio.proyecto.modelo.*;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.NegocioServicio;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class NegocioServicioImpl implements NegocioServicio {
 
-    NegocioRepo negocioRepo;
+    private final NegocioRepo negocioRepo;
 
-    ClienteRepo clienteRepo;
+    private final ClienteRepo clienteRepo;
 
-    public NegocioServicioImpl(NegocioRepo negocioRepo,ClienteRepo clienteRepo) {
-        this.negocioRepo = negocioRepo;
-        this.clienteRepo = clienteRepo;
-    }
 
     @Override
     public String crearNegocio(CrearNegocioDTO crearNegocioDTO) throws Exception{
@@ -75,6 +75,30 @@ public class NegocioServicioImpl implements NegocioServicio {
     public void eliminarNegocio(String idNegocio) throws ResourceNotFoundException {
         if(negocioRepo.existsById(idNegocio)){
             negocioRepo.deleteById(idNegocio);
+        }else{
+            throw new ResourceNotFoundException("El negocio no existe");
+        }
+    }
+
+    @Override
+    public ItemNegocioDTO obtenerNegocioPorCodigo(String idNegocio) throws ResourceNotFoundException {
+        if(negocioRepo.existsNegocioByCodigo(idNegocio)){
+            Negocio negocio = negocioRepo.findByCodigo(idNegocio).get();
+            return new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
+                    negocio.getDescripcion(), negocio.getUbicacion(),
+                    negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente());
+        }else{
+            throw new ResourceNotFoundException("El negocio no existe");
+        }
+    }
+
+    @Override
+    public ItemNegocioDTO obtenerNegocioPorNombre(String nombre) throws ResourceNotFoundException {
+        if(negocioRepo.existsNegocioByNombre(nombre)){
+            Negocio negocio = negocioRepo.findByNombre(nombre).get();
+            return new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
+                    negocio.getDescripcion(), negocio.getUbicacion(),
+                    negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente());
         }else{
             throw new ResourceNotFoundException("El negocio no existe");
         }
@@ -193,8 +217,4 @@ public class NegocioServicioImpl implements NegocioServicio {
         }
     }
 
-    @Override
-    public void registrarRevision() {
-
-    }
 }

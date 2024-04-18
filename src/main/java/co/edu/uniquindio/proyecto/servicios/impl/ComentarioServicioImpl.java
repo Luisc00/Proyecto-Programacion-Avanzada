@@ -1,28 +1,44 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
 
 import co.edu.uniquindio.proyecto.dto.CrearComentarioDTO;
-import co.edu.uniquindio.proyecto.dto.DetalleClienteDTO;
 import co.edu.uniquindio.proyecto.dto.ItemComentarioDTO;
+import co.edu.uniquindio.proyecto.dto.ResponderComentarioDTO;
+import co.edu.uniquindio.proyecto.excepciones.ResourceNotFoundException;
 import co.edu.uniquindio.proyecto.modelo.Comentario;
 import co.edu.uniquindio.proyecto.repositorios.ComentarioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ComentarioServicio;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
+@Transactional
 public class ComentarioServicioImpl implements ComentarioServicio {
 
     private final ComentarioRepo comentarioRepo;
-    private final ClienteServicioImpl clienteServicioImpl;
 
-    public ComentarioServicioImpl(ComentarioRepo comentarioRepo, ClienteServicioImpl clienteServicioImpl) {
-        this.comentarioRepo = comentarioRepo;
-        this.clienteServicioImpl = clienteServicioImpl;
+    @Override
+    public ItemComentarioDTO obtenerComentario(String codigo) throws Exception {
+        Optional<Comentario> comentarioOptional = comentarioRepo.findById(codigo);
+
+        if (comentarioOptional.isEmpty()) {
+            throw new Exception("El comentario no pudo ser encontrado");
+        }
+
+        Comentario comentario = comentarioOptional.get();
+        return new ItemComentarioDTO(comentario.getCodigo(), comentario.getMensaje(),
+                comentario.getCalificacion(), comentario.getFecha(),
+                comentario.getRespuesta(), comentario.getCodigoCliente(),
+                comentario.getCodigoNegocio());
     }
 
     @Override
-    public boolean crearComentario(CrearComentarioDTO crearComentarioDTO) throws Exception {
+    public String crearComentario(CrearComentarioDTO crearComentarioDTO) throws Exception {
 
         Comentario comentario = new Comentario();
         comentario.setCodigoNegocio(crearComentarioDTO.codigoNegocio());
@@ -37,48 +53,53 @@ public class ComentarioServicioImpl implements ComentarioServicio {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return true;
+        return comentario.getCodigo();
     }
 
     @Override
-    public boolean responderComentario(String idComentario, String respuesta) throws Exception {
-        Optional<Comentario> comentarioOptional = comentarioRepo.findById(idComentario);
+    public void responderComentario(ResponderComentarioDTO responderComentarioDTO) throws Exception {
+        Optional<Comentario> comentarioOptional = comentarioRepo.findById(responderComentarioDTO.codigoComentario());
 
         if (comentarioOptional.isEmpty()) {
             throw new Exception("El comentario no pudo ser encontrado");
         }
 
         Comentario comentario = comentarioOptional.get();
-        comentario.setRespuesta(respuesta);
+        comentario.setRespuesta(responderComentarioDTO.respuesta());
 
         try {
             comentarioRepo.save(comentario);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return true;
     }
 
     @Override
     public List<ItemComentarioDTO> listarComentariosNegocio(String codigoNegocio) throws Exception {
-            return null;
-    }
-
-    private String obtenerNombreUsuario(String codigoCliente){
-        DetalleClienteDTO cliente;
-        try {
-            cliente = clienteServicioImpl.obtenerDetalleCliente(codigoCliente);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        List<Comentario> comentarios = comentarioRepo.findByCodigoNegocio(codigoNegocio);
+        if (comentarios.isEmpty()) {
+            throw new ResourceNotFoundException("No se encontraron comentarios para el negocio con código " + codigoNegocio);
         }
-        return cliente.nombre();
+        List<ItemComentarioDTO> itemComentarioDTOS = new ArrayList<>();
+        for (Comentario comentario : comentarios) {
+            itemComentarioDTOS.add(new ItemComentarioDTO(comentario.getCodigo(), comentario.getMensaje(),
+                    comentario.getCalificacion(), comentario.getFecha(),comentario.getRespuesta(),comentario.getCodigoCliente(), comentario.getCodigoNegocio()));
+        }
+        return itemComentarioDTOS;
     }
 
 
     @Override
-    public int calcularPromedioCalificaciones(String codigoNegocio) throws Exception
-    {
-     return 0;
+    public float calcularPromedioCalificaciones(String codigoNegocio) throws Exception {
+        List<Comentario> comentarios = comentarioRepo.findByCodigoNegocio(codigoNegocio);
+        if (comentarios.isEmpty()) {
+            throw new ResourceNotFoundException("No se encontraron comentarios para el negocio con código " + codigoNegocio);
+        }
+        float promedio = 0;
+        for (Comentario comentario : comentarios) {
+            promedio += comentario.getCalificacion();
+        }
+        return promedio / comentarios.size();
     }
 
     @Override

@@ -9,6 +9,7 @@ import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.utils.JWTUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,21 +20,13 @@ import java.util.*;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ClienteServicioImpl implements ClienteServicio {
     private final ClienteRepo clienteRepo;
     private final JWTUtils jwtUtils;
 
     private final EmailServicioImpl emailServicioImpl;
 
-    private final ImagenesServicioImpl imagenesServicioImpl;
-
-
-    public ClienteServicioImpl(ClienteRepo clienteRepo, JWTUtils jwtUtils, EmailServicioImpl emailServicio, ImagenesServicioImpl imagenesServicioImpl) {
-        this.clienteRepo = clienteRepo;
-        this.jwtUtils = jwtUtils;
-        this.emailServicioImpl=emailServicio;
-        this.imagenesServicioImpl = imagenesServicioImpl;
-    }
 
     /**
      * Registrar Clientes
@@ -208,12 +201,6 @@ public class ClienteServicioImpl implements ClienteServicio {
         }
         return items;
     }
-
-    @Override
-    public boolean editarPerfil(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
-        return false;
-    }
-
 
     //Validaciones
 

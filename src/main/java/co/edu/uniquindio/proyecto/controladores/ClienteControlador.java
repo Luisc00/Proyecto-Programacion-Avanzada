@@ -38,7 +38,7 @@ public class ClienteControlador {
         );
     }
     @GetMapping("/obtener/{codigo}")
-    public ResponseEntity<MensajeDTO<DetalleClienteDTO>> obtenerCliente(@PathVariable String
+    public ResponseEntity<MensajeDTO<DetalleClienteDTO>> obtenerDetalleCliente(@PathVariable String
                                                                                 codigo) throws Exception{
         return ResponseEntity.ok().body( new MensajeDTO<>(false,
                 clienteServicio.obtenerDetalleCliente(codigo) ) );

@@ -1,12 +1,15 @@
 package co.edu.uniquindio.proyecto.dto;
 
+import java.time.LocalDate;
+
 public record ItemComentarioDTO(
 
         String codigo,
         String mensaje,
-        String calificacion,
-        String fecha,
+        int calificacion,
+        LocalDate fecha,
         String respuesta,
-        String fotoPerfilCliente
+        String codigoCliente,
+        String codigoNegocio
 ) {
 }
