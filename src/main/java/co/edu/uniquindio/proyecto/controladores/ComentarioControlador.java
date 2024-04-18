@@ -20,7 +20,7 @@ public class ComentarioControlador {
 
     private final ComentarioServicio comentarioServicio;
 
-    @PutMapping("/crear")
+    @PostMapping("/crear")
     public ResponseEntity<MensajeDTO<String>> crearComentario(@Valid @RequestBody
                                                               CrearComentarioDTO crearComentarioDTO)throws Exception{
         comentarioServicio.crearComentario(crearComentarioDTO);

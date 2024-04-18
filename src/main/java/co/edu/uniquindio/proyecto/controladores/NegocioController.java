@@ -20,7 +20,7 @@ public class NegocioController {
 
     private final NegocioServicio negocioServicio;
 
-    @PutMapping("crear")
+    @PostMapping("crear")
     public ResponseEntity<MensajeDTO<String>> crearNegocio(@Valid @RequestBody
                                                            CrearNegocioDTO crearNegocioDTO) throws Exception {
         negocioServicio.crearNegocio(crearNegocioDTO);

@@ -7,7 +7,7 @@ public record CrearComentarioDTO(
         @NotBlank String mensaje,
         @NotBlank @Id String codigo,
         @NotBlank String codigoCliente,
-        @NotBlank @Min(1) @Max(5) int calificacion,
+        @Min(1) @Max(5) int calificacion,
         @NotBlank String codigoNegocio,
         String respuesta
 ) {
