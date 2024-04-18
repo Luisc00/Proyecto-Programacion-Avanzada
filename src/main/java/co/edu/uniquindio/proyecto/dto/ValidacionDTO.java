@@ -1,7 +1,7 @@
 package co.edu.uniquindio.proyecto.dto;
-
+import jakarta.validation.constraints.NotBlank;
 public record ValidacionDTO(
-        String campo,
-        String error
+        @NotBlank String campo,
+        @NotBlank String error
 ) {
 }

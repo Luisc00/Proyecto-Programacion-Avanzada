@@ -3,14 +3,16 @@ package co.edu.uniquindio.proyecto.dto;
 import co.edu.uniquindio.proyecto.modelo.Ubicacion;
 
 import java.util.List;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
 
 public record ItemNegocioDTO(
-        String id,
-        String nombre,
-        String descripcion,
-        Ubicacion Ubicacion,
-        List<String> telefonos,
-        List<String> imagenes,
-        String codigoPropietario
+        @NotBlank @Id String id,
+        @NotBlank String nombre,
+        @NotBlank String descripcion,
+        @NotBlank Ubicacion Ubicacion,
+        @NotBlank List<String> telefonos,
+        @NotBlank List<String> imagenes,
+        @NotBlank String codigoPropietario
 ) {
 }

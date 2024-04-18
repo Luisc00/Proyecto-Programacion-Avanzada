@@ -1,15 +1,17 @@
 package co.edu.uniquindio.proyecto.dto;
 
 import java.time.LocalDate;
+import org.springframework.data.annotation.Id;
+import jakarta.validation.constraints.NotBlank;
 
 public record ItemComentarioDTO(
 
-        String codigo,
-        String mensaje,
+        @NotBlank @Id String codigo,
+        @NotBlank String mensaje,
         int calificacion,
-        LocalDate fecha,
-        String respuesta,
-        String codigoCliente,
-        String codigoNegocio
+        @NotBlank LocalDate fecha,
+        @NotBlankString respuesta,
+        @NotBlank String codigoCliente,
+        @NotBlank @Id String codigoNegocio
 ) {
 }

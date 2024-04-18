@@ -1,9 +1,10 @@
 package co.edu.uniquindio.proyecto.dto;
 
 import co.edu.uniquindio.proyecto.modelo.Ubicacion;
+import jakarta.validation.constraints.NotBlank;
 
 public record FiltrarPorNombreYUbicacionDTO(
-        String nombre,
-        Ubicacion ubicacion
+        @NotBlank String nombre,
+        @NotBlank Ubicacion ubicacion
 ) {
 }

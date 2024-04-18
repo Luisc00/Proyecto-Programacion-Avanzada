@@ -1,7 +1,9 @@
 package co.edu.uniquindio.proyecto.dto;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
 
 public record ImagenDTO(
-        String id,
-        String url
+        @NotBlank @Id String id,
+        @NotBlank String url
 ) {
 }

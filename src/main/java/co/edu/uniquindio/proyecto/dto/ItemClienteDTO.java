@@ -1,18 +1,19 @@
 package co.edu.uniquindio.proyecto.dto;
 import co.edu.uniquindio.proyecto.modelo.Imagen;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
 import lombok.*;
 
 public record ItemClienteDTO (
-        String codigo,
+        @NotBlank @Id String codigo,
 
-    String nombre,
+        @NotBlank String nombre,
 
-    String fotoPerfil,
+        @NotBlank String fotoPerfil,
 
-    String nickname,
+        @NotBlank String nickname,
 
-    String ciudad
+        @NotBlank String ciudad
 ){
 
 }
