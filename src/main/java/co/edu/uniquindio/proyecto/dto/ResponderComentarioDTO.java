@@ -1,8 +1,10 @@
 package co.edu.uniquindio.proyecto.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
+
 public record ResponderComentarioDTO(
-        String codigoComentario,
-        String respuesta
+        @NotBlank String codigoComentario,
+        @NotBlank String respuesta
 ) {
 }

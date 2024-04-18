@@ -75,7 +75,7 @@ public class ClienteServicioTest {
         );
         clienteServicio.actualizarCliente(actualizarClienteDTO);
         DetalleClienteDTO detalleClienteDTO = clienteServicio.obtenerDetalleCliente(actualizarClienteDTO.id());
-        assertEquals("nueva foto", detalleClienteDTO.fotoPerfil());
+        assertEquals("imagen.jpg", detalleClienteDTO.fotoPerfil());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class ClienteServicioTest {
     }
 
     CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("luisc.moralesc@uqvirtual.edu.co",
-            "nuevaPassword", "1091");
+            "nuevaPassword", "1091884092");
     @Test
     public void solicitarCambioContrasenaTest() throws Exception {
         TokenDTO token = clienteServicio.solicitarCambioContraseña(cambioPasswordDTO);

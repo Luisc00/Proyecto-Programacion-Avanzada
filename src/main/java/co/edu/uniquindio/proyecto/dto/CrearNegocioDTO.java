@@ -4,11 +4,12 @@ import co.edu.uniquindio.proyecto.modelo.Horario;
 import co.edu.uniquindio.proyecto.modelo.TipoNegocio;
 import co.edu.uniquindio.proyecto.modelo.Ubicacion;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
 public record CrearNegocioDTO(
-        @NotBlank String codigo,
+        @NotBlank @Id String codigo,
         @NotBlank String nombre,
         @NotBlank String descripcion,
         @NotBlank Ubicacion ubicacion,

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 public record EmailDTO(
-        String asunto,
+        @NotBlank String asunto,
         String cuerpo,
         @NotBlank String destinatario) {
 }

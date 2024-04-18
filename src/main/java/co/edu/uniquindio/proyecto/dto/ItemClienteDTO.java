@@ -1,9 +1,10 @@
 package co.edu.uniquindio.proyecto.dto;
 import co.edu.uniquindio.proyecto.modelo.Imagen;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 public record ItemClienteDTO (
-    String codigo,
+        String codigo,
 
     String nombre,
 
