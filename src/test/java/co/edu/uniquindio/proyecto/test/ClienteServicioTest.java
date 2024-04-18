@@ -68,9 +68,7 @@ public class ClienteServicioTest {
         ActualizarClienteDTO actualizarClienteDTO = new ActualizarClienteDTO(
                 "1091884092",
                 "Oscar",
-                "oscar123",
                 "imagen.jpg",
-                "luisc.moralesc@uqvirtual.edu.co",
                 "Armenia"
         );
         clienteServicio.actualizarCliente(actualizarClienteDTO);
