@@ -6,9 +6,9 @@ import co.edu.uniquindio.proyecto.dto.TokenDTO;
 
 public interface CuentaServicio {
     void eliminarCuenta(String idCuenta)throws Exception;
-    TokenDTO solicitarCambioContraseña(CambioPasswordDTO cambioPasswordDTO)throws Exception;
 
-    void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO,TokenDTO tokenDTO)throws Exception;
+
+    void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO)throws Exception;
 
 
 }

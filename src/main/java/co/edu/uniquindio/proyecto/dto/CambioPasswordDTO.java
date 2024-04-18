@@ -6,9 +6,6 @@ import org.springframework.data.annotation.Id;
 
 public record CambioPasswordDTO(
         @NotBlank @Email String email,
-        @NotBlank String passwordNueva,
-        @NotBlank @Id String id
-
-
+        @NotBlank String passwordNueva
 ) {
 }

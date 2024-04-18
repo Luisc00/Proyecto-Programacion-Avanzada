@@ -84,20 +84,11 @@ public class ClienteServicioTest {
     }
 
     CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("luisc.moralesc@uqvirtual.edu.co",
-            "nuevaPassword", "1091884092");
-    @Test
-    public void solicitarCambioContrasenaTest() throws Exception {
-        TokenDTO token = clienteServicio.solicitarCambioContraseña(cambioPasswordDTO);
+            "nuevaPassword");
 
-        assertNotNull(token);
-        assertNotNull(token.token());
-        assertFalse(token.token().isEmpty());
-    }
     @Test
     public void cambiarContrasenaTest() throws Exception {
-        TokenDTO token = new TokenDTO("eyJhbGciOiJIUzM4NCJ9.eyJJZCI6IjEwOTEiLCJSb2wiOiJDTElFTlRFIiwiZW1haWwiOiJsdWlzYy5tb3JhbGVzY0B1cXZpcnR1YWwuZWR1LmNvIiwic3ViIjoibHVpc2MubW9yYWxlc2NAdXF2aXJ0dWFsLmVkdS5jbyIsImlhdCI6MTcxMzA1NzIyOSwiZXhwIjoxNzEzMDYwODI5fQ.qb6hYG5bNru94WyoD-LVvEQjb0FvWfNUfwFA9Q2orLbuiPKWeJxpqKPuThmI2JSL");
-        ;
-        assertThrows(Exception.class, () -> clienteServicio.cambiarContrasena(cambioPasswordDTO, token));
+        assertThrows(Exception.class, () -> clienteServicio.cambiarContrasena(cambioPasswordDTO));
     }
 
     @Test

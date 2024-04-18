@@ -182,54 +182,28 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         }
         return true;
     }
-    @Override
-    public TokenDTO solicitarCambioContraseña(CambioPasswordDTO cambioPasswordDTO) throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
-
-        if(!existeId(cambioPasswordDTO.id())){
-            throw new Exception("el moderador no existe");
-        }
-        if(existeCuentaEliminada(cambioPasswordDTO.id())){
-            throw new Exception("el moderador ya ha sido eliminado");
-        }
-        map.put("Rol","MODERADOR");
-        map.put("Id",cambioPasswordDTO.id());
-        map.put("email",cambioPasswordDTO.email());
-        TokenDTO token = new TokenDTO(jwtUtils.generarToken(cambioPasswordDTO.email(), map));
-
-        EmailDTO email = new EmailDTO("restablecer contraseña",
-                "Toque su link o copie su token: " + token, cambioPasswordDTO.email());
-        emailServicioImpl.enviarCorreo(email);
-
-        return token;
-    }
 
     @Override
-    public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO, TokenDTO tokenDTO) throws Exception {
-        Optional<Moderador> moderadorOptional = moderadorRepo.findById(cambioPasswordDTO.id());
-        Moderador moderador = moderadorOptional.get();
+    public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
+        Optional<Cliente> clienteOptional = clienteRepo.findByEmail(cambioPasswordDTO.email());
 
-        if (!existeId(cambioPasswordDTO.id())) {
+        if(clienteOptional.isEmpty()){
             throw new Exception("el cliente no existe");
         }
-        if (existeCuentaEliminada(cambioPasswordDTO.id())) {
-            throw new Exception("el cliente ha sido eliminado");
+        Cliente cliente=clienteOptional.get();
+
+        if (existeCuentaEliminada(cliente.getCodigo())) {
+            throw new Exception("El cliente ha sido eliminado");
         }
+
         if (!existeEmail(cambioPasswordDTO.email())) {
-            throw new Exception("el email no existe");
+            throw new Exception("El email no existe");
         }
 
-        String token = tokenDTO.token();
-        Jws<Claims> jwtClaims = jwtUtils.parseJwt(token);
-
-        String emailFromToken = (String) jwtClaims.getBody().get("email");
-        String idFromToken = (String) jwtClaims.getBody().get("Id");
-
-        if (emailFromToken.equals(moderador.getEmail()) && idFromToken.equals(cambioPasswordDTO.id())) {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String passwordEncriptada = passwordEncoder.encode(cambioPasswordDTO.passwordNueva());
-            moderador.setPassword(passwordEncriptada);
-            moderadorRepo.save(moderador);
-        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String passwordEncriptada = passwordEncoder.encode(cambioPasswordDTO.passwordNueva());
+        cliente.setPassword(passwordEncriptada);
+        clienteRepo.save(cliente);
     }
+
 }

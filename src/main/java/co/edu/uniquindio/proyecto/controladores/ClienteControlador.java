@@ -49,4 +49,10 @@ public class ClienteControlador {
         return ResponseEntity.ok().body( new MensajeDTO<>(false, clienteServicio.listarCliente())
         );
     }
+    @PutMapping("/cambiar-contrasena")
+    public ResponseEntity<MensajeDTO<String>> cambiarContrasena(@Valid @RequestBody
+                                                                CambioPasswordDTO cambioPasswordDTO)throws Exception{
+        clienteServicio.cambiarContrasena(cambioPasswordDTO);
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, "Contraseña cambiada correctamente") );
+    }
 }

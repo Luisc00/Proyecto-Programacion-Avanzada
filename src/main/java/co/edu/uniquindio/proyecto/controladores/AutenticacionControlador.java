@@ -1,9 +1,6 @@
 package co.edu.uniquindio.proyecto.controladores;
 
-import co.edu.uniquindio.proyecto.dto.LoginDTO;
-import co.edu.uniquindio.proyecto.dto.MensajeDTO;
-import co.edu.uniquindio.proyecto.dto.RegistroClienteDTO;
-import co.edu.uniquindio.proyecto.dto.TokenDTO;
+import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.servicios.interfaces.AutenticacionServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import jakarta.validation.Valid;
@@ -32,11 +29,18 @@ public class AutenticacionControlador {
         TokenDTO tokenDTO = autenticacionServicio.iniciarSesionModerador(loginDTO);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, tokenDTO));
     }
+
     @PostMapping("/registrar-cliente")
     public ResponseEntity<MensajeDTO<String>> registrarCliente(@Valid @RequestBody
                                                                RegistroClienteDTO registroClienteDTO)throws Exception{
         clienteServicio.registrarseCliente(registroClienteDTO);
         return ResponseEntity.ok().body( new MensajeDTO<>(false, "Cliente registrado correctamente")
         );
+    }
+    @PostMapping("/solicitar-cambio-contrasena")
+    public ResponseEntity<MensajeDTO<TokenDTO>> solicitarCambioContrasena(@Valid @RequestBody
+                                                                          SolicitudDTO solicitudDTO) throws Exception {
+        TokenDTO tokenDTO = autenticacionServicio.solicitarCambioContrasena(solicitudDTO);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, tokenDTO));
     }
 }

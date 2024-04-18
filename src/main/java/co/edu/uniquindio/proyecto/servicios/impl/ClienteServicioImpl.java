@@ -135,56 +135,30 @@ public class ClienteServicioImpl implements ClienteServicio {
         clienteRepo.save(cliente);
     }
 
-    @Override
-    public TokenDTO solicitarCambioContraseña(CambioPasswordDTO cambioPasswordDTO) throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
 
-        if(!existeId(cambioPasswordDTO.id())){
-            throw new Exception("el cliente no existe");
-        }
-        if(existeCuentaEliminada(cambioPasswordDTO.id())){
-            throw new Exception("el cliente ya ha sido eliminado");
-        }
-        map.put("Rol","CLIENTE");
-        map.put("Id",cambioPasswordDTO.id());
-        map.put("email",cambioPasswordDTO.email());
-        TokenDTO token = new TokenDTO(jwtUtils.generarToken(cambioPasswordDTO.email(), map));
-
-        EmailDTO email = new EmailDTO("restablecer contraseña",
-                "Toque su link o copie su token: " + token, cambioPasswordDTO.email());
-        emailServicioImpl.enviarCorreo(email);
-
-        return token;
-    }
 
     @Override
-    public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO, TokenDTO tokenDTO) throws Exception {
-        Optional<Cliente> clienteOptional = clienteRepo.findById(cambioPasswordDTO.id());
-        Cliente cliente = clienteOptional.get();
+    public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
+    Optional<Cliente> clienteOptional = clienteRepo.findByEmail(cambioPasswordDTO.email());
 
-        if(!existeId(cambioPasswordDTO.id())){
-            throw new Exception("el cliente no existe");
-        }
-        if(existeCuentaEliminada(cambioPasswordDTO.id())){
-            throw new Exception("el cliente ha sido eliminado");
-        }
-        if(!existeEmail(cambioPasswordDTO.email())){
-            throw new Exception("el email no existe");
-        }
-
-        String token = tokenDTO.token();
-        Jws<Claims> jwtClaims = jwtUtils.parseJwt(token);
-
-        String emailFromToken =(String) jwtClaims.getBody().get("email");
-        String idFromToken = (String) jwtClaims.getBody().get("Id");
-
-        if (emailFromToken.equals(cliente.getEmail()) && idFromToken.equals(cambioPasswordDTO.id())) {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String passwordEncriptada = passwordEncoder.encode(cambioPasswordDTO.passwordNueva());
-            cliente.setPassword(passwordEncriptada);
-            clienteRepo.save(cliente);
-            }
+    if(clienteOptional.isEmpty()){
+        throw new Exception("el cliente no existe");
     }
+    Cliente cliente=clienteOptional.get();
+
+    if (existeCuentaEliminada(cliente.getCodigo())) {
+        throw new Exception("El cliente ha sido eliminado");
+    }
+
+    if (!existeEmail(cambioPasswordDTO.email())) {
+        throw new Exception("El email no existe");
+    }
+
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String passwordEncriptada = passwordEncoder.encode(cambioPasswordDTO.passwordNueva());
+    cliente.setPassword(passwordEncriptada);
+    clienteRepo.save(cliente);
+}
 
     @Override
     public List<ItemClienteDTO> listarCliente() {

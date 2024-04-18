@@ -1,8 +1,7 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
-import co.edu.uniquindio.proyecto.dto.CambioPasswordDTO;
-import co.edu.uniquindio.proyecto.dto.LoginDTO;
-import co.edu.uniquindio.proyecto.dto.TokenDTO;
+import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
+import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.modelo.Moderador;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.repositorios.ModeradorRepo;
@@ -22,6 +21,7 @@ public class AutenticacionServicioImpl implements AutenticacionServicio {
     private final ClienteRepo clienteRepo;
     private final ModeradorRepo moderadorRepo;
     private final JWTUtils jwtUtils;
+    private final EmailServicioImpl emailServicioImp;
     @Override
     public TokenDTO iniciarSesionCliente(LoginDTO loginDTO) throws Exception {
         Optional<Cliente> clienteOptional = clienteRepo.findByEmail(loginDTO.email());
@@ -57,5 +57,29 @@ public class AutenticacionServicioImpl implements AutenticacionServicio {
         map.put("id", moderador.getCodigo());
         return new TokenDTO( jwtUtils.generarToken(moderador.getEmail(), map) );
     }
+    @Override
+    public TokenDTO solicitarCambioContrasena(SolicitudDTO solicitudDTO) throws Exception {
+        Optional<Cliente> clienteOptional = clienteRepo.findByEmail(solicitudDTO.email());
 
+        if (clienteOptional.isEmpty()) {
+            throw new Exception("El correo no se encuentra registrado");
+        }
+        Cliente cliente = clienteOptional.get();
+
+        if (cliente.getRegistro() == EstadoRegistro.INACTIVO) {
+            throw new Exception("El cliente ya ha sido eliminado");
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("Rol", "CLIENTE");
+        map.put("Id", cliente.getCodigo());
+        map.put("email", cliente.getEmail());
+        TokenDTO token = new TokenDTO(jwtUtils.generarToken(cliente.getEmail(), map));
+
+        EmailDTO emailDTO = new EmailDTO("Restablecer contraseña",
+                "Toque su link o copie su token: " + token, solicitudDTO.email());
+        emailServicioImp.enviarCorreo(emailDTO);
+
+        return token;
+    }
 }
