@@ -38,12 +38,12 @@ public class NegocioController {
         negocioServicio.eliminarNegocio(idNegocio);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Negocio eliminado correctamente"));
     }
-    @GetMapping("obtener/{idNegocio}")
+    @GetMapping("obtener-por-id/{idNegocio}")
     public ResponseEntity<MensajeDTO<ItemNegocioDTO>> obtenerNegocioPorCodigo(@Valid @PathVariable String idNegocio) throws
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.obtenerNegocioPorCodigo(idNegocio)));
     }
-    @GetMapping("obtener/{nombre}")
+    @GetMapping("obtener-por-nombre/{nombre}")
     public ResponseEntity<MensajeDTO<ItemNegocioDTO>> obtenerNegocioPorNombre(@Valid @PathVariable String nombre) throws
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.obtenerNegocioPorNombre(nombre)));
