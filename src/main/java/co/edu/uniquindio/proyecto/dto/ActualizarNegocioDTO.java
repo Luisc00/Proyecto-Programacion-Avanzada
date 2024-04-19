@@ -12,11 +12,11 @@ public record ActualizarNegocioDTO(
         @NotBlank @Id String codigo,
         @NotBlank String nombre,
         @NotBlank String descripcion,
-        @NotBlank Ubicacion ubicacion,
-        @NotBlank List<String> imagenes,
-        @NotBlank TipoNegocio tipoNegocio,
+        Ubicacion ubicacion,
+        List<String> imagenes,
+        TipoNegocio tipoNegocio,
         @NotBlank String codigoCliente,
-        @NotBlank List<Horario> horarios,
-        @NotBlank List<String> telefonos
+        List<Horario> horarios,
+        List<String> telefonos
 ) {
 }
