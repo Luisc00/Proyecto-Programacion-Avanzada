@@ -7,10 +7,7 @@ import co.edu.uniquindio.proyecto.servicios.interfaces.ModeradorServicio;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/moderador")
@@ -23,6 +20,13 @@ public class ModeradorControlador{
     public ResponseEntity<MensajeDTO<String>> actualizarModerador(@Valid @RequestBody ActualizarModeradorDTO actualizarModeradorDTO) throws Exception {
         moderadorServicio.actualizarModerador(actualizarModeradorDTO);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Moderador actualizado correctamente"));
+    }
+    @DeleteMapping("/eliminar/{codigo}")
+    public ResponseEntity<MensajeDTO<String>> eliminarCuenta(@PathVariable String codigo)throws
+            Exception{
+        moderadorServicio.eliminarCuenta(codigo);
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, "Moderador eliminado")
+        );
     }
     @PutMapping("/aprobar-negocio")
     public ResponseEntity<MensajeDTO<String>> aprobarNegocio(@Valid @RequestBody CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws Exception {
