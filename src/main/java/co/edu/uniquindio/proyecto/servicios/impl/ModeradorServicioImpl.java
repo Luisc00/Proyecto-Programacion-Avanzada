@@ -150,7 +150,8 @@ public class ModeradorServicioImpl implements ModeradorServicio {
          historialRevision.setCodigoModerador(cambiarEstadoNegocioDTO.idModerador());
          historialRevision.setEstadoNegocio(EstadoNegocio.APROBADO);
          historialRevision.setFecha(LocalTime.now());
-         
+
+         negocio.setEstadoNegocio(EstadoNegocio.APROBADO);
          negocio.getHistorialRevisiones().add(historialRevision);
 
          try {
@@ -186,6 +187,7 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         historialRevision.setEstadoNegocio(EstadoNegocio.RECHAZADO);
         historialRevision.setFecha(LocalTime.now());
 
+        negocio.setEstadoNegocio(EstadoNegocio.RECHAZADO);
         negocio.getHistorialRevisiones().add(historialRevision);
 
         try {
