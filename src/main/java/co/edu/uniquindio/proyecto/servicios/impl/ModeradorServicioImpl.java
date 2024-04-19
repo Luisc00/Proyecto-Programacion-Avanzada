@@ -148,27 +148,20 @@ public class ModeradorServicioImpl implements ModeradorServicio {
          HistorialRevision historialRevision = new HistorialRevision();
          historialRevision.setDescripcion(cambiarEstadoNegocioDTO.mensaje());
          historialRevision.setCodigoModerador(cambiarEstadoNegocioDTO.idModerador());
-<<<<<<< Updated upstream
          historialRevision.setEstadoNegocio(EstadoNegocio.APROBADO);
+         historialRevision.setFecha(LocalTime.now());
          
-         try {
-         historialRevision.setFecha(LocalTime.now());
-         negocioRepo.save(negocio);
-            emailServicioImpl.enviarCorreo(new EmailDTO("Lugar Aprobado",
-=======
-         historialRevision.setEstadoNegocio(EstadoNegocio.RECHAZADO);
-         historialRevision.setFecha(LocalTime.now());
-
          negocio.getHistorialRevisiones().add(historialRevision);
 
          try {
              negocioRepo.save(negocio);
              emailServicioImpl.enviarCorreo(new EmailDTO("Lugar Aprobado",
->>>>>>> Stashed changes
+
                     "Tu lugar ha sido aprovado en Unilical, felicitaciones!", cliente.getEmail()));
         }catch (Exception e){
             throw new Exception("Hubo un error con la base de datos");
         }
+
     }
 
     @Override
