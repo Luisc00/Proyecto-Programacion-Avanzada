@@ -1,13 +1,13 @@
 package co.edu.uniquindio.proyecto.controladores;
 
-import co.edu.uniquindio.proyecto.dto.ActualizarModeradorDTO;
-import co.edu.uniquindio.proyecto.dto.CambiarEstadoNegocioDTO;
-import co.edu.uniquindio.proyecto.dto.MensajeDTO;
+import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ModeradorServicio;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/moderador")
@@ -37,5 +37,10 @@ public class ModeradorControlador{
     public ResponseEntity<MensajeDTO<String>> rechazarNegocio(@Valid @RequestBody CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws Exception {
         moderadorServicio.rechazarNegocio(cambiarEstadoNegocioDTO);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Negocio rechazado correctamente"));
+    }
+    @GetMapping("/listar-todos")
+    public ResponseEntity<MensajeDTO<List<ItemModeradorDTO>>> listarClientes(){
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, moderadorServicio.listarModeradores())
+        );
     }
 }
