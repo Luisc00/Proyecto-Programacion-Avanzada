@@ -102,7 +102,7 @@ public class ComentarioServicioImpl implements ComentarioServicio {
     public float calcularPromedioCalificaciones(String codigoNegocio) throws Exception {
         List<Comentario> comentarios = comentarioRepo.findByCodigoNegocio(codigoNegocio);
         if (comentarios.isEmpty()) {
-            throw new ResourceNotFoundException("No se encontraron comentarios para el negocio con código " + codigoNegocio);
+            return 0;
         }
         float promedio = 0;
         for (Comentario comentario : comentarios) {

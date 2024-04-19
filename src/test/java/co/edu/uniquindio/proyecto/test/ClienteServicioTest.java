@@ -79,7 +79,7 @@ public class ClienteServicioTest {
     @Test
     public void eliminarCuentaTest() throws Exception {
 
-        assertThrows(Exception.class, () -> clienteServicio.eliminarCuenta("Cliente1"));
+        assertThrows(Exception.class, () -> clienteServicio.eliminarCuenta("Cliente0"));
 
     }
 

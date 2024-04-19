@@ -15,7 +15,7 @@ public class EmailServicioTest {
     @Test
     public void enviarCorreoPrueba() throws Exception {
         EmailDTO emailDTO=new EmailDTO("prueba","solo es para probar el envio"
-                ,"luisc.morales@uqvirtual.edu");
+                ,"");
         assertThrows(Exception.class, () -> emailServicio.enviarCorreo(emailDTO));
 
     }

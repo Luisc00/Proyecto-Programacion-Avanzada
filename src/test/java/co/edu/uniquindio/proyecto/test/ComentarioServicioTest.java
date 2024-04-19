@@ -21,10 +21,10 @@ public class ComentarioServicioTest {
     public void registrarComentarioTest() throws Exception {
         CrearComentarioDTO crearComentarioDTO = new CrearComentarioDTO(
                 "mensaje",
-                "codigoNegocio",
-                "codigoCliente",
+                "000000",
+                "1091884092",
                 5,
-                "codigoNegocio",
+                "000001",
                 "respuesta"
         );
         String codigo = comentarioServicioImpl.crearComentario(crearComentarioDTO);

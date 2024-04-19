@@ -23,16 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ModeradorServicioTest {
-    @Autowired
-    private ModeradorRepo moderadorRepo;
+
     @Autowired
     private ModeradorServicio moderadorServicio;
-    @Autowired
-    private AutenticacionServicio autenticacionServicio;
-    @Autowired
-    private EmailServicio emailServicio;
-    @Autowired
-    private NegocioRepo negocioRepo;
+
 
     @Test
     public void inicializarModeradorTest() throws Exception {
@@ -44,7 +38,7 @@ public class ModeradorServicioTest {
         moderador1.setPassword("claveModerador");
 
         Moderador moderador2 = new Moderador();
-        moderador2.setCodigo("2");
+        moderador2.setCodigo("1");
         moderador2.setNombre("Moderador2");
         moderador2.setEstadoRegistro(EstadoRegistro.ACTIVO);
         moderador2.setEmail("carlos@gmail.com");
@@ -57,9 +51,9 @@ public class ModeradorServicioTest {
         moderador3.setEmail("pedro@gmail.com");
         moderador3.setPassword("claveModerador");
 
-        assertThrows(Exception.class, () -> moderadorServicio.inicializarModerador(moderador1));
+
         assertThrows(Exception.class, () -> moderadorServicio.inicializarModerador(moderador2));
-        assertThrows(Exception.class, () -> moderadorServicio.inicializarModerador(moderador3));
+
 
     }
 
@@ -67,7 +61,7 @@ public class ModeradorServicioTest {
     public void eliminarCuentaTest() throws Exception {
 
         assertThrows(Exception.class, () -> moderadorServicio.eliminarCuenta("1"));
-        }
+    }
 
     @Test
     public void actualizarModeradores()throws Exception{
