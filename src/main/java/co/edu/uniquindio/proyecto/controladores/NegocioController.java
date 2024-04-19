@@ -38,12 +38,12 @@ public class NegocioController {
         negocioServicio.eliminarNegocio(idNegocio);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Negocio eliminado correctamente"));
     }
-    @GetMapping("obtener/{idNegocio}")
+    @GetMapping("obtener-por-id/{idNegocio}")
     public ResponseEntity<MensajeDTO<ItemNegocioDTO>> obtenerNegocioPorCodigo(@Valid @PathVariable String idNegocio) throws
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.obtenerNegocioPorCodigo(idNegocio)));
     }
-    @GetMapping("obtener/{nombre}")
+    @GetMapping("obtener-por-nombre/{nombre}")
     public ResponseEntity<MensajeDTO<ItemNegocioDTO>> obtenerNegocioPorNombre(@Valid @PathVariable String nombre) throws
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.obtenerNegocioPorNombre(nombre)));
@@ -52,11 +52,6 @@ public class NegocioController {
     public ResponseEntity<MensajeDTO<List<ItemNegocioDTO>>> filtrarPorEstado(@Valid @PathVariable EstadoNegocio estado) throws
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.filtrarPorEstado(estado)));
-    }
-    @GetMapping("filtrar-por-ubicacion/{ubicacion}")
-    public ResponseEntity<MensajeDTO<List<ItemNegocioDTO>>> filtrarPorUbicacion(@Valid @PathVariable Ubicacion ubicacion) throws
-            Exception {
-        return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.filtrarPorUbicacion(ubicacion)));
     }
     @GetMapping("filtrar-por-tipo-negocio/{tipoNegocio}")
     public ResponseEntity<MensajeDTO<List<ItemNegocioDTO>>> filtrarPorTipoNegocio(@Valid @PathVariable TipoNegocio tipoNegocio) throws
