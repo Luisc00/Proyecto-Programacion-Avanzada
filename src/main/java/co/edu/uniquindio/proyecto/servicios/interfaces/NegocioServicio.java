@@ -25,9 +25,13 @@ public interface NegocioServicio {
     List<ItemNegocioDTO> filtrarPorNombreYTipoNegocio(FiltrarNombreYTIpoDTO filtrarNombreYTIpoDTO);
     List<ItemNegocioDTO> filtrarPorNombreYUbicacion(FiltrarPorNombreYUbicacionDTO filtrarPorNombreYUbicacionDTO);
     List<ItemNegocioDTO> filtrarPorNombreYTipoNegocioYUbicacion(FiltrarPorNombreYTipoYUbicacionDTO filtrarPorNombreYTipoYUbicacionDTO);
-
-
     List<ItemNegocioDTO> listarNegociosPropietario(String idPropietario);
+
+    //Adicional, listar los mejores 5 negocios
+    List<ItemNegocioDTO> listarMejoresNegocios();
+
+    //Top 5 por categoria
+    List<ItemNegocioDTO> listarTop5PorCategoria(TipoNegocio tipoNegocio);
     
 
 

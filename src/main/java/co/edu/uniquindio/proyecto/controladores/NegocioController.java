@@ -83,5 +83,15 @@ public class NegocioController {
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.listarNegociosPropietario(idPropietario)));
     }
+    @GetMapping("listar-mejores-negocios")
+    public ResponseEntity<MensajeDTO<List<ItemNegocioDTO>>> listarMejoresNegocios() throws
+            Exception {
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.listarMejoresNegocios()));
+    }
+    @GetMapping("listar-top-5-por-categoria/{tipoNegocio}")
+    public ResponseEntity<MensajeDTO<List<ItemNegocioDTO>>> listarTop5PorCategoria(@Valid @PathVariable TipoNegocio tipoNegocio) throws
+            Exception {
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.listarTop5PorCategoria(tipoNegocio)));
+    }
 
 }

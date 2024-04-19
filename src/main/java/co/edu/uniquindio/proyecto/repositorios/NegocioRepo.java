@@ -24,6 +24,7 @@ public interface NegocioRepo extends MongoRepository<Negocio, String> {
     List<Negocio> findByNombreContainingAndTipoNegocio(String nombre, TipoNegocio tipoNegocio);
     List<Negocio> findByNombreContainingAndUbicacion(String nombre, Ubicacion ubicacion);
     List<Negocio> findByNombreContainingAndTipoNegocioAndUbicacion(String nombre, TipoNegocio tipoNegocio, Ubicacion ubicacion);
+    List<Negocio> findTop5ByOrderByCalificacionPromedioDesc();
 
 
 }

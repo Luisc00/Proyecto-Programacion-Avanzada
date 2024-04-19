@@ -207,7 +207,26 @@ public class NegocioServicioImpl implements NegocioServicio {
                 toList();
         return items;
     }
-    
+
+    @Override
+    public List<ItemNegocioDTO> listarMejoresNegocios() {
+        return negocioRepo.findTop5ByOrderByCalificacionPromedioDesc().stream().
+                map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
+                        negocio.getDescripcion(), negocio.getUbicacion(),
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                toList();
+    }
+
+    @Override
+    public List<ItemNegocioDTO> listarTop5PorCategoria(TipoNegocio tipoNegocio) {
+        return negocioRepo.findTop5ByOrderByCalificacionPromedioDesc().stream().
+                filter(negocio -> negocio.getTipoNegocio().equals(tipoNegocio)).
+                map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
+                        negocio.getDescripcion(), negocio.getUbicacion(),
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                toList();
+    }
+
 }
 
 

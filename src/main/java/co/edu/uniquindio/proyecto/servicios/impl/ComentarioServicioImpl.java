@@ -5,7 +5,9 @@ import co.edu.uniquindio.proyecto.dto.ItemComentarioDTO;
 import co.edu.uniquindio.proyecto.dto.ResponderComentarioDTO;
 import co.edu.uniquindio.proyecto.excepciones.ResourceNotFoundException;
 import co.edu.uniquindio.proyecto.modelo.Comentario;
+import co.edu.uniquindio.proyecto.modelo.Negocio;
 import co.edu.uniquindio.proyecto.repositorios.ComentarioRepo;
+import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ComentarioServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class ComentarioServicioImpl implements ComentarioServicio {
 
     private final ComentarioRepo comentarioRepo;
+    private final NegocioRepo negocioRepo;
 
     @Override
     public ItemComentarioDTO obtenerComentario(String codigo) throws Exception {
@@ -40,6 +43,9 @@ public class ComentarioServicioImpl implements ComentarioServicio {
     @Override
     public String crearComentario(CrearComentarioDTO crearComentarioDTO) throws Exception {
 
+        if (!negocioRepo.existsNegocioByCodigo(crearComentarioDTO.codigoNegocio())) {
+            throw new ResourceNotFoundException("El negocio no existe");
+        }
         Comentario comentario = new Comentario();
         comentario.setCodigoNegocio(crearComentarioDTO.codigoNegocio());
         comentario.setMensaje(crearComentarioDTO.mensaje());
@@ -48,6 +54,9 @@ public class ComentarioServicioImpl implements ComentarioServicio {
         comentario.setCalificacion(crearComentarioDTO.calificacion());
         comentario.setRespuesta("");
 
+        Negocio negocio = negocioRepo.findByCodigo(crearComentarioDTO.codigoNegocio()).get();
+        negocio.setCalificacionPromedio(calcularPromedioCalificaciones(crearComentarioDTO.codigoNegocio()));
+        
         try {
             comentarioRepo.save(comentario);
         } catch (Exception e) {
@@ -99,7 +108,9 @@ public class ComentarioServicioImpl implements ComentarioServicio {
         for (Comentario comentario : comentarios) {
             promedio += comentario.getCalificacion();
         }
-        return promedio / comentarios.size();
+        promedio = promedio / comentarios.size();
+
+        return promedio;
     }
 
     @Override
