@@ -80,9 +80,7 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     @Override
     public void actualizarModerador(ActualizarModeradorDTO actualizarModeradorDTO) throws Exception {
         Moderador moderador= obtenerModerador(actualizarModeradorDTO.codigo());
-        if (existeEmail(actualizarModeradorDTO.email())) {
-            throw new Exception("El correo ya se encuentra registrado");
-        }
+
         if (existeCuentaEliminada(actualizarModeradorDTO.codigo())) {
             throw new Exception("La cuenta ya ha sido eliminada");
         }
