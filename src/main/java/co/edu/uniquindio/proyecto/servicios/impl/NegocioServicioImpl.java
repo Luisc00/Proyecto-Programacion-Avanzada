@@ -24,18 +24,18 @@ public class NegocioServicioImpl implements NegocioServicio {
 
 
     @Override
-    public String crearNegocio(CrearNegocioDTO crearNegocioDTO) throws Exception{
-        if(negocioRepo.existsNegocioByNombre(crearNegocioDTO.nombre()) ||
+    public String crearNegocio(CrearNegocioDTO crearNegocioDTO) throws Exception {
+        if (negocioRepo.existsNegocioByNombre(crearNegocioDTO.nombre()) ||
                 negocioRepo.existsNegocioByCodigo(crearNegocioDTO.codigo())) {
-            throw new Exception("El negocio ya existe") ;
+            throw new Exception("El negocio ya existe");
         }
-        Optional<Cliente> cliente=clienteRepo.findById(crearNegocioDTO.codigoCliente());
+        Optional<Cliente> cliente = clienteRepo.findById(crearNegocioDTO.codigoCliente());
 
-        if(cliente.isEmpty()){
+        if (cliente.isEmpty()) {
             throw new Exception("El cliente no existe");
         }
-        Cliente cliente1=cliente.get();
-        if(cliente1.getRegistro()==EstadoRegistro.INACTIVO){
+        Cliente cliente1 = cliente.get();
+        if (cliente1.getRegistro() == EstadoRegistro.INACTIVO) {
             throw new Exception("El cliente ya ha sido eliminado");
         }
 
@@ -56,50 +56,50 @@ public class NegocioServicioImpl implements NegocioServicio {
 
     @Override
     public void actualizarNegocio(ActualizarNegocioDTO actualizarNegocioDTO) throws ResourceNotFoundException {
-        if(!negocioRepo.existsNegocioByCodigo(actualizarNegocioDTO.codigo())) {
+        if (!negocioRepo.existsNegocioByCodigo(actualizarNegocioDTO.codigo())) {
             throw new ResourceNotFoundException("El negocio no existe");
         }
-            Negocio negocio = negocioRepo.findByCodigo(actualizarNegocioDTO.codigo()).get();
-            negocio.setNombre(actualizarNegocioDTO.nombre());
-            negocio.setDescripcion(actualizarNegocioDTO.descripcion());
-            negocio.setTipoNegocio(actualizarNegocioDTO.tipoNegocio());
-            negocio.setUbicacion(actualizarNegocioDTO.ubicacion());
-            negocio.setTelefonos(actualizarNegocioDTO.telefonos());
-            negocio.setHorarios(actualizarNegocioDTO.horarios());
-            negocio.setImagenes(actualizarNegocioDTO.imagenes());
-            negocioRepo.save(negocio);
+        Negocio negocio = negocioRepo.findByCodigo(actualizarNegocioDTO.codigo()).get();
+        negocio.setNombre(actualizarNegocioDTO.nombre());
+        negocio.setDescripcion(actualizarNegocioDTO.descripcion());
+        negocio.setTipoNegocio(actualizarNegocioDTO.tipoNegocio());
+        negocio.setUbicacion(actualizarNegocioDTO.ubicacion());
+        negocio.setTelefonos(actualizarNegocioDTO.telefonos());
+        negocio.setHorarios(actualizarNegocioDTO.horarios());
+        negocio.setImagenes(actualizarNegocioDTO.imagenes());
+        negocioRepo.save(negocio);
 
     }
 
     @Override
     public void eliminarNegocio(String idNegocio) throws ResourceNotFoundException {
-        if(negocioRepo.existsById(idNegocio)){
+        if (negocioRepo.existsById(idNegocio)) {
             negocioRepo.deleteById(idNegocio);
-        }else{
+        } else {
             throw new ResourceNotFoundException("El negocio no existe");
         }
     }
 
     @Override
     public ItemNegocioDTO obtenerNegocioPorCodigo(String idNegocio) throws ResourceNotFoundException {
-        if(negocioRepo.existsNegocioByCodigo(idNegocio)){
+        if (negocioRepo.existsNegocioByCodigo(idNegocio)) {
             Negocio negocio = negocioRepo.findByCodigo(idNegocio).get();
             return new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                     negocio.getDescripcion(), negocio.getUbicacion(),
-                    negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente());
-        }else{
+                    negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente());
+        } else {
             throw new ResourceNotFoundException("El negocio no existe");
         }
     }
 
     @Override
     public ItemNegocioDTO obtenerNegocioPorNombre(String nombre) throws ResourceNotFoundException {
-        if(negocioRepo.existsNegocioByNombre(nombre)){
+        if (negocioRepo.existsNegocioByNombre(nombre)) {
             Negocio negocio = negocioRepo.findByNombre(nombre).get();
             return new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                     negocio.getDescripcion(), negocio.getUbicacion(),
-                    negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente());
-        }else{
+                    negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente());
+        } else {
             throw new ResourceNotFoundException("El negocio no existe");
         }
     }
@@ -112,7 +112,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
                 toList();
         return items;
     }
@@ -125,7 +125,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
                 toList();
         return items;
     }
@@ -138,7 +138,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
                 toList();
         return items;
     }
@@ -151,7 +151,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
                 toList();
         return items;
     }
@@ -164,7 +164,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
                 toList();
         return items;
     }
@@ -177,7 +177,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
                 toList();
         return items;
     }
@@ -190,7 +190,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
                 toList();
         return items;
     }
@@ -203,18 +203,32 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(),negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
                 toList();
         return items;
     }
 
     @Override
     public void cambiarEstado(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) {
-        if(negocioRepo.existsNegocioByCodigo(cambiarEstadoNegocioDTO.id())){
+        if (negocioRepo.existsNegocioByCodigo(cambiarEstadoNegocioDTO.id())) {
             Negocio negocio = negocioRepo.findByCodigo(cambiarEstadoNegocioDTO.id()).get();
             negocio.setEstadoNegocio(cambiarEstadoNegocioDTO.estado());
             negocioRepo.save(negocio);
         }
     }
 
+    //guardar registro estado
+    @Override
+    public void guardarRegistroEstado(GuardarRegistroNegocioDTO guardarRegistroEstadoDTO) {
+        if (negocioRepo.existsNegocioByCodigo(GuardarRegistroNegocioDTO.id())) {
+            Negocio negocio = negocioRepo.findByCodigo(GuardarRegistroNegocioDTO.id()).get();
+            negocio.setEstadoNegocio(GuardarRegistroNegocioDTO.estado());
+            negocioRepo.save(negocio);
+        }
+    }
 }
+
+
+
+
+
