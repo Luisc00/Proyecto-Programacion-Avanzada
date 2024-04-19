@@ -3,8 +3,6 @@ package co.edu.uniquindio.proyecto.controladores;
 import co.edu.uniquindio.proyecto.dto.ActualizarModeradorDTO;
 import co.edu.uniquindio.proyecto.dto.CambiarEstadoNegocioDTO;
 import co.edu.uniquindio.proyecto.dto.MensajeDTO;
-import co.edu.uniquindio.proyecto.dto.RechazarNegocioDTO;
-import co.edu.uniquindio.proyecto.modelo.Moderador;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ModeradorServicio;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

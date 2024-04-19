@@ -5,6 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record FiltrarPorNombreYUbicacionDTO(
         @NotBlank String nombre,
-        @NotBlank Ubicacion ubicacion
+        Ubicacion ubicacion
 ) {
 }
