@@ -53,11 +53,6 @@ public class NegocioController {
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.filtrarPorEstado(estado)));
     }
-    @GetMapping("filtrar-por-ubicacion/{ubicacion}")
-    public ResponseEntity<MensajeDTO<List<ItemNegocioDTO>>> filtrarPorUbicacion(@Valid @PathVariable Ubicacion ubicacion) throws
-            Exception {
-        return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.filtrarPorUbicacion(ubicacion)));
-    }
     @GetMapping("filtrar-por-tipo-negocio/{tipoNegocio}")
     public ResponseEntity<MensajeDTO<List<ItemNegocioDTO>>> filtrarPorTipoNegocio(@Valid @PathVariable TipoNegocio tipoNegocio) throws
             Exception {
