@@ -148,10 +148,11 @@ public class ModeradorServicioImpl implements ModeradorServicio {
          HistorialRevision historialRevision = new HistorialRevision();
          historialRevision.setDescripcion(cambiarEstadoNegocioDTO.mensaje());
          historialRevision.setCodigoModerador(cambiarEstadoNegocioDTO.idModerador());
-         historialRevision.setEstadoNegocio(EstadoNegocio.RECHAZADO);
+         historialRevision.setEstadoNegocio(EstadoNegocio.APROBADO);
          
          try {
-         historialRevision.setFecha(LocalTime.now());                                     negocioRepo.save(negocio);
+         historialRevision.setFecha(LocalTime.now());
+         negocioRepo.save(negocio);
             emailServicioImpl.enviarCorreo(new EmailDTO("Lugar Aprobado",
                     "Tu lugar ha sido aprovado en Unilical, felicitaciones!", cliente.getEmail()));
         }catch (Exception e){
