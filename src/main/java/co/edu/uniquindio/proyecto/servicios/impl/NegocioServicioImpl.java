@@ -217,15 +217,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         }
     }
 
-    //guardar registro estado
-    @Override
-    public void guardarRegistroEstado(GuardarRegistroNegocioDTO guardarRegistroEstadoDTO) {
-        if (negocioRepo.existsNegocioByCodigo(GuardarRegistroNegocioDTO.id())) {
-            Negocio negocio = negocioRepo.findByCodigo(GuardarRegistroNegocioDTO.id()).get();
-            negocio.setEstadoNegocio(GuardarRegistroNegocioDTO.estado());
-            negocioRepo.save(negocio);
-        }
-    }
+    
 }
 
 
