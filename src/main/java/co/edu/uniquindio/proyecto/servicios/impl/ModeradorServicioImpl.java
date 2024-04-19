@@ -116,7 +116,7 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         if (moderador.getEstadoRegistro() == EstadoRegistro.INACTIVO) {
             return true;
         } else {
-            throw new Exception("La cuenta ya ha sido eliminada");
+            return false;
         }
     }
     @Override
