@@ -7,8 +7,6 @@ import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ClienteServicio;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.utils.JWTUtils;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

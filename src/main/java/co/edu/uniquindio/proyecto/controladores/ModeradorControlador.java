@@ -1,6 +1,5 @@
 package co.edu.uniquindio.proyecto.controladores;
 
-
 import co.edu.uniquindio.proyecto.dto.ActualizarModeradorDTO;
 import co.edu.uniquindio.proyecto.dto.MensajeDTO;
 import co.edu.uniquindio.proyecto.dto.RechazarNegocioDTO;
@@ -17,15 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/moderador")
 @RequiredArgsConstructor
-public class ModeradorControlador {
+public class ModeradorControlador{
 
     private final ModeradorServicio moderadorServicio;
 
-    @PutMapping("/inicializar")
-    public ResponseEntity<MensajeDTO<String>> inicializarModerador(@Valid @RequestBody Moderador moderador) throws Exception {
-        moderadorServicio.inicializarModerador(moderador);
-        return ResponseEntity.ok().body(new MensajeDTO<>(false, "Moderador inicializado correctamente"));
-    }
     @PutMapping("/actualizar")
     public ResponseEntity<MensajeDTO<String>> actualizarModerador(@Valid @RequestBody ActualizarModeradorDTO actualizarModeradorDTO) throws Exception {
         moderadorServicio.actualizarModerador(actualizarModeradorDTO);

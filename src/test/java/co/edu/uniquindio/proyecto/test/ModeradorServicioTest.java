@@ -41,18 +41,27 @@ public class ModeradorServicioTest {
         moderador1.setNombre("Moderador1");
         moderador1.setEstadoRegistro(EstadoRegistro.ACTIVO);
         moderador1.setEmail("luisc.moralesc@uqvirtual.edu.co");
-        moderador1.setPassword("3");
+        moderador1.setPassword("claveModerador");
 
-        moderadorServicio.inicializarModerador(moderador1);
+        Moderador moderador2 = new Moderador();
+        moderador2.setCodigo("2");
+        moderador2.setNombre("Moderador2");
+        moderador2.setEstadoRegistro(EstadoRegistro.ACTIVO);
+        moderador2.setEmail("carlos@gmail.com");
+        moderador2.setPassword("claveModerador");
 
-        Optional<Moderador> moderadorGuardadoOptional = moderadorRepo.findByCodigo(moderador1.getCodigo());
-        assertTrue(moderadorGuardadoOptional.isPresent(), "No se encontró el moderador guardado");
+        Moderador moderador3 = new Moderador();
+        moderador3.setCodigo("3");
+        moderador3.setNombre("Moderador3");
+        moderador3.setEstadoRegistro(EstadoRegistro.ACTIVO);
+        moderador3.setEmail("pedro@gmail.com");
+        moderador3.setPassword("claveModerador");
 
-        Moderador moderadorGuardado = moderadorGuardadoOptional.get();
-        assertEquals("Moderador1", moderadorGuardado.getNombre());
-        assertEquals(EstadoRegistro.ACTIVO, moderadorGuardado.getEstadoRegistro());
-        assertEquals("NOTIENE@GMAIL.COM", moderadorGuardado.getEmail());
-        assertEquals("1", moderadorGuardado.getPassword());}
+        assertThrows(Exception.class, () -> moderadorServicio.inicializarModerador(moderador1));
+        assertThrows(Exception.class, () -> moderadorServicio.inicializarModerador(moderador2));
+        assertThrows(Exception.class, () -> moderadorServicio.inicializarModerador(moderador3));
+
+    }
 
     @Test
     public void eliminarCuentaTest() throws Exception {

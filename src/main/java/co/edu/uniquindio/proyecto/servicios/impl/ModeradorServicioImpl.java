@@ -32,10 +32,11 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     private final JWTUtils jwtUtils;
 
 
+
     public void inicializarModerador(Moderador moderador) throws Exception {
 
         if(existeId(moderador.getCodigo())){
-            throw new Exception("el moderador ya existe");
+            throw new Exception("el codigo ya esta en uso");
         }
         if(existeEmail(moderador.getEmail())){
             throw new Exception("el correo ya esta en uso");
