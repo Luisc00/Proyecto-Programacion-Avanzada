@@ -83,11 +83,5 @@ public class NegocioController {
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.listarNegociosPropietario(idPropietario)));
     }
-    @PutMapping("cambiar-estado")
-    public ResponseEntity<MensajeDTO<String>> cambiarEstado(@Valid @RequestBody CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws
-            Exception {
-        negocioServicio.cambiarEstado(cambiarEstadoNegocioDTO);
-        return ResponseEntity.ok().body(new MensajeDTO<>(false, "Estado del negocio cambiado correctamente"));
-    }
 
 }
