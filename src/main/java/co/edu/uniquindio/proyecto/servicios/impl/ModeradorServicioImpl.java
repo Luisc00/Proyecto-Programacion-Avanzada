@@ -7,15 +7,13 @@ import co.edu.uniquindio.proyecto.repositorios.ModeradorRepo;
 import co.edu.uniquindio.proyecto.repositorios.NegocioRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ModeradorServicio;
 import co.edu.uniquindio.proyecto.utils.JWTUtils;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +28,8 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     private final EmailServicioImpl emailServicioImpl;
     private final AutenticacionServicioImpl autenticacionServicio;
     private final JWTUtils jwtUtils;
+
+
 
 
 
@@ -132,8 +132,8 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     }
 
     @Override
-    public void aprobarNegocio(String codigoNegocio) throws Exception{
-        Optional<Negocio> negocioOptional = negocioRepo.findById(codigoNegocio);
+    public void aprobarNegocio(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws Exception{
+        Optional<Negocio> negocioOptional = negocioRepo.findById(cambiarEstadoNegocioDTO.idNegocio());
         if (negocioOptional.isEmpty()){
             throw new Exception("El lugar no pudo ser encontrado");
         }
@@ -145,10 +145,13 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         if (negocio.getEstadoNegocio() != EstadoNegocio.PENDIENTE){
             throw new Exception("Este lugar se encuentra activo o rechazado");
         }
-        negocio.setEstadoNegocio(EstadoNegocio.APROBADO);
-
-        try {
-            negocioRepo.save(negocio);
+         HistorialRevision historialRevision = new HistorialRevision();
+         historialRevision.setDescripcion(cambiarEstadoNegocioDTO.mensaje());
+         historialRevision.setCodigoModerador(cambiarEstadoNegocioDTO.idModerador());
+         historialRevision.setEstadoNegocio(EstadoNegocio.RECHAZADO);
+         
+         try {
+         historialRevision.setFecha(LocalTime.now());                                     negocioRepo.save(negocio);
             emailServicioImpl.enviarCorreo(new EmailDTO("Lugar Aprobado",
                     "Tu lugar ha sido aprovado en Unilical, felicitaciones!", cliente.getEmail()));
         }catch (Exception e){
@@ -157,8 +160,8 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     }
 
     @Override
-    public boolean rechazarNegocio(RechazarNegocioDTO rechazarNegocioDTO) throws Exception{
-        Optional<Negocio> negocioOptional = negocioRepo.findById(rechazarNegocioDTO.codigoNegocio());
+    public void rechazarNegocio(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws Exception{
+        Optional<Negocio> negocioOptional = negocioRepo.findById(cambiarEstadoNegocioDTO.idNegocio());
 
         if (negocioOptional.isEmpty()){
             throw new Exception("El lugar no pudo ser encontrado");
@@ -167,10 +170,16 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         Negocio negocio = negocioOptional.get();
         Optional<Cliente> clienteOptional = clienteRepo.findById(negocio.getCodigoCliente());
         Cliente cliente = clienteOptional.get();
+
         if (negocio.getEstadoNegocio() != EstadoNegocio.PENDIENTE){
             throw new Exception("Este lugar se encuentra activo o inactivo");
         }
-        negocio.setEstadoNegocio(EstadoNegocio.RECHAZADO);
+
+        HistorialRevision historialRevision = new HistorialRevision();
+        historialRevision.setDescripcion(cambiarEstadoNegocioDTO.mensaje());
+        historialRevision.setCodigoModerador(cambiarEstadoNegocioDTO.idModerador());
+        historialRevision.setEstadoNegocio(EstadoNegocio.RECHAZADO);
+        historialRevision.setFecha(LocalTime.now());
 
         try {
             negocioRepo.save(negocio);
@@ -179,7 +188,6 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         }catch (Exception e){
             throw new Exception("Hubo un error con la base de datos");
         }
-        return true;
     }
 
     @Override

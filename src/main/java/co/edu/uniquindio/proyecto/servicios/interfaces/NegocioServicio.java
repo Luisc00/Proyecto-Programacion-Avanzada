@@ -28,9 +28,7 @@ public interface NegocioServicio {
 
 
     List<ItemNegocioDTO> listarNegociosPropietario(String idPropietario);
-
-    void cambiarEstado(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO);
-
+    
 
 
 }

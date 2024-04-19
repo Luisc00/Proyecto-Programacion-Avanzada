@@ -207,16 +207,6 @@ public class NegocioServicioImpl implements NegocioServicio {
                 toList();
         return items;
     }
-
-    @Override
-    public void cambiarEstado(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) {
-        if (negocioRepo.existsNegocioByCodigo(cambiarEstadoNegocioDTO.id())) {
-            Negocio negocio = negocioRepo.findByCodigo(cambiarEstadoNegocioDTO.id()).get();
-            negocio.setEstadoNegocio(cambiarEstadoNegocioDTO.estado());
-            negocioRepo.save(negocio);
-        }
-    }
-
     
 }
 

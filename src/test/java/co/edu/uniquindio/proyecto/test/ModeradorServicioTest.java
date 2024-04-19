@@ -91,12 +91,12 @@ public class ModeradorServicioTest {
     }
     @Test
     public void aprobarNegocio() throws Exception {
-        assertThrows(Exception.class, () -> moderadorServicio.aprobarNegocio("Negocio1"));
+        assertThrows(Exception.class, () -> moderadorServicio.aprobarNegocio(new CambiarEstadoNegocioDTO("Negocio1", "Mensaje", "1")));
     }
     @Test
     public void recharNegocio() throws Exception {
-        RechazarNegocioDTO rechazarNegocioDTO = new RechazarNegocioDTO("Negocio1", "el negocio no sirve");
-        assertThrows(Exception.class, () -> moderadorServicio.rechazarNegocio(rechazarNegocioDTO));
+        CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO = new CambiarEstadoNegocioDTO("Negocio1", "Mensaje", "1");
+        assertThrows(Exception.class, () -> moderadorServicio.rechazarNegocio(cambiarEstadoNegocioDTO));
     }
 
 }

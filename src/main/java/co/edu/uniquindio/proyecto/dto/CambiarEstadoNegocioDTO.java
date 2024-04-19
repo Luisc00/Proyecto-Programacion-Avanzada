@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 
 public record CambiarEstadoNegocioDTO(
-        @NotBlank @Id String id,
-        @NotBlank EstadoNegocio estado
+        @NotBlank String idNegocio,
+        @NotBlank String mensaje,
+        @NotBlank String idModerador
 ) {
 }

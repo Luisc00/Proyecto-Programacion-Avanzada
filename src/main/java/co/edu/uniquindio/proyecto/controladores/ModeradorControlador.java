@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.controladores;
 
 import co.edu.uniquindio.proyecto.dto.ActualizarModeradorDTO;
+import co.edu.uniquindio.proyecto.dto.CambiarEstadoNegocioDTO;
 import co.edu.uniquindio.proyecto.dto.MensajeDTO;
 import co.edu.uniquindio.proyecto.dto.RechazarNegocioDTO;
 import co.edu.uniquindio.proyecto.modelo.Moderador;
@@ -26,13 +27,13 @@ public class ModeradorControlador{
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Moderador actualizado correctamente"));
     }
     @PutMapping("/aprobar-negocio")
-    public ResponseEntity<MensajeDTO<String>> aprobarNegocio(@Valid @RequestBody String codigoNegocio) throws Exception {
-        moderadorServicio.aprobarNegocio(codigoNegocio);
+    public ResponseEntity<MensajeDTO<String>> aprobarNegocio(@Valid @RequestBody CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws Exception {
+        moderadorServicio.aprobarNegocio(cambiarEstadoNegocioDTO);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Negocio aprobado correctamente"));
     }
     @PutMapping("/rechazar-negocio")
-    public ResponseEntity<MensajeDTO<String>> rechazarNegocio(@Valid @RequestBody RechazarNegocioDTO rechazarNegocioDTO) throws Exception {
-        moderadorServicio.rechazarNegocio(rechazarNegocioDTO);
+    public ResponseEntity<MensajeDTO<String>> rechazarNegocio(@Valid @RequestBody CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws Exception {
+        moderadorServicio.rechazarNegocio(cambiarEstadoNegocioDTO);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Negocio rechazado correctamente"));
     }
 }
