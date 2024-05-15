@@ -50,7 +50,7 @@ public class ClienteServicioImpl implements ClienteServicio {
         cliente.setCodigo(registroClienteDTO.codigo());
         cliente.setNombre(registroClienteDTO.nombre());
         cliente.setNickname(registroClienteDTO.nickname());
-        cliente.setCiudad(registroClienteDTO.ciudadResidencia());
+        cliente.setCiudadResidencia(registroClienteDTO.ciudadResidencia());
         cliente.setFotoPerfil(registroClienteDTO.fotoPerfil());
         cliente.setEmail(registroClienteDTO.email());
 
@@ -84,7 +84,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         cliente.setNombre(actualizarClienteDTO.nombre());
         cliente.setFotoPerfil(actualizarClienteDTO.fotoPerfil());
-        cliente.setCiudad(actualizarClienteDTO.ciudadResidencia());
+        cliente.setCiudadResidencia(actualizarClienteDTO.ciudadResidencia());
 
         //Como el objeto cliente ya tiene un id, el save() no crea un nuevo registro sino que
         // actualiza el que ya existe
@@ -110,7 +110,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         //Retornamos el cliente en formato DTO
         return new DetalleClienteDTO(cliente.getCodigo(), cliente.getNombre(),
-                cliente.getFotoPerfil(), cliente.getNickname(), cliente.getEmail(), cliente.getCiudad());
+                cliente.getFotoPerfil(), cliente.getNickname(), cliente.getEmail(), cliente.getCiudadResidencia());
     }
 
     /**
@@ -167,7 +167,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         for (Cliente cliente : clientes) {
             items.add(new ItemClienteDTO(cliente.getCodigo(), cliente.getNombre(),
-                    cliente.getFotoPerfil(), cliente.getNickname(), cliente.getCiudad()));
+                    cliente.getFotoPerfil(), cliente.getNickname(), cliente.getCiudadResidencia()));
         }
         return items;
     }

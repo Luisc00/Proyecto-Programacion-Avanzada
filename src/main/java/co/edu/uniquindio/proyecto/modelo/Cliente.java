@@ -19,7 +19,7 @@ public class Cliente extends Cuenta implements Serializable{
     @EqualsAndHashCode.Include
     private String codigo;
     private String nickname;
-    private String ciudad;
     private EstadoRegistro registro;
     private String token;
+    private Ciudad ciudadResidencia;
 }
