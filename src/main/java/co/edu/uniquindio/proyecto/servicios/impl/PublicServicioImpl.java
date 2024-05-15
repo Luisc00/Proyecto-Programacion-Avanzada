@@ -1,7 +1,7 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
 
 
-import co.edu.uniquindio.proyecto.modelo.Ciudad;
+import co.edu.uniquindio.proyecto.modelo.CiudadResidencia;
 import co.edu.uniquindio.proyecto.modelo.TipoNegocio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.PublicServicio;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,8 @@ import java.util.List;
 public class PublicServicioImpl implements PublicServicio {
 
     @Override
-    public List<Ciudad> listarCiudades() {
-        return Arrays.asList(Ciudad.values());
+    public List<CiudadResidencia> listarCiudades() {
+        return Arrays.asList(CiudadResidencia.values());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package co.edu.uniquindio.proyecto.modelo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,5 +23,8 @@ public class Cliente extends Cuenta implements Serializable{
     private String nickname;
     private EstadoRegistro registro;
     private String token;
-    private Ciudad ciudadResidencia;
+
+    @NotBlank
+    @NotEmpty
+    private CiudadResidencia ciudadResidencia;
 }
