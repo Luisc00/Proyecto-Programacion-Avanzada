@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.test;
 
 import co.edu.uniquindio.proyecto.dto.*;
+import co.edu.uniquindio.proyecto.modelo.Ciudad;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.modelo.Imagen;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
@@ -29,11 +30,11 @@ public class ClienteServicioTest {
     @Test
     public void agregarDatosDeEjemplo() {
         List<RegistroClienteDTO> clientes = Arrays.asList(
-                new RegistroClienteDTO("Cliente1", "Juan", "mi foto.jpg", "juanito", "juan@email.com", "mipassword", "Armenia"),
-                new RegistroClienteDTO("Cliente2", "Maria", "mi foto.jpg", "maria", "maria@email.com", "mipassword", "Armenia"),
-                new RegistroClienteDTO("Cliente3", "Pedro", "mi foto", "pedrito", "pedro@email.com", "mipassword", "Armenia"),
-                new RegistroClienteDTO("Cliente4", "Carlos", "mi foto.jpg", "carlitos", "carlos@email.com", "mipassword", "Armenia"),
-                new RegistroClienteDTO("Cliente5", "Oscar", "mi foto.jpg", "oscarin ", "oscar@email.com", "mipassword", "Armenia ")
+                new RegistroClienteDTO("Cliente1", "Juan", "mi foto.jpg", "juanito", "juan@email.com", "mipassword",  Ciudad.ARMENIA),
+                new RegistroClienteDTO("Cliente2", "Maria", "mi foto.jpg", "maria", "maria@email.com", "mipassword",  Ciudad.ARMENIA),
+                new RegistroClienteDTO("Cliente3", "Pedro", "mi foto", "pedrito", "pedro@email.com", "mipassword",  Ciudad.ARMENIA),
+                new RegistroClienteDTO("Cliente4", "Carlos", "mi foto.jpg", "carlitos", "carlos@email.com", "mipassword",  Ciudad.ARMENIA),
+                new RegistroClienteDTO("Cliente5", "Oscar", "mi foto.jpg", "oscarin ", "oscar@email.com", "mipassword",  Ciudad.ARMENIA)
         );
         for (RegistroClienteDTO clienteDTO : clientes) {
             try {
@@ -54,7 +55,7 @@ public class ClienteServicioTest {
                 "luisito",
                 "luis@email.com",
                 "mipassword",
-                "Armenia"
+                Ciudad.ARMENIA
         );
         //Se registra el cliente
         String codigo = clienteServicio.registrarseCliente(registroClienteDTO);
@@ -69,7 +70,7 @@ public class ClienteServicioTest {
                 "1091884092",
                 "Oscar",
                 "imagen.jpg",
-                "Armenia"
+                Ciudad.ARMENIA
         );
         clienteServicio.actualizarCliente(actualizarClienteDTO);
         DetalleClienteDTO detalleClienteDTO = clienteServicio.obtenerDetalleCliente(actualizarClienteDTO.id());
