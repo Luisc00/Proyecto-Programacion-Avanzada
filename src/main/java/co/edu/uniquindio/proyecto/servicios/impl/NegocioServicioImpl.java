@@ -43,7 +43,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         negocio.setNombre(crearNegocioDTO.nombre());
         negocio.setCodigo(crearNegocioDTO.codigo());
         negocio.setDescripcion(crearNegocioDTO.descripcion());
-        negocio.setTipoNegocio(crearNegocioDTO.tipoNegocio().toString());
+        negocio.setTipoNegocio(crearNegocioDTO.tipoNegocio());
         negocio.setUbicacion(crearNegocioDTO.ubicacion());
         negocio.setEstadoNegocio(EstadoNegocio.PENDIENTE);
         negocio.setCodigoCliente(crearNegocioDTO.codigoCliente());

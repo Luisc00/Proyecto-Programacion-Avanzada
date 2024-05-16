@@ -51,7 +51,7 @@ public class ClienteServicioImpl implements ClienteServicio {
         cliente.setCodigo(registroClienteDTO.codigo());
         cliente.setNombre(registroClienteDTO.nombre());
         cliente.setNickname(registroClienteDTO.nickname());
-        cliente.setCiudadResidencia("");
+        cliente.setCiudadResidencia(registroClienteDTO.ciudadResidencia());
         cliente.setFotoPerfil(registroClienteDTO.fotoPerfil());
         cliente.setEmail(registroClienteDTO.email());
 
