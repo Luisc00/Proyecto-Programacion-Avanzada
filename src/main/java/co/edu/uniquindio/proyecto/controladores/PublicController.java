@@ -2,7 +2,7 @@ package co.edu.uniquindio.proyecto.controladores;
 
 import co.edu.uniquindio.proyecto.dto.ItemClienteDTO;
 import co.edu.uniquindio.proyecto.dto.MensajeDTO;
-import co.edu.uniquindio.proyecto.modelo.CiudadResidencia;
+import co.edu.uniquindio.proyecto.modelo.Ciudad;
 import co.edu.uniquindio.proyecto.modelo.TipoNegocio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.PublicServicio;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class PublicController {
     private final PublicServicio publicServicio;
 
     @GetMapping("/listar-ciudades")
-    public ResponseEntity<MensajeDTO<List<CiudadResidencia>>> listarCiudades(){
+    public ResponseEntity<MensajeDTO<List<Ciudad>>> listarCiudades(){
         return ResponseEntity.ok().body( new MensajeDTO<>(false, publicServicio.listarCiudades()));
     }
 

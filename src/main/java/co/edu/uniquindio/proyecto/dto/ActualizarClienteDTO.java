@@ -1,7 +1,7 @@
 package co.edu.uniquindio.proyecto.dto;
 
 
-import co.edu.uniquindio.proyecto.modelo.CiudadResidencia;
+import co.edu.uniquindio.proyecto.modelo.Ciudad;
 import co.edu.uniquindio.proyecto.modelo.Imagen;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ public record ActualizarClienteDTO (
         @NotBlank @Id String id,
         @NotBlank String nombre,
         @NotBlank String fotoPerfil,
-        @NotBlank CiudadResidencia ciudadResidencia
+        @NotBlank Ciudad ciudadResidencia
 ) {
 
 

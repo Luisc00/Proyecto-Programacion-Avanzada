@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.test;
 
 import co.edu.uniquindio.proyecto.dto.*;
+
 import co.edu.uniquindio.proyecto.modelo.Ciudad;
 import co.edu.uniquindio.proyecto.modelo.Cliente;
 import co.edu.uniquindio.proyecto.modelo.Imagen;

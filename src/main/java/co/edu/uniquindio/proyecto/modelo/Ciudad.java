@@ -1,6 +1,6 @@
 package co.edu.uniquindio.proyecto.modelo;
 
-public enum CiudadResidencia{
+public enum Ciudad{
     BOGOTA,
     MEDELLIN,
     CALI,
