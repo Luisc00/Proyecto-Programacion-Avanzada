@@ -15,6 +15,6 @@ public record DetalleClienteDTO(
         @NotBlank String fotoPerfil,
         @NotBlank String nickname,
         @NotBlank @Email String email,
-        @NotNull Ciudad ciudadResidencia) {
+        @NotBlank String ciudadResidencia) {
 
 }

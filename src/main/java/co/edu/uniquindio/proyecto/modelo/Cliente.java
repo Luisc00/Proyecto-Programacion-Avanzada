@@ -26,5 +26,5 @@ public class Cliente extends Cuenta implements Serializable{
     private String token;
 
     @NotNull
-    private Ciudad ciudadResidencia;
+    private String ciudadResidencia;
 }

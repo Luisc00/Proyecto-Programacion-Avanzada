@@ -16,7 +16,7 @@ public record ItemClienteDTO (
 
         @NotBlank String nickname,
 
-        @NotBlank Ciudad ciudad
+        @NotBlank String ciudad
 ){
 
 }

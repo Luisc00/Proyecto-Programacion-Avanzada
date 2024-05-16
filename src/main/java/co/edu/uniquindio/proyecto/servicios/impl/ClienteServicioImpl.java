@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
 
 import co.edu.uniquindio.proyecto.dto.*;
+import co.edu.uniquindio.proyecto.modelo.Ciudad;
 import co.edu.uniquindio.proyecto.modelo.EstadoRegistro;
 import co.edu.uniquindio.proyecto.modelo.Imagen;
 import co.edu.uniquindio.proyecto.repositorios.ClienteRepo;
@@ -50,7 +51,7 @@ public class ClienteServicioImpl implements ClienteServicio {
         cliente.setCodigo(registroClienteDTO.codigo());
         cliente.setNombre(registroClienteDTO.nombre());
         cliente.setNickname(registroClienteDTO.nickname());
-        cliente.setCiudadResidencia(registroClienteDTO.ciudadResidencia());
+        cliente.setCiudadResidencia("");
         cliente.setFotoPerfil(registroClienteDTO.fotoPerfil());
         cliente.setEmail(registroClienteDTO.email());
 
@@ -84,7 +85,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         cliente.setNombre(actualizarClienteDTO.nombre());
         cliente.setFotoPerfil(actualizarClienteDTO.fotoPerfil());
-        cliente.setCiudadResidencia(actualizarClienteDTO.ciudadResidencia());
+        cliente.setCiudadResidencia("");
 
         //Como el objeto cliente ya tiene un id, el save() no crea un nuevo registro sino que
         // actualiza el que ya existe
@@ -110,7 +111,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         //Retornamos el cliente en formato DTO
         return new DetalleClienteDTO(cliente.getCodigo(), cliente.getNombre(),
-                cliente.getFotoPerfil(), cliente.getNickname(), cliente.getEmail(), cliente.getCiudadResidencia());
+                cliente.getFotoPerfil(), cliente.getNickname(), cliente.getEmail(),"");
     }
 
     /**
@@ -167,7 +168,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         for (Cliente cliente : clientes) {
             items.add(new ItemClienteDTO(cliente.getCodigo(), cliente.getNombre(),
-                    cliente.getFotoPerfil(), cliente.getNickname(), cliente.getCiudadResidencia()));
+                    cliente.getFotoPerfil(), cliente.getNickname(), ""));
         }
         return items;
     }

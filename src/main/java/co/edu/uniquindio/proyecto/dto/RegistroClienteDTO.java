@@ -18,8 +18,12 @@ public record RegistroClienteDTO (
         @NotBlank String fotoPerfil,
         @NotBlank String nickname,
         @NotBlank @Email String email,
+        @NotNull String ciudadResidencia,
         @NotBlank @Length(min = 5) String password,
-        @NotNull Ciudad ciudadResidencia
+        @NotBlank String confirmarPassword
+
+
+
 ) {
 
 
