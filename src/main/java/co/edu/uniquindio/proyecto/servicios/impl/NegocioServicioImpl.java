@@ -43,7 +43,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         negocio.setNombre(crearNegocioDTO.nombre());
         negocio.setCodigo(crearNegocioDTO.codigo());
         negocio.setDescripcion(crearNegocioDTO.descripcion());
-        negocio.setTipoNegocio(crearNegocioDTO.tipoNegocio());
+        negocio.setTipoNegocio(crearNegocioDTO.tipoNegocio().toString());
         negocio.setUbicacion(crearNegocioDTO.ubicacion());
         negocio.setEstadoNegocio(EstadoNegocio.PENDIENTE);
         negocio.setCodigoCliente(crearNegocioDTO.codigoCliente());
@@ -62,7 +62,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         Negocio negocio = negocioRepo.findByCodigo(actualizarNegocioDTO.codigo()).get();
         negocio.setNombre(actualizarNegocioDTO.nombre());
         negocio.setDescripcion(actualizarNegocioDTO.descripcion());
-        negocio.setTipoNegocio(actualizarNegocioDTO.tipoNegocio());
+        negocio.setTipoNegocio(actualizarNegocioDTO.tipoNegocio().toString());
         negocio.setUbicacion(actualizarNegocioDTO.ubicacion());
         negocio.setTelefonos(actualizarNegocioDTO.telefonos());
         negocio.setHorarios(actualizarNegocioDTO.horarios());

@@ -26,19 +26,19 @@ public class NegocioController {
         negocioServicio.crearNegocio(crearNegocioDTO);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Negocio creado correctamente"));
     }
-    @PutMapping("actualizar")
+    @PutMapping("/actualizar")
     public ResponseEntity<MensajeDTO<String>> actualizarNegocio(@Valid @RequestBody
                                                                 ActualizarNegocioDTO actualizarNegocioDTOrearNegocioDTO) throws Exception {
         negocioServicio.actualizarNegocio(actualizarNegocioDTOrearNegocioDTO);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Negocio actualizado correctamente"));
     }
-    @DeleteMapping("eliminar/{idNegocio}")
+    @DeleteMapping("/eliminar/{idNegocio}")
     public ResponseEntity<MensajeDTO<String>> eliminarNegocio(@Valid @PathVariable String idNegocio) throws
             Exception {
         negocioServicio.eliminarNegocio(idNegocio);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "Negocio eliminado correctamente"));
     }
-    @GetMapping("obtener-por-id/{idNegocio}")
+    @GetMapping("/obtener/{idNegocio}")
     public ResponseEntity<MensajeDTO<ItemNegocioDTO>> obtenerNegocioPorCodigo(@Valid @PathVariable String idNegocio) throws
             Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, negocioServicio.obtenerNegocioPorCodigo(idNegocio)));
