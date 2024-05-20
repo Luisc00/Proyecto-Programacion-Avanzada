@@ -142,7 +142,7 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         Optional<Cliente> usuarioOptional = clienteRepo.findById(negocio.getCodigoCliente());
         Cliente cliente = usuarioOptional.get();
 
-        if (negocio.getEstadoNegocio() != EstadoNegocio.PENDIENTE){
+        if (negocio.getEstadoNegocio() != EstadoNegocio.PENDIENTE.toString()){
             throw new Exception("Este lugar se encuentra activo o rechazado");
         }
          HistorialRevision historialRevision = new HistorialRevision();
@@ -151,7 +151,7 @@ public class ModeradorServicioImpl implements ModeradorServicio {
          historialRevision.setEstadoNegocio(EstadoNegocio.APROBADO);
          historialRevision.setFecha(LocalTime.now());
 
-         negocio.setEstadoNegocio(EstadoNegocio.APROBADO);
+         negocio.setEstadoNegocio(String.valueOf(EstadoNegocio.APROBADO));
          negocio.getHistorialRevisiones().add(historialRevision);
 
          try {
@@ -177,7 +177,7 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         Optional<Cliente> clienteOptional = clienteRepo.findById(negocio.getCodigoCliente());
         Cliente cliente = clienteOptional.get();
 
-        if (negocio.getEstadoNegocio() != EstadoNegocio.PENDIENTE){
+        if (negocio.getEstadoNegocio() != EstadoNegocio.PENDIENTE.toString()){
             throw new Exception("Este lugar se encuentra activo o inactivo");
         }
 
@@ -187,7 +187,7 @@ public class ModeradorServicioImpl implements ModeradorServicio {
         historialRevision.setEstadoNegocio(EstadoNegocio.RECHAZADO);
         historialRevision.setFecha(LocalTime.now());
 
-        negocio.setEstadoNegocio(EstadoNegocio.RECHAZADO);
+        negocio.setEstadoNegocio(EstadoNegocio.RECHAZADO.toString());
         negocio.getHistorialRevisiones().add(historialRevision);
 
         try {

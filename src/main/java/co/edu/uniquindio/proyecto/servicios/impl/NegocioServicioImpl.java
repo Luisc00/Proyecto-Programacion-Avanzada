@@ -45,7 +45,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         negocio.setDescripcion(crearNegocioDTO.descripcion());
         negocio.setTipoNegocio(crearNegocioDTO.tipoNegocio());
         negocio.setUbicacion(crearNegocioDTO.ubicacion());
-        negocio.setEstadoNegocio(EstadoNegocio.PENDIENTE);
+        negocio.setEstadoNegocio(String.valueOf(EstadoNegocio.PENDIENTE));
         negocio.setCodigoCliente(crearNegocioDTO.codigoCliente());
         negocio.setTelefonos(crearNegocioDTO.telefonos());
         negocio.setHorarios(crearNegocioDTO.horarios());

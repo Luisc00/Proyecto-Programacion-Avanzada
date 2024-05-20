@@ -13,10 +13,10 @@ import java.time.LocalTime;
 @ToString
 public class Horario {
 
-    private LocalTime horaFin;
-
-    private LocalTime horaInicio;
-
     private String dia;
+
+    private String horaFin;
+
+    private String horaInicio;
 
 }

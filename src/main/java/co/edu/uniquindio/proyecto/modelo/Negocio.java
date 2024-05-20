@@ -29,7 +29,7 @@ public class Negocio implements Serializable{
 
     private List<Horario> horarios;
 
-    private EstadoNegocio estadoNegocio;
+    private String estadoNegocio;
 
     private List<String> imagenes;
 
