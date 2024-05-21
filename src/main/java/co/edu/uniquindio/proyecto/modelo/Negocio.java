@@ -37,7 +37,7 @@ public class Negocio implements Serializable{
 
     private String codigoCliente;
 
-    private String  tipoNegocio;
+    private TipoNegocio  tipoNegocio;
 
     private List<String> telefonos;
 

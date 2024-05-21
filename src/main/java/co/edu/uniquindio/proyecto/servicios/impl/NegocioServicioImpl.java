@@ -62,7 +62,7 @@ public class NegocioServicioImpl implements NegocioServicio {
         Negocio negocio = negocioRepo.findByCodigo(actualizarNegocioDTO.codigo()).get();
         negocio.setNombre(actualizarNegocioDTO.nombre());
         negocio.setDescripcion(actualizarNegocioDTO.descripcion());
-        negocio.setTipoNegocio(actualizarNegocioDTO.tipoNegocio().toString());
+        negocio.setTipoNegocio(actualizarNegocioDTO.tipoNegocio());
         negocio.setUbicacion(actualizarNegocioDTO.ubicacion());
         negocio.setTelefonos(actualizarNegocioDTO.telefonos());
         negocio.setHorarios(actualizarNegocioDTO.horarios());
