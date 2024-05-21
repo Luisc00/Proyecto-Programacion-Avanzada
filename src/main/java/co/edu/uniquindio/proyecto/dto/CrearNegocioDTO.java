@@ -14,9 +14,11 @@ public record CrearNegocioDTO(
         @NotBlank String descripcion,
         Ubicacion ubicacion,
         List<String> imagenes,
-        @NotBlank TipoNegocio tipoNegocio,
+
+        String tipoNegocio,
         @NotBlank String codigoCliente,
         List<Horario> horarios,
+
         List<String> telefonos
 ) {
 }

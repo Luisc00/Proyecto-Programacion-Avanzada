@@ -14,7 +14,7 @@ public record ActualizarNegocioDTO(
         @NotBlank String descripcion,
         Ubicacion ubicacion,
         List<String> imagenes,
-        TipoNegocio tipoNegocio,
+        String tipoNegocio,
         @NotBlank String codigoCliente,
         List<Horario> horarios,
         List<String> telefonos

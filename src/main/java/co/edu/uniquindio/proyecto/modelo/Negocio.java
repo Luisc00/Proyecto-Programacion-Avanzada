@@ -37,12 +37,9 @@ public class Negocio implements Serializable{
 
     private String codigoCliente;
 
-    private TipoNegocio  tipoNegocio;
+    private String  tipoNegocio;
 
     private List<String> telefonos;
 
     private float CalificacionPromedio;
-
-
-
 }
