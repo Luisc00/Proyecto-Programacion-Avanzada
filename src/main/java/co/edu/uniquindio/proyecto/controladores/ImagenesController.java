@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("/api/imagenes")
@@ -23,6 +26,14 @@ public class ImagenesController {
     public ResponseEntity<MensajeDTO<Map>> eliminar(@RequestBody ImagenDTO imagenDTO) throws
             Exception{
         Map respuesta = imagenesServicio.eliminarImagen( imagenDTO.id() );
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, respuesta ));
+    }
+    @PostMapping("/subir-imagenes")
+    public ResponseEntity<MensajeDTO<List<Map>>> subirImagenes(@RequestParam("files") MultipartFile[] imagenes) throws Exception{
+        List <Map> respuesta = new ArrayList<>();
+        for (MultipartFile imagen : imagenes){
+            respuesta.add(imagenesServicio.subirImagen(imagen));
+        }
         return ResponseEntity.ok().body(new MensajeDTO<>(false, respuesta ));
     }
 
