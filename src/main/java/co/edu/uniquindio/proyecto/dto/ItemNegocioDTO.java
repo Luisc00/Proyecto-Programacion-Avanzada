@@ -13,6 +13,8 @@ public record ItemNegocioDTO(
         @NotBlank Ubicacion Ubicacion,
         @NotBlank List<String> telefonos,
         @NotBlank List<String> imagenes,
-        @NotBlank String codigoPropietario
+        @NotBlank String codigoPropietario,
+        float calificacionPromedio,
+        String estadoNegocio
 ) {
 }

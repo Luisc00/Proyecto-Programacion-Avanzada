@@ -87,7 +87,8 @@ public class NegocioServicioImpl implements NegocioServicio {
             Negocio negocio = negocioRepo.findByCodigo(idNegocio).get();
             return new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                     negocio.getDescripcion(), negocio.getUbicacion(),
-                    negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente());
+                    negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                    negocio.getEstadoNegocio());
         } else {
             throw new ResourceNotFoundException("El negocio no existe");
         }
@@ -99,7 +100,8 @@ public class NegocioServicioImpl implements NegocioServicio {
             Negocio negocio = negocioRepo.findByNombre(nombre).get();
             return new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                     negocio.getDescripcion(), negocio.getUbicacion(),
-                    negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente());
+                    negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                    negocio.getEstadoNegocio());
         } else {
             throw new ResourceNotFoundException("El negocio no existe");
         }
@@ -113,7 +115,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
         return items;
     }
@@ -126,7 +129,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
         return items;
     }
@@ -139,7 +143,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
         return items;
     }
@@ -152,7 +157,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
         return items;
     }
@@ -165,7 +171,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
         return items;
     }
@@ -178,7 +185,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
         return items;
     }
@@ -191,7 +199,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
         return items;
     }
@@ -204,7 +213,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         items = negocios.stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
         return items;
     }
@@ -214,7 +224,8 @@ public class NegocioServicioImpl implements NegocioServicio {
         return negocioRepo.findTop5ByOrderByCalificacionPromedioDesc().stream().
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
     }
 
@@ -224,7 +235,8 @@ public class NegocioServicioImpl implements NegocioServicio {
                 filter(negocio -> negocio.getTipoNegocio().equals(tipoNegocio)).
                 map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
                         negocio.getDescripcion(), negocio.getUbicacion(),
-                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente())).
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
                 toList();
     }
 
