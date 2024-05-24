@@ -10,7 +10,7 @@ public record ItemNegocioDTO(
         @NotBlank @Id String id,
         @NotBlank String nombre,
         @NotBlank String descripcion,
-        @NotBlank Ubicacion Ubicacion,
+        @NotBlank Ubicacion ubicacion,
         @NotBlank List<String> telefonos,
         @NotBlank List<String> imagenes,
         @NotBlank String codigoPropietario,
