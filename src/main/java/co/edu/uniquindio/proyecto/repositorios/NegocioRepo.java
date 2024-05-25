@@ -1,4 +1,5 @@
 package co.edu.uniquindio.proyecto.repositorios;
+import co.edu.uniquindio.proyecto.dto.ItemNegocioDTO;
 import co.edu.uniquindio.proyecto.modelo.EstadoNegocio;
 import co.edu.uniquindio.proyecto.modelo.Negocio;
 import co.edu.uniquindio.proyecto.modelo.TipoNegocio;
@@ -27,4 +28,5 @@ public interface NegocioRepo extends MongoRepository<Negocio, String> {
     List<Negocio> findTop5ByOrderByCalificacionPromedioDesc();
 
 
+    List<Negocio> findAll();
 }

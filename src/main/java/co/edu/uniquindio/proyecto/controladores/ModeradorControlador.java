@@ -43,4 +43,9 @@ public class ModeradorControlador{
         return ResponseEntity.ok().body( new MensajeDTO<>(false, moderadorServicio.listarModeradores())
         );
     }
+    @GetMapping("/listar-negocios")
+    public ResponseEntity<MensajeDTO<List<ItemNegocioDTO>>> listarNegocios(){
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, moderadorServicio.listarNegocios())
+        );
+    }
 }

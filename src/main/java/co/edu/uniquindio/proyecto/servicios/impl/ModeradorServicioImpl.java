@@ -200,6 +200,20 @@ public class ModeradorServicioImpl implements ModeradorServicio {
     }
 
     @Override
+    public List<ItemNegocioDTO> listarNegocios() {
+        List<Negocio> negociosList =  negocioRepo.findAll();
+        List<ItemNegocioDTO> itemNegocioDTOList = new ArrayList<>();
+
+        itemNegocioDTOList = negociosList.stream().
+                map(negocio -> new ItemNegocioDTO(negocio.getCodigo(), negocio.getNombre(),
+                        negocio.getDescripcion(), negocio.getUbicacion(),
+                        negocio.getTelefonos(), negocio.getImagenes(), negocio.getCodigoCliente(),negocio.getCalificacionPromedio(),
+                        negocio.getEstadoNegocio())).
+                toList();
+        return itemNegocioDTOList;
+    }
+
+    @Override
     public void cambiarContrasena(CambioPasswordDTO cambioPasswordDTO) throws Exception {
         Optional<Cliente> clienteOptional = clienteRepo.findByEmail(cambioPasswordDTO.email());
 

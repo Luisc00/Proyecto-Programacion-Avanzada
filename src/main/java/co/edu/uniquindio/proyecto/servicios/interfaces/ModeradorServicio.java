@@ -12,5 +12,6 @@ public interface ModeradorServicio extends CuentaServicio{
     List<ItemModeradorDTO> listarModeradores();
     void aprobarNegocio(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws Exception;
     void rechazarNegocio(CambiarEstadoNegocioDTO cambiarEstadoNegocioDTO) throws Exception;
+    List<ItemNegocioDTO> listarNegocios();
 
 }
